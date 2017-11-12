@@ -9,6 +9,9 @@ let PodcastSchema = new Schema({
         type: String,
         required: true
     },
+    content:{
+        url:String
+    },
     categories: Array,
     host: {
         type: Schema.Types.ObjectId,
