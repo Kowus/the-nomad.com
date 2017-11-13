@@ -5,5 +5,8 @@
 module.exports ={
     database: {
         url: process.env.MONGODB_URI
+    },
+    session:{
+        secret: process.env.SESSION_SECRET
     }
 }

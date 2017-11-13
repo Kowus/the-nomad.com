@@ -7,15 +7,27 @@ const Schema = mongoose.Schema;
 let PodcastSchema = new Schema({
     title: {
         type: String,
-        required: true
-    },
+        required: true,
+        unique:true
+    },subtitle:String,
     content:{
-        url:String
+        url:String,
+        text:String
+    },
+    no:{
+        type:Number
+    },
+    take_aways:{
+      type:Array
     },
     categories: Array,
-    host: {
+    /*host: {
         type: Schema.Types.ObjectId,
         required: true
+    },*/
+    permalink:{
+        type:String,
+        unique:true
     },
     guest: [
         {
@@ -28,7 +40,23 @@ let PodcastSchema = new Schema({
     date: {
         type: Date,
         default: Date.now()
-    }
+    }, comments:[{
+        user_id: Schema.Types.ObjectId,
+    }]
 });
+
+PodcastSchema.pre('save', function (next) {
+    let podcast = this;
+    if(this.take_aways.length>3) {
+        let err = new Error("Only 3 takeaway lessons are allowed.")
+        return next(err)
+    }
+    if (this.isModified('title')||this.isNew){
+        podcast.permalink = podcast.title.trim().toLowerCase().split(/[\s,.-]+/).join('_');
+    }
+
+    return next();
+});
+
 
 module.exports = mongoose.model('Podcast', PodcastSchema);

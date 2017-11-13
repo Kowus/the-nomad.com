@@ -5,14 +5,15 @@ const express = require('express'),
     logger = require('morgan'),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser'),
-    lessMiddleware = require('less-middleware'),
     mongoose = require('mongoose'),
     passport = require('passport'),
-    config_db = require('./config/env').database
+    config = require('./config/env'),
+    session = require('express-session'),
+    flash = require('connect-flash')
 ;
 
-mongoose.connect(config_db.url,{useMongoClient:true});
-let index = require('./routes/index');
+mongoose.connect(config.database.url, {useMongoClient: true});
+let routes = require('./routes/routes');
 
 let app = express();
 
@@ -21,18 +22,21 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.png')));
+require('./config/passport')(passport);
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
-app.use(lessMiddleware('/stylesheets/less', {
-    dest: '/stylesheets/css',
-    pathRoot: path.join(__dirname, 'public')
-}));
-app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({secret:config.session.secret, resave:true, saveUninitialized:true}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+
+
+app.use('/', routes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -57,7 +61,7 @@ mongoose.connection.on('connected', function () {
     console.log('Mongoose default connection connected')
 });
 mongoose.connection.on('error', function (err) {
-    console.log('Mongoose default connection error:'+err)
+    console.log('Mongoose default connection error:' + err)
 });
 mongoose.connection.on('disconnected', function () {
     console.log('Mongoose default connection disconnected')
