@@ -5,7 +5,7 @@
   "scripts": {
     "prestart": "grunt",
     "start": "node ./bin/www",
-    "predev":"grunt",
+    "predev": "grunt",
     "dev": "nodemon & grunt watch"
   },
   "dependencies": {
@@ -29,6 +29,14 @@
     "grunt": "^1.0.1",
     "grunt-autoprefixer": "^3.0.4",
     "grunt-contrib-cssmin": "^2.2.1",
-    "grunt-contrib-watch": "^1.0.0"
+    "grunt-contrib-uglify": "^3.1.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "nodemon": "^1.12.1"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "public/*"
+    ],
+    "delay": "2500"
   }
 }
