@@ -16,7 +16,7 @@ mongoose.connect(config.database.url, {useMongoClient: true});
 let routes = require('./routes/routes');
 
 let app = express();
-
+app.locals.curr_year = new Date().getUTCFullYear();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');

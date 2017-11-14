@@ -6,8 +6,7 @@
     "prestart": "grunt",
     "start": "node ./bin/www",
     "predev":"grunt",
-    "dev": "open -a \"Google Chrome\" http://localhost:3000 & nodemon & grunt watch"
-
+    "dev": "nodemon & grunt watch"
   },
   "dependencies": {
     "body-parser": "~1.18.2",
