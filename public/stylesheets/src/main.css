@@ -34,9 +34,10 @@
  * ------------------------------------------------------------------- 
  */
 
+
 @import url("fonts.css");
-@import url("ionicons/css/ionicons.min.css");
-@import url("micons/micons.css");
+@import url("ionicons.min.css");
+@import url("micons.css");
 
 /** 
  * ===================================================================
@@ -839,7 +840,7 @@ header .logo a {
 	color: transparent;
 	width: 42px;
 	height: 42px;
-	background: url("../images/logo.png") no-repeat center;
+	background: url("../../images/logo.png") no-repeat center;
 	background-size: 42px 42px;
 	-moz-transition: all 0.5s ease-in-out;
 	-o-transition: all 0.5s ease-in-out;
@@ -1148,7 +1149,7 @@ a.menu-toggle {
  */
 
 #intro {
-	background: #14181E url(../images/intro-bg.jpg) no-repeat center;
+	background: #14181E url(../../images/intro-bg.jpg) no-repeat center;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	background-size: cover;
@@ -1439,7 +1440,7 @@ a.menu-toggle {
 .process-content .image-part {
 	margin: 0 auto;
 	height: 660px;
-	background-image: url("../images/appdesign.jpg");
+	background-image: url("../../images/appdesign.jpg");
 	background-repeat: no-repeat;
 	background-position: center;
 	-webkit-background-size: contain;
@@ -1527,7 +1528,7 @@ a.menu-toggle {
  */
 
 #features {
-	background: #090909 url(../images/features-bg.jpg) no-repeat center;
+	background: #090909 url(../../images/features-bg.jpg) no-repeat center;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	background-size: cover;
@@ -2204,7 +2205,7 @@ footer ul li {
 .footer-main .footer-logo {
 	width: 162px;
 	height: 39px;
-	background: url("../images/footer-logo.png") no-repeat center;
+	background: url("../../images/footer-logo.png") no-repeat center;
 	background-size: 162px 39px;
 	margin: -.6rem 0 2.1rem -.3rem;
 	display: block;

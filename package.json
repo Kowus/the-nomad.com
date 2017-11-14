@@ -3,7 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "prestart": "grunt",
+    "start": "node ./bin/www",
+    "predev":"grunt",
+    "dev": "open -a \"Google Chrome\" http://localhost:3000 & nodemon & grunt watch"
+
   },
   "dependencies": {
     "body-parser": "~1.18.2",
@@ -13,8 +17,6 @@
     "dotenv": "^4.0.0",
     "express": "~4.15.5",
     "express-session": "^1.15.6",
-    "grunt": "^1.0.1",
-    "grunt-contrib-watch": "^1.0.0",
     "hbs": "~4.0.1",
     "method-override": "^2.3.10",
     "mongoose": "^4.13.1",
@@ -23,5 +25,11 @@
     "passport-local": "^1.0.0",
     "secure-password": "^2.1.2",
     "serve-favicon": "~2.4.5"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-autoprefixer": "^3.0.4",
+    "grunt-contrib-cssmin": "^2.2.1",
+    "grunt-contrib-watch": "^1.0.0"
   }
 }
