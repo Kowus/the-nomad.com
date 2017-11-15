@@ -6,10 +6,12 @@ function progressBar() {
     var oAudio = document.getElementById('myaudio');
     var elapsedTime = Math.round(oAudio.currentTime);
     var prog = document.getElementsByClassName('playing')[0].getElementsByClassName('podcast-elapsed-bar')[0];
+    var pld = document.getElementsByClassName('playing')[0].getElementsByClassName('played-position')[0];
     var seek =document.getElementsByClassName('playing')[0].getElementsByClassName('seek')[0];
     var pWidth = (elapsedTime / oAudio.duration) * 100;
     prog.style.width = pWidth + "%";
     seek.style.left = pWidth -50 +"%";
+    pld.value = elapsedTime;
 }
 
 function playAudio(domEl) {
@@ -21,9 +23,12 @@ function playAudio(domEl) {
             if (oAudio.src.toString() != window.location.origin.toString()+audioUrl.value.toString()) {
                 oAudio.src = audioUrl.value;
                 if(document.getElementsByClassName('playing')[0]) {
+                    document.getElementsByClassName('playing')[0].getElementsByClassName('play-podcast')[0].classList.add('ion-play');
+                    document.getElementsByClassName('playing')[0].getElementsByClassName('play-podcast')[0].classList.remove('ion-pause');
                     document.getElementsByClassName('playing')[0].classList.remove('playing');
                 }
                 domEl.classList.add('playing');
+                oAudio.currentTime = Number(domEl.getElementsByClassName('played-position')[0].value)
             }
             if (oAudio.paused) {
                 domEl.getElementsByClassName('play-podcast')[0].classList.add('ion-pause');
@@ -59,17 +64,34 @@ function initEvents() {
     });
     // Click Handler for each
     [].forEach.call(document.getElementsByClassName('play-podcast'), function (el) {
+        var pane = el.parentNode.parentNode.parentElement;
+        var progress = pane.getElementsByClassName('podcast-progress')[0];
         el.addEventListener('click', function (e) {
             if (!e) {
                 e = window.event;
             }
             try {
-                var pane = el.parentNode.parentNode.parentElement;
+
                 playAudio(pane);
             } catch (err) {
                 catcher(err);
             }
-        })
+        });
+
+        progress.addEventListener('click', function (e) {
+            var oAudio = document.getElementById('myaudio');
+            var progress = pane.getElementsByClassName('podcast-progress')[0];
+            if (!e) {
+                e = window.event;
+            }
+            try {
+                oAudio.currentTime = oAudio.duration * (e.offsetX / progress.offsetWidth)
+            } catch (err) {
+                catcher(err);
+            }
+
+        },true)
+
     });
 }
 

@@ -16,7 +16,10 @@ module.exports = (grunt) => {
                 tasks: ['css']
             }, scripts: {
                 files: ['public/javascripts/src/*.js'],
-                tasks: ['js']
+                tasks: ['js'],
+                options:{
+                    interrupt:true
+                }
             }, configFiles: {
                 files: ['gruntfile.js', 'config/*.js'],
                 options: {
@@ -27,8 +30,7 @@ module.exports = (grunt) => {
         uglify: {
             my_target: {
                 files: {
-                    'public/javascripts/dist/bundle.min.js': ['public/javascripts/src/jquery-1.11.3.min.js', 'public/javascripts/src/jquery-migrate-1.2.1.min.js', 'public/javascripts/src/plugins.js', 'public/javascripts/src/main.js'],
-                    'public/javascripts/dist/audio.min.js':['public/javascripts/src/audio.js']
+                    'public/javascripts/dist/bundle.min.js': ['public/javascripts/src/jquery-1.11.3.min.js', 'public/javascripts/src/jquery-migrate-1.2.1.min.js', 'public/javascripts/src/plugins.js', 'public/javascripts/src/main.js','public/javascripts/src/audio.js']
                 }
             }
         }
