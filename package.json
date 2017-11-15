@@ -35,7 +35,8 @@
   },
   "nodemonConfig": {
     "ignore": [
-      "public/*"
+      "public/*",
+      "gruntfile.js"
     ],
     "delay": "2500"
   }

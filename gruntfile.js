@@ -17,6 +17,11 @@ module.exports = (grunt) => {
             },scripts:{
                 files:['public/javascripts/src/*.js'],
                 tasks:['js']
+            },configFiles: {
+                files: [ 'gruntfile.js', 'config/*.js' ],
+                options: {
+                    reload: true
+                }
             }
         },
         uglify:{
@@ -34,5 +39,6 @@ module.exports = (grunt) => {
 
     grunt.registerTask('js', ['uglify']);
     grunt.registerTask('css',['cssmin']);
-    grunt.registerTask('default', ['cssmin','js'])
+    grunt.registerTask('bundle',['css','js']);
+    grunt.registerTask('default', ['bundle'])
 };
