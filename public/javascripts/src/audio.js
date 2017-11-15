@@ -12,6 +12,12 @@ function progressBar() {
     prog.style.width = pWidth + "%";
     seek.style.left = pWidth - 50 + "%";
     pld.value = elapsedTime;
+    var date = new Date(null);
+    date.setSeconds(Number(oAudio.currentTime));
+    document.getElementsByClassName('playing')[0].getElementsByClassName('podcast-elapsed')[0].innerText = date.toISOString().substr(11, 8);
+    var new_date = new Date(null);
+    new_date.setSeconds(Number(oAudio.duration));
+    document.getElementsByClassName('playing')[0].getElementsByClassName('podcast-runtime')[0].innerText = new_date.toISOString().substr(11, 8);
 }
 
 function playAudio(domEl) {
@@ -25,8 +31,10 @@ function playAudio(domEl) {
                 if (document.getElementsByClassName('playing')[0]) {
                     document.getElementsByClassName('playing')[0].getElementsByClassName('play-podcast')[0].classList.add('ion-play');
                     document.getElementsByClassName('playing')[0].getElementsByClassName('play-podcast')[0].classList.remove('ion-pause');
+
                     document.getElementsByClassName('playing')[0].classList.remove('playing');
                 }
+
                 domEl.classList.add('playing');
                 oAudio.currentTime = Number(domEl.getElementsByClassName('played-position')[0].value)
             }
@@ -123,7 +131,7 @@ function initEvents() {
             oAudio.pause();
             pld.value = Math.round(oAudio.duration * ((e.offsetX - pos1) / progress.offsetWidth));
             oAudio.currentTime = oAudio.duration * ((e.offsetX - pos1) / progress.offsetWidth);
-            var pWidth = (Math.round(oAudio.currentTime / oAudio.duration) )* 100;
+            var pWidth = (Math.round(oAudio.currentTime / oAudio.duration) ) * 100;
             prog.style.width = pWidth + "%";
             seek.style.left = pWidth - 50 + "%";
         }

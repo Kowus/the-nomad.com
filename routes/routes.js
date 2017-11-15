@@ -9,7 +9,7 @@ router.get('/', function (req, res, next) {
     Podcast.aggregate(
         [
             {$sort:{date:-1} },
-            {$limit: 5}
+            {$limit: 3}
         ], function (err, podcasts) {
             if (err) return res.send("An error occurred: " + err);
             /*res.json(podcasts)*/
@@ -18,7 +18,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/login', isNotLoggedIn, function (req, res, next) {
-    res.render('index', {title: 'Login'})
+    res.render('login', {title: 'Login', hide_footer:true})
 });
 
 router.post('/login', passport.authenticate('local-login', {
@@ -27,9 +27,17 @@ router.post('/login', passport.authenticate('local-login', {
     failureFlash: true
 }));
 
+router.get('/profile', isLoggedIn, function (req, res, next) {
+    if(req.user.group ==='admin'){
+        res.send('redirect to admin')
+    } else {
+        res.send('redirect to user')
+    }
+
+});
 
 router.get('/signup', isNotLoggedIn, function (req, res, next) {
-    res.render('index', {title: 'Signup'})
+    res.render('signup', {title: 'Signup', hide_footer:true})
 });
 
 router.post('/signup', passport.authenticate('local-signup', {

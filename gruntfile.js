@@ -3,6 +3,12 @@
 */
 module.exports = (grunt) => {
     grunt.initConfig({
+        autoprefixer:{
+            single_file: {
+                src: "public/stylesheets/src/main.css",
+                dest: "public/stylesheets/src/main.css"
+            }
+        },
         cssmin: {
             target: {
                 files: {
@@ -39,10 +45,11 @@ module.exports = (grunt) => {
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks("grunt-autoprefixer");
 
 
     grunt.registerTask('js', ['uglify']);
-    grunt.registerTask('css', ['cssmin']);
+    grunt.registerTask('css', ['autoprefixer','cssmin']);
     grunt.registerTask('bundle', ['css', 'js']);
     grunt.registerTask('default', ['bundle'])
 };

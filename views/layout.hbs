@@ -47,8 +47,9 @@
                         <li><a class="smoothscroll"  href="#process" title="">About</a></li>
                         <li><a class="smoothscroll"  href="#features" title="">Episodes</a></li>
                         <li><a class="smoothscroll"  href="#faq" title="">FAQ</a></li>
-                        <li class="with-sep"><a href="/podcasts">Podcasts</a></li>
-                        <li class="highlight with-sep"><a href="#" title="">Sign Up</a></li>
+                        <li class="with-sep"><a href="/podcasts" style="color: #ffaa00">Podcasts</a></li>
+                        <li class="highlight with-sep"><a href="/login" title="">Login</a></li>
+                        <li class="highlight"><a  href="/signup" title="">Sign Up</a></li>
                     </ul>
                 </nav>
 
@@ -65,6 +66,7 @@
 
         <!-- footer
         ================================================== -->
+    {{#unless hide_footer}}
         <footer>
 
             <div class="footer-main">
@@ -158,6 +160,7 @@
             </div>
 
         </footer>
+        {{/unless}}
 
         <div id="preloader">
             <div id="loader"></div>
