@@ -48,7 +48,15 @@ function initEvents() {
     var oAudio = document.getElementById('myaudio');
 
     oAudio.addEventListener('timeupdate', progressBar, true);
-
+    oAudio.addEventListener('ended',function () {
+        var prog = document.getElementsByClassName('playing')[0].getElementsByClassName('podcast-elapsed-bar')[0];
+        var seek =document.getElementsByClassName('playing')[0].getElementsByClassName('seek')[0];
+        document.getElementsByClassName('playing')[0].getElementsByClassName('play-podcast')[0].classList.add('ion-play');
+        document.getElementsByClassName('playing')[0].getElementsByClassName('play-podcast')[0].classList.remove('ion-pause');
+        var pWidth = 0;
+        prog.style.width = pWidth + "%";
+        seek.style.left = pWidth -50 +"%";
+    });
     // Click Handler for each
     [].forEach.call(document.getElementsByClassName('play-podcast'), function (el) {
         el.addEventListener('click', function (e) {
