@@ -6,7 +6,7 @@
     "prestart": "grunt",
     "start": "node ./bin/www",
     "predev": "grunt",
-    "dev": "nodemon & grunt watch"
+    "dev": "grunt watch & nodemon"
   },
   "dependencies": {
     "body-parser": "~1.18.2",
@@ -31,7 +31,6 @@
     "grunt-contrib-cssmin": "^2.2.1",
     "grunt-contrib-uglify": "^3.1.0",
     "grunt-contrib-watch": "^1.0.0",
-    "grunt-litmus": "^0.1.8",
     "nodemon": "^1.12.1"
   },
   "nodemonConfig": {

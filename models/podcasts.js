@@ -11,7 +11,7 @@ let PodcastSchema = new Schema({
         unique:true
     },subtitle:String,
     content:{
-        url:String,
+        src:String,
         text:String,
         banner_picture:String
     },
@@ -45,7 +45,7 @@ let PodcastSchema = new Schema({
 PodcastSchema.pre('save', function (next) {
     let podcast = this;
     if(this.take_aways.length>3) {
-        let err = new Error("Only 3 takeaway lessons are allowed.")
+        let err = new Error("Only 3 takeaway lessons are allowed.");
         return next(err)
     }
     if (this.isModified('title')||this.isNew){

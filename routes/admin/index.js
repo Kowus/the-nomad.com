@@ -25,7 +25,9 @@ router.post('/podcasts/create', function (req, res, next) {
         title: req.body.title,
         subtitle: req.body.subtitle,
         content:{
-            url: req.body.url
+            src: req.body.src,
+            text:req.body.text,
+            banner_picture:req.body.banner_picture
         },
         categories:req.body.categories,
         take_aways:req.body.take_aways

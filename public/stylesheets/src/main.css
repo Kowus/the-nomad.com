@@ -1274,7 +1274,8 @@ a.menu-toggle {
     display: table;
     position: relative;
 }
-#intro-podcasts{
+
+#intro-podcasts {
     background: #14181E url(../../images/intro-bg.jpg) no-repeat center;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -1285,6 +1286,7 @@ a.menu-toggle {
     display: table;
     position: relative;
 }
+
 .shadow-overlay {
     position: absolute;
     top: 0;
@@ -1697,27 +1699,16 @@ a.menu-toggle {
     padding-bottom: 12rem;
     color: white;
 }
-#all-episodes{
-    background: #090909 url(../../images/intro-bg.jpg) no-repeat center;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    background-size: cover;
-    padding-top: 12rem;
-    padding-bottom: 12rem;
-    color: white;
-    overflow: scroll;
-    height: 70vh;
-}
 
-#features .section-intro h1,#all-episodes.section-intro h1 {
+#features .section-intro h1 {
     color: white;
 }
 
-#features .section-intro h5,#all-episodes .section-intro h5 {
+#features .section-intro h5 {
     color: rgba(255, 255, 255, 0.5);
 }
 
-#features .section-intro p,#all-episodes .section-intro p {
+#features .section-intro p {
     color: rgba(255, 255, 255, 0.7);
 }
 
@@ -2674,6 +2665,11 @@ footer ul li {
     border-radius: 20px;
 }
 
+#all-episodes>.podcast-pill{
+    background-color: rgba(255, 255, 255, .6);
+    border: 1px solid rgba(0, 0, 0, .2);
+    box-shadow: 5px 5px 5px 1px rgba(0, 0, 0, .2);
+}
 .podcast-pill > .service-content {
     margin: 10px;
 }
@@ -2686,7 +2682,9 @@ footer ul li {
     font-size: 2.5em;
     margin-bottom: 3px;
 }
-
+#all-episodes>.podcast-pill > .service-content > a > .podcast-title {
+    color: black;
+}
 .podcast-pill > .service-content > a > .podcast-title > .episode_no {
     font-size: .6em;
     opacity: .5;
@@ -2700,11 +2698,15 @@ footer ul li {
     text-transform: lowercase;
     color: rgba(255, 255, 255, 0.79);
 }
-
+#all-episodes>.podcast-pill > .service-content > .object-meta.h05 {
+    color: rgba(0, 0, 0, 0.79);
+}
 .podcast-pill > .service-content > .podcast-description {
     color: white;
 }
-
+#all-episodes>.podcast-pill > .service-content > .podcast-description {
+    color: black;
+}
 .playback {
     padding: 5px;
     font-weight: 600;
@@ -2731,36 +2733,48 @@ footer ul li {
 .playback > .podcast-progress > .podcast-elapsed-bar {
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
-    width: 50%;
+    width: 0;
     height: 10px;
     background-color: white;
+}
+#all-episodes>.podcast-pill>.service-content>.playback>.podcast-progress>.podcast-elapsed-bar{
+    background-color: rgba(0,142,228,0.76);
 }
 
 .playback > .podcast-runtime {
     float: right;
 }
 
-.playback > .ion-play {
+.playback > .play-podcast {
     background-color: #0087cc;
     padding: 8px 10px;
     border: 2px solid #0266cb;
     border-radius: 20px;
 }
-
-.playback > .ion-play:hover {
-    color: #0087cc;
-    background-color: white;
-    border-color: transparent;
+#all-episodes>.podcast-pill>.service-content>.playback>.play-podcast{
+    color: white;
 }
 
-.playback>.podcast-progress>.seek {
+.playback > .play-podcast:hover {
+    background-color: white;
+    color: #0087cc;
+    border-color: transparent;
+}
+#all-episodes>.podcast-pill>.service-content>.playback>.play-podcast:hover{
+    color: #0087cc;
+    border-color: rgba(0,0,0,0.1);
+}
+
+.playback > .podcast-progress > .seek {
     padding: 0;
     margin: 0;
     margin-top: -10px;
     line-height: 0;
+    position: relative;
+    left: -50%;
 }
 
-.playback>.podcast-progress>.seek  > span {
+.playback > .podcast-progress > .seek > span {
     background: #fff;
     color: transparent;
     border: 1px solid black;
@@ -2768,35 +2782,42 @@ footer ul li {
     border-radius: 10px;
     padding: 5px;
 }
-#contact-modal{
-    border:1px solid white;
+
+#contact-modal {
+    border: 1px solid white;
     border-radius: 10px;
     background-color: white;
-    min-height:40vh;
+    min-height: 40vh;
 }
-.modal-dialog{
+
+.modal-dialog {
     padding: 10px;
     margin: 10px;
 }
-.modal-header{
+
+.modal-header {
     font-size: 2em;
 }
-input{
-    width:100%;
-    padding: 5px;
+
+input {
+    width: 100%;
+    padding: 6px;
     border: 1px solid #0087cc;
     border-radius: 5px;
     background-color: transparent;
     color: #999;
     text-indent: 10px;
 }
-input:focus{
-    padding: 6px;
+
+input:focus {
+    padding: 8px;
     color: #333;
     background-color: transparent;
     outline: none;
 }
-.send-mail{
+
+/* Send Email Button */
+.send-mail {
     margin: 0;
     background-color: black;
     color: white;
@@ -2804,9 +2825,11 @@ input:focus{
     position: relative;
     left: 85%;
 }
-.send-mail:hover{
+
+.send-mail:hover {
     background-color: white;
     color: black;
-    border-color: rgba(0,0,0,.1);
+    border-color: rgba(0, 0, 0, .1);
 }
+
 /*# sourceMappingURL=main.css.map */

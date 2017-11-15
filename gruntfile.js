@@ -27,17 +27,8 @@ module.exports = (grunt) => {
         uglify: {
             my_target: {
                 files: {
-                    'public/javascripts/dist/bundle.min.js': ['public/javascripts/src/jquery-1.11.3.min.js', 'public/javascripts/src/jquery-migrate-1.2.1.min.js', 'public/javascripts/src/plugins.js', 'public/javascripts/src/main.js']
-                }
-            }
-        },litmus: {
-            test: {
-                src: ['views/email/new_post.hbs'],
-                options: {
-                    username: 'email',
-                    password: 'password',
-                    url: 'https://subdomain.litmus.com',
-                    clients: ['gmailnew', 'ffgmailnew', 'chromegmailnew']
+                    'public/javascripts/dist/bundle.min.js': ['public/javascripts/src/jquery-1.11.3.min.js', 'public/javascripts/src/jquery-migrate-1.2.1.min.js', 'public/javascripts/src/plugins.js', 'public/javascripts/src/main.js'],
+                    'public/javascripts/dist/audio.min.js':['public/javascripts/src/audio.js']
                 }
             }
         }
@@ -46,7 +37,6 @@ module.exports = (grunt) => {
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-litmus');
 
 
     grunt.registerTask('js', ['uglify']);

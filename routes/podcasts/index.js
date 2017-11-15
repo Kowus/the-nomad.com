@@ -12,7 +12,7 @@ router.get('/', function (req, res, next) {
         if (err) return res.send("An error occurred: " + err);
         /*res.json(podcasts)*/
         res.render('podcasts',{title:"The Nomad Podcasts", podcasts:podcasts});
-    })
+    });
 });
 router.get('/:permalink', function (req, res, next) {
     Podcast.find({permalink: req.params['permalink']}, function (err, podcast) {
