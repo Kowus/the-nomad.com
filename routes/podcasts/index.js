@@ -10,7 +10,8 @@ let express = require('express'),
 router.get('/', function (req, res, next) {
     Podcast.find({}, function (err, podcasts) {
         if (err) return res.send("An error occurred: " + err);
-        res.json(podcasts)
+        /*res.json(podcasts)*/
+        res.render('podcasts',{title:"The Nomad Podcasts", podcasts:podcasts});
     })
 });
 router.get('/:permalink', function (req, res, next) {

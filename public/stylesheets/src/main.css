@@ -1274,7 +1274,17 @@ a.menu-toggle {
     display: table;
     position: relative;
 }
-
+#intro-podcasts{
+    background: #14181E url(../../images/intro-bg.jpg) no-repeat center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    width: 100%;
+    height: 30%;
+    min-height: 320px;
+    display: table;
+    position: relative;
+}
 .shadow-overlay {
     position: absolute;
     top: 0;
@@ -1687,16 +1697,27 @@ a.menu-toggle {
     padding-bottom: 12rem;
     color: white;
 }
+#all-episodes{
+    background: #090909 url(../../images/intro-bg.jpg) no-repeat center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    padding-top: 12rem;
+    padding-bottom: 12rem;
+    color: white;
+    overflow: scroll;
+    height: 70vh;
+}
 
-#features .section-intro h1 {
+#features .section-intro h1,#all-episodes.section-intro h1 {
     color: white;
 }
 
-#features .section-intro h5 {
+#features .section-intro h5,#all-episodes .section-intro h5 {
     color: rgba(255, 255, 255, 0.5);
 }
 
-#features .section-intro p {
+#features .section-intro p,#all-episodes .section-intro p {
     color: rgba(255, 255, 255, 0.7);
 }
 
@@ -2646,6 +2667,7 @@ footer ul li {
 }
 
 .podcast-pill {
+    margin-top: 20px;
     background-color: rgba(0, 0, 0, .6);
     border: 1px solid rgba(255, 255, 255, .5);
     box-shadow: 5px 5px 5px 1px rgba(0, 0, 0, .2);
