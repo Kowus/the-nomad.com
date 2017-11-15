@@ -12,7 +12,8 @@ let PodcastSchema = new Schema({
     },subtitle:String,
     content:{
         url:String,
-        text:String
+        text:String,
+        banner_picture:String
     },
     no:{
         type:Number
@@ -21,10 +22,6 @@ let PodcastSchema = new Schema({
       type:Array
     },
     categories: Array,
-    /*host: {
-        type: Schema.Types.ObjectId,
-        required: true
-    },*/
     permalink:{
         type:String,
         unique:true

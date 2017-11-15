@@ -9,13 +9,16 @@ const express = require('express'),
     passport = require('passport'),
     config = require('./config/env'),
     session = require('express-session'),
-    flash = require('connect-flash')
+    flash = require('connect-flash'),
+    hbs = require('hbs')
 ;
 
 mongoose.connect(config.database.url, {useMongoClient: true});
 let routes = require('./routes/routes');
 
 let app = express();
+
+hbs.registerPartials('./views/partials');
 app.locals.curr_year = new Date().getUTCFullYear();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
