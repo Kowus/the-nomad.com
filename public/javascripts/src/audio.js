@@ -1,18 +1,9 @@
 /*
  * Created by barnabasnomo on 11/15/17 at 8:03 AM
 */
-
+var nowMoment = moment();
 function progressBar() {
     var oAudio = document.getElementById('myaudio');
-    var elapsedTime = Math.round(oAudio.currentTime);
-    /* var prog = document.getElementsByClassName('playing')[0].getElementsByClassName('podcast-elapsed-bar')[0];
-     var pld = document.getElementsByClassName('playing')[0].getElementsByClassName('played-position')[0];
-     var seek = document.getElementsByClassName('playing')[0].getElementsByClassName('seek')[0];
-     var pWidth = (elapsedTime / oAudio.duration) * 100;
-     prog.style.width = pWidth + "%";
-     seek.style.left = pWidth - 50 + "%";
-     */
-    // pld.value = elapsedTime;
     var date = new Date(null);
     date.setSeconds(Number(oAudio.currentTime));
     document.getElementsByClassName('playing')[0].getElementsByClassName('podcast-elapsed')[0].innerText = date.toISOString().substr(11, 8);
@@ -63,6 +54,8 @@ function playAudio(domEl) {
 
 
 function initEvents() {
+    var oAudio = document.getElementById('myaudio');
+    oAudio.volume = document.getElementById('gain').value;
     document.getElementById('gain').addEventListener('input', function (e) {
         e = e || window.event;
         try {
@@ -76,13 +69,8 @@ function initEvents() {
 
     oAudio.addEventListener('timeupdate', progressBar, true);
     oAudio.addEventListener('ended', function () {
-        var prog = document.getElementsByClassName('playing')[0].getElementsByClassName('podcast-elapsed-bar')[0];
-        var seek = document.getElementsByClassName('playing')[0].getElementsByClassName('seek')[0];
         document.getElementsByClassName('playing')[0].getElementsByClassName('play-podcast')[0].classList.add('ion-play');
         document.getElementsByClassName('playing')[0].getElementsByClassName('play-podcast')[0].classList.remove('ion-pause');
-        var pWidth = 0;
-        prog.style.width = pWidth + "%";
-        seek.style.left = pWidth - 50 + "%";
     });
     // Click Handler for each
     [].forEach.call(document.getElementsByClassName('play-podcast'), function (el) {
@@ -91,6 +79,7 @@ function initEvents() {
         var progress = pane.getElementsByClassName('podcast-progress')[0];
         var seek = pane.getElementsByClassName('seek')[0];
         var mybar = pane.getElementsByClassName('myBar')[0];
+        var mydate = pane.getElementsByClassName('podcast-date')[0];
         el.addEventListener('click', function (e) {
             if (!e) {
                 e = window.event;
@@ -116,6 +105,7 @@ function initEvents() {
                 catcher(e)
             }
         });
+        mydate.innerText = moment(new Date(mydate.getAttribute('data-date')).toUTCString()).format('Do MMM. YYYY');
         /*
                 progress.addEventListener('click', function (e) {
                     var oAudio = document.getElementById('myaudio');
@@ -131,95 +121,12 @@ function initEvents() {
                     }
 
                 }, true);*/
-
-        // seek.onmousedown = dragMouseDown;
-
-        function dragMouseDown(e) {
-            e = e || window.event;
-            // get the mouse cursor position at startup:
-            pos3 = e.clientX;
-            pos4 = e.clientY;
-            document.onmouseup = closeDragElement;
-            // call a function whenever the cursor moves:
-            document.onmousemove = elementDrag;
-        }
-
-        function elementDrag(e) {
-            var oAudio = document.getElementById('myaudio');
-            var pld = pane.getElementsByClassName('played-position')[0];
-            var prog = pane.getElementsByClassName('podcast-elapsed-bar')[0];
-            var seek = pane.getElementsByClassName('seek')[0];
-            e = e || window.event;
-            // calculate the new cursor position:
-            pos1 = pos3 - e.clientX;
-            pos2 = pos4 - e.clientY;
-            pos3 = e.clientX;
-            pos4 = e.clientY;
-            // set the element's new position:
-            // elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-            oAudio.pause();
-            pld.value = Math.round(oAudio.duration * ((e.offsetX - pos1) / progress.offsetWidth));
-            oAudio.currentTime = oAudio.duration * ((e.offsetX - pos1) / progress.offsetWidth);
-            var pWidth = (Math.round(oAudio.currentTime / oAudio.duration) ) * 100;
-            prog.style.width = pWidth + "%";
-            seek.style.left = pWidth - 50 + "%";
-        }
-
-        function dragMouseDown(e) {
-            e = e || window.event;
-            // get the mouse cursor position at startup:
-            pos3 = e.clientX;
-            pos4 = e.clientY;
-            document.onmouseup = closeDragElement;
-            // call a function whenever the cursor moves:
-            document.onmousemove = elementDrag;
-        }
-
-        function closeDragElement() {
-            /* stop moving when mouse button is released:*/
-            oAudio.play();
-            document.onmouseup = null;
-            document.onmousemove = null;
-        }
     });
 }
 
 window.addEventListener("DOMContentLoaded", initEvents, false);
 
-function dragElement(elmnt) {
-    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
 
-    elmnt.onmousedown = dragMouseDown;
-
-
-    function dragMouseDown(e) {
-        e = e || window.event;
-        // get the mouse cursor position at startup:
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        document.onmouseup = closeDragElement;
-        // call a function whenever the cursor moves:
-        document.onmousemove = elementDrag;
-    }
-
-    function elementDrag(e) {
-        e = e || window.event;
-        // calculate the new cursor position:
-        pos1 = pos3 - e.clientX;
-        pos2 = pos4 - e.clientY;
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        // set the element's new position:
-        // elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-    }
-
-    function closeDragElement() {
-        /* stop moving when mouse button is released:*/
-        document.onmouseup = null;
-        document.onmousemove = null;
-    }
-}
 
 // Audio Context
 /*

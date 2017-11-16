@@ -8,13 +8,17 @@
             <div class="col-twelve">
 
 
-
                 <h1 class="text-left" style="color: white; margin-left: 0;"><span style="opacity: .3;">Nomad</span> Login</h1>
                 <form method="post" action="/login">
-                    <h5 class="text-left" style="color: white; opacity: .3;">Email</h5>
-                    <input type="email" required placeholder="email" style="padding: 0; height: 50px;" name="email" class="col-six">
-                    <h5 class="text-left" style="color: white; opacity: .3;">Password</h5>
-                    <input type="password" required placeholder="password" style="padding: 0; height: 50px;" name="password" class="col-six">
+                    <fieldset class="col-six">
+                        <h5 class="text-left" style="color: white; opacity: .3;">Email</h5>
+
+                        <input type="email" required placeholder="email" style="padding: 0; height: 50px;" name="email">
+                    </fieldset>
+                    <fieldset class="col-six">
+                        <h5 class="text-left" style="color: white; opacity: .3;">Password</h5>
+                        <input type="password" required placeholder="password" style="padding: 0; height: 50px;" name="password">
+                    </fieldset>
                     <button class="button stroke">Login</button>
                 </form>
 
