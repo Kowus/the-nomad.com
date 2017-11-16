@@ -2741,6 +2741,7 @@ input[type=range] {
     -webkit-appearance: none;
     margin: 18px 0;
     width: 100%;
+    border-color: transparent;
 }
 input[type=range]:focus {
     outline: none;

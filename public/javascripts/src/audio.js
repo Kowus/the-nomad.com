@@ -1,31 +1,35 @@
 /*
  * Created by barnabasnomo on 11/15/17 at 8:03 AM
 */
-/*
 
 function progressBar() {
     var oAudio = document.getElementById('myaudio');
     var elapsedTime = Math.round(oAudio.currentTime);
-    var prog = document.getElementsByClassName('playing')[0].getElementsByClassName('podcast-elapsed-bar')[0];
-    var pld = document.getElementsByClassName('playing')[0].getElementsByClassName('played-position')[0];
-    var seek = document.getElementsByClassName('playing')[0].getElementsByClassName('seek')[0];
-    var pWidth = (elapsedTime / oAudio.duration) * 100;
-    prog.style.width = pWidth + "%";
-    seek.style.left = pWidth - 50 + "%";
-    pld.value = elapsedTime;
+    /* var prog = document.getElementsByClassName('playing')[0].getElementsByClassName('podcast-elapsed-bar')[0];
+     var pld = document.getElementsByClassName('playing')[0].getElementsByClassName('played-position')[0];
+     var seek = document.getElementsByClassName('playing')[0].getElementsByClassName('seek')[0];
+     var pWidth = (elapsedTime / oAudio.duration) * 100;
+     prog.style.width = pWidth + "%";
+     seek.style.left = pWidth - 50 + "%";
+     */
+    // pld.value = elapsedTime;
     var date = new Date(null);
     date.setSeconds(Number(oAudio.currentTime));
     document.getElementsByClassName('playing')[0].getElementsByClassName('podcast-elapsed')[0].innerText = date.toISOString().substr(11, 8);
     var new_date = new Date(null);
     new_date.setSeconds(Number(oAudio.duration));
     document.getElementsByClassName('playing')[0].getElementsByClassName('podcast-runtime')[0].innerText = new_date.toISOString().substr(11, 8);
+    var myRange = document.getElementsByClassName('playing')[0].getElementsByClassName('myBar')[0];
+    myRange.max = oAudio.duration;
+    myRange.value = oAudio.currentTime;
 }
 
 function playAudio(domEl) {
     if (window.HTMLAudioElement) {
         try {
             var oAudio = document.getElementById('myaudio'),
-                audioUrl = domEl.getElementsByClassName('audio-src')[0]
+                audioUrl = domEl.getElementsByClassName('audio-src')[0],
+                last_post =Number(domEl.getElementsByClassName('myBar')[0].value)
             ;
             if (oAudio.src.toString() != window.location.origin.toString() + audioUrl.value.toString()) {
                 oAudio.src = audioUrl.value;
@@ -37,7 +41,7 @@ function playAudio(domEl) {
                 }
 
                 domEl.classList.add('playing');
-                oAudio.currentTime = Number(domEl.getElementsByClassName('played-position')[0].value)
+                oAudio.currentTime = last_post;
             }
             if (oAudio.paused) {
                 domEl.getElementsByClassName('play-podcast')[0].classList.add('ion-pause');
@@ -59,6 +63,15 @@ function playAudio(domEl) {
 
 
 function initEvents() {
+    document.getElementById('gain').addEventListener('input', function (e) {
+        e = e || window.event;
+        try {
+            var oAudio = document.getElementById('myaudio');
+            oAudio.volume = document.getElementById('gain').value;
+        } catch (e) {
+            catcher(e)
+        }
+    });
     var oAudio = document.getElementById('myaudio');
 
     oAudio.addEventListener('timeupdate', progressBar, true);
@@ -77,6 +90,7 @@ function initEvents() {
         var pane = el.parentNode.parentNode.parentElement;
         var progress = pane.getElementsByClassName('podcast-progress')[0];
         var seek = pane.getElementsByClassName('seek')[0];
+        var mybar = pane.getElementsByClassName('myBar')[0];
         el.addEventListener('click', function (e) {
             if (!e) {
                 e = window.event;
@@ -88,23 +102,37 @@ function initEvents() {
                 catcher(err);
             }
         });
-
-        progress.addEventListener('click', function (e) {
-            var oAudio = document.getElementById('myaudio');
-            var progress = pane.getElementsByClassName('podcast-progress')[0];
-            if (!e) {
-                e = window.event;
-            }
+        mybar.addEventListener('input', function (e) {
+            e = e || window.event;
             try {
-                console.log(e);
-                oAudio.currentTime = oAudio.duration * (e.offsetX / progress.offsetWidth)
-            } catch (err) {
-                catcher(err);
+                var mybar = pane.getElementsByClassName('myBar')[0];
+                var oAudio = document.getElementById('myaudio'),
+                    audioUrl = pane.getElementsByClassName('audio-src')[0];
+                // console.log('hello')
+                if (oAudio.src.toString() == window.location.origin.toString() + audioUrl.value.toString()) {
+                    oAudio.currentTime = mybar.value;
+                }
+            } catch (e) {
+                catcher(e)
             }
+        });
+        /*
+                progress.addEventListener('click', function (e) {
+                    var oAudio = document.getElementById('myaudio');
+                    var progress = pane.getElementsByClassName('podcast-progress')[0];
+                    if (!e) {
+                        e = window.event;
+                    }
+                    try {
+                        console.log(e);
+                        oAudio.currentTime = oAudio.duration * (e.offsetX / progress.offsetWidth)
+                    } catch (err) {
+                        catcher(err);
+                    }
 
-        }, true);
+                }, true);*/
 
-        seek.onmousedown = dragMouseDown;
+        // seek.onmousedown = dragMouseDown;
 
         function dragMouseDown(e) {
             e = e || window.event;
@@ -148,7 +176,7 @@ function initEvents() {
         }
 
         function closeDragElement() {
-            /!* stop moving when mouse button is released:*!/
+            /* stop moving when mouse button is released:*/
             oAudio.play();
             document.onmouseup = null;
             document.onmousemove = null;
@@ -187,14 +215,14 @@ function dragElement(elmnt) {
     }
 
     function closeDragElement() {
-        /!* stop moving when mouse button is released:*!/
+        /* stop moving when mouse button is released:*/
         document.onmouseup = null;
         document.onmousemove = null;
     }
 }
-*/
 
 // Audio Context
+/*
 
 // Create an AudioContext instance for this sound
 var audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -219,14 +247,7 @@ function initEvents() {
             catcher(e)
         }
     });
-    audioContext.addEventListener('message',function (e) {
-        e = e || window.event;
-        try{
-            console.log("Changes")
-        }catch (e){
-            catcher(e)
-        }
-    });
+
     [].forEach.call(document.getElementsByClassName('play-podcast'), function (el) {
         var pane = el.parentNode.parentNode.parentElement;
         el.addEventListener('click', function (e) {
@@ -267,7 +288,6 @@ function playAudio(domEl) {
                 // Set the audio file src here
                 request.open('GET', cur_url, true);
                 request.onload = function () {
-                    console.log(request.response)
                     // Decode the audio once the require is complete
                     audioContext.decodeAudioData(request.response, function (buffer) {
                         source.buffer = buffer;
@@ -278,6 +298,7 @@ function playAudio(domEl) {
                         source.loop = true;
                         // Play the sound!
                         source.start(0);
+                        console.log(source)
                     }, function (e) {
                         console.log('Audio error! ', e);
                     });
@@ -312,7 +333,9 @@ function playAudio(domEl) {
 }
 
 
+
+
+*/
 function catcher(e) {
     if (window.console && console.error("Error: " + e)) ;
 }
-
