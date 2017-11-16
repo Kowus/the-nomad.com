@@ -1,6 +1,7 @@
 /*
  * Created by barnabasnomo on 11/15/17 at 8:03 AM
 */
+/*
 
 function progressBar() {
     var oAudio = document.getElementById('myaudio');
@@ -147,16 +148,12 @@ function initEvents() {
         }
 
         function closeDragElement() {
-            /* stop moving when mouse button is released:*/
+            /!* stop moving when mouse button is released:*!/
             oAudio.play();
             document.onmouseup = null;
             document.onmousemove = null;
         }
     });
-}
-
-function catcher(e) {
-    if (window.console && console.error("Error: " + e)) ;
 }
 
 window.addEventListener("DOMContentLoaded", initEvents, false);
@@ -190,8 +187,126 @@ function dragElement(elmnt) {
     }
 
     function closeDragElement() {
-        /* stop moving when mouse button is released:*/
+        /!* stop moving when mouse button is released:*!/
         document.onmouseup = null;
         document.onmousemove = null;
     }
 }
+*/
+
+// Audio Context
+
+// Create an AudioContext instance for this sound
+var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+
+// Create a buffer for the incoming sound content
+var source = audioContext.createBufferSource();
+// Create the XHR which will grab the audio contents
+var request = new XMLHttpRequest();
+var cur_url = null;
+window.addEventListener("DOMContentLoaded", initEvents, false);
+var gainNode = audioContext.createGain();
+
+
+function initEvents() {
+    document.getElementById('gain').addEventListener('change',function (e) {
+        e = e || window.event;
+        try{
+            gainNode.gain.value = document.getElementById('gain').value;
+            console.log("a change has come")
+        }catch (e){
+            catcher(e)
+        }
+    });
+
+    [].forEach.call(document.getElementsByClassName('play-podcast'), function (el) {
+        var pane = el.parentNode.parentNode.parentElement;
+        el.addEventListener('click', function (e) {
+            if (!e) {
+                e = window.event;
+            }
+            try {
+                // cur_url = pane.getElementsByClassName('audio-src')[0].value.toString();
+
+
+                playAudio(pane)
+
+
+            } catch (err) {
+                catcher(err);
+            }
+        });
+    });
+
+}
+
+
+function playAudio(domEl) {
+    if (audioContext) {
+        try {
+
+            var audioUrl = domEl.getElementsByClassName('audio-src')[0];
+            if (cur_url != audioUrl.value.toString()) {
+                cur_url = audioUrl.value;
+                if (document.getElementsByClassName('playing')[0]) {
+                    document.getElementsByClassName('playing')[0].getElementsByClassName('play-podcast')[0].classList.add('ion-play');
+                    document.getElementsByClassName('playing')[0].getElementsByClassName('play-podcast')[0].classList.remove('ion-pause');
+
+                    document.getElementsByClassName('playing')[0].classList.remove('playing');
+                }
+
+                        domEl.getElementsByClassName('play-podcast')[0].classList.add('ion-pause');
+                        domEl.getElementsByClassName('play-podcast')[0].classList.remove('ion-play');
+                // Set the audio file src here
+                request.open('GET', cur_url, true);
+                request.onload = function () {
+                    // Decode the audio once the require is complete
+                    audioContext.decodeAudioData(request.response, function (buffer) {
+                        source.buffer = buffer;
+                        // Connect the audio to source (multiple audio buffers can be connected!)
+                        source.connect(gainNode);
+                        gainNode.connect(audioContext.destination)
+                        // Simple setting for the buffer
+                        source.loop = true;
+
+                        // Play the sound!
+                        source.start(0);
+                    }, function (e) {
+                        console.log('Audio error! ', e);
+                    });
+                };
+                // Send the request which kicks off
+                request.send();
+                // Setting the responseType to arraybuffer sets up the audio decoding
+                request.responseType = 'arraybuffer';
+
+            }else {
+                if (audioContext.state === 'running') {
+                    audioContext.suspend().then(function () {
+                        domEl.getElementsByClassName('play-podcast')[0].classList.add('ion-play');
+                        domEl.getElementsByClassName('play-podcast')[0].classList.remove('ion-pause');
+                    });
+                } else if (audioContext.state === 'suspended') {
+                    audioContext.resume().then(function () {
+                        domEl.getElementsByClassName('play-podcast')[0].classList.add('ion-pause');
+                        domEl.getElementsByClassName('play-podcast')[0].classList.remove('ion-play');
+                    });
+                }
+            }
+            domEl.classList.add('playing');
+
+        }
+        catch (e) {
+            catcher(e);
+        }
+    } else {
+        alert("Your browser cannot play this audio file. Please consider using another browser or upgrading your current version!");
+    }
+}
+
+
+function catcher(e) {
+    if (window.console && console.error("Error: " + e)) ;
+}
+
