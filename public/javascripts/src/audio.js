@@ -210,16 +210,23 @@ var gainNode = audioContext.createGain();
 
 
 function initEvents() {
-    document.getElementById('gain').addEventListener('change',function (e) {
+
+    document.getElementById('gain').addEventListener('input',function (e) {
         e = e || window.event;
         try{
             gainNode.gain.value = document.getElementById('gain').value;
-            console.log("a change has come")
         }catch (e){
             catcher(e)
         }
     });
-
+    audioContext.addEventListener('message',function (e) {
+        e = e || window.event;
+        try{
+            console.log("Changes")
+        }catch (e){
+            catcher(e)
+        }
+    });
     [].forEach.call(document.getElementsByClassName('play-podcast'), function (el) {
         var pane = el.parentNode.parentNode.parentElement;
         el.addEventListener('click', function (e) {
@@ -227,7 +234,6 @@ function initEvents() {
                 e = window.event;
             }
             try {
-                // cur_url = pane.getElementsByClassName('audio-src')[0].value.toString();
 
 
                 playAudio(pane)
@@ -261,15 +267,15 @@ function playAudio(domEl) {
                 // Set the audio file src here
                 request.open('GET', cur_url, true);
                 request.onload = function () {
+                    console.log(request.response)
                     // Decode the audio once the require is complete
                     audioContext.decodeAudioData(request.response, function (buffer) {
                         source.buffer = buffer;
                         // Connect the audio to source (multiple audio buffers can be connected!)
                         source.connect(gainNode);
-                        gainNode.connect(audioContext.destination)
+                        gainNode.connect(audioContext.destination);
                         // Simple setting for the buffer
                         source.loop = true;
-
                         // Play the sound!
                         source.start(0);
                     }, function (e) {
