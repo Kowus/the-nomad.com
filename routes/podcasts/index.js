@@ -19,7 +19,7 @@ router.get('/', function (req, res, next) {
 router.get('/:permalink', function (req, res, next) {
     Podcast.find({permalink: req.params['permalink']}, function (err, podcast) {
         if (err) return res.send("An error occurred: " + err);
-        res.json(podcast)
+        res.render('single', {title:"The Nomad Podcasts", podcasts:podcasts});
     })
 });
 
