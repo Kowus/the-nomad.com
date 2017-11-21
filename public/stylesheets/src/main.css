@@ -2837,3 +2837,9 @@ input[type=range]:focus::-ms-fill-upper {
 .podcast-date{
     color: #ffaa00;
 }
+#cats{
+    opacity: .4;
+}
+#cats:hover{
+    opacity: 1;
+}

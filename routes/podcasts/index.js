@@ -9,18 +9,29 @@ let express = require('express'),
 
 router.get('/', function (req, res, next) {
     Podcast.aggregate([
-        {$sort:{date:-1}}
+        {$sort: {date: -1}}
     ], function (err, podcasts) {
         if (err) return res.send("An error occurred: " + err);
         /*res.json(podcasts)*/
-        res.render('podcasts',{title:"The Nomad Podcasts", podcasts:podcasts});
+        res.render('podcasts', {title: "The Nomad Podcasts", podcasts: podcasts});
     });
 });
 router.get('/:permalink', function (req, res, next) {
-    Podcast.find({permalink: req.params['permalink']}, function (err, podcast) {
+    Podcast.findOne({permalink: req.params['permalink']}, function (err, podcast) {
         if (err) return res.send("An error occurred: " + err);
-        res.render('single', {title:"The Nomad Podcasts", podcasts:podcasts});
+        res.render('single', {title: "The Nomad Podcasts", podcast: podcast});
     })
 });
+router.post('/play/:_id', function (req, res, next) {
+    Podcast.findOneAndUpdate({_id: req.params['_id']}, {
+        $inc: {
+            "stats.played": 1
+        }
+    }, function (err, result) {
+        if (err)res.end();
+        else res.json({curr_played:result.stats.played});
+    })
+})
+
 
 module.exports = router;

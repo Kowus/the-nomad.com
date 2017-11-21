@@ -38,8 +38,14 @@ let PodcastSchema = new Schema({
         type: Date,
         default: Date.now()
     }, comments:[{
-        user_id: Schema.Types.ObjectId,
-    }]
+        comment_id: Schema.Types.ObjectId,
+    }],
+    stats:{
+        played:{
+            type:Number,
+            default:0
+        }
+    }
 });
 
 PodcastSchema.pre('save', function (next) {
