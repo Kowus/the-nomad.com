@@ -36,11 +36,10 @@ function playAudio(domEl) {
                 var xhttp = new XMLHttpRequest() || new ActiveXObject("Microsoft.XMLHTTP");
                 xhttp.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
-                        // document.getElementById("demo").innerHTML = this.responseText;
-                        console.log(this)
+                        domEl.getElementsByClassName('plays')[0].innerHTML = JSON.parse(this.response).curr_played;
                     }
                 };
-                xhttp.open("POST", "/podcast", true);
+                xhttp.open("POST", "/podcasts/play", true);
                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 xhttp.send("_id="+p_id);
 
@@ -81,6 +80,7 @@ function initEvents() {
     var audioURL = null;
     var play_button = null;
     var single = null;
+    var alr_played = false;
     if (document.getElementById('dompe')) {
         audioURL = document.getElementById('dompe').value;
     }
@@ -117,6 +117,19 @@ function initEvents() {
                     play_button.classList.remove('ion-pause');
                     oAudio.pause();
                 }
+                if (alr_played===false) {
+                    var p_id = document.getElementById('played').getAttribute('data-identifier');
+                    var xhttp = new XMLHttpRequest() || new ActiveXObject("Microsoft.XMLHTTP");
+                    xhttp.onreadystatechange = function () {
+                        if (this.readyState == 4 && this.status == 200) {
+                            document.getElementById('played').innerText= JSON.parse(this.response).curr_played;
+                        }
+                    };
+                    xhttp.open("POST", "/podcasts/play", true);
+                    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                    xhttp.send("_id=" + p_id);
+                    alr_played = true;
+                }
             } catch (error) {
                 if (window.console && console.error("Error: " + error)) ;
             }
@@ -141,6 +154,7 @@ function initEvents() {
     oAudio.addEventListener('timeupdate', progressBar, true);
     if (document.getElementsByClassName('playing')) {
         oAudio.addEventListener('ended', function () {
+            alr_played=false;
             document.getElementsByClassName('playing')[0].getElementsByClassName('play-podcast')[0].classList.add('ion-play');
             document.getElementsByClassName('playing')[0].getElementsByClassName('play-podcast')[0].classList.remove('ion-pause');
         });

@@ -29,7 +29,7 @@ router.post('/play', function (req, res, next) {
         }
     }, function (err, result) {
         if (err)res.end();
-        else res.json({curr_played:result.stats.played});
+        else res.json({curr_played:result.stats.played+1});
     })
 });
 
