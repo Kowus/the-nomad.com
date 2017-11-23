@@ -30,7 +30,13 @@ router.post('/podcasts/create', function (req, res, next) {
             banner_picture:req.body.banner_picture
         },
         categories:req.body.categories,
-        take_aways:req.body.take_aways
+        take_aways:req.body.take_aways,
+        guest:{
+            name:req.body.guest_name,
+            company:req.body.guest_company,
+            position:req.body.guest_position,
+            about:req.body.guest_about
+        }
     });
 
     newPodcast.save(function (err, podcast) {

@@ -32,12 +32,13 @@
             <h1 style="font-size: 2rem">● {{#each podcast.categories as |category|}}
                 <a href="#" id="cats">{{category}}</a> ●
             {{/each}}</h1>
+            <hr>
 
-            <p class="lead">
+            <div style="text-align: left;">
                 {{{podcast.content.text}}}
-            </p>
+            </div>
             <p class="lead" style="color: #353F49;">
-                <span style="color: #3F3F3F; font-weight: 700;">{{{podcast.title}}}</span> by Guest Name
+                <span style="color: #3F3F3F; font-weight: 700;">{{{podcast.title}}}</span> by {{podcast.guest.name}}
             </p>
         </div>
     </div>

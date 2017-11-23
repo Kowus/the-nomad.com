@@ -1,8 +1,6 @@
 /*
  * Created by barnabasnomo on 11/15/17 at 8:03 AM
 */
-var nowMoment = moment();
-
 function progressBar() {
     if (document.getElementsByClassName('playing')[0]) {
         var oAudio = document.getElementById('myaudio');
@@ -30,9 +28,24 @@ function playAudio(domEl) {
         try {
             var oAudio = document.getElementById('myaudio'),
                 audioUrl = domEl.getElementsByClassName('audio-src')[0],
-                last_post = Number(domEl.getElementsByClassName('myBar')[0].value)
+                last_post = Number(domEl.getElementsByClassName('myBar')[0].value),
+                p_id = domEl.getAttribute('data-identifier')
             ;
             if (oAudio.src.toString() != audioUrl.value.toString()) {
+
+                var xhttp = new XMLHttpRequest() || new ActiveXObject("Microsoft.XMLHTTP");
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        // document.getElementById("demo").innerHTML = this.responseText;
+                        console.log(this)
+                    }
+                };
+                xhttp.open("POST", "/podcast", true);
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhttp.send("_id="+p_id);
+
+
+
                 oAudio.src = audioUrl.value;
                 if (document.getElementsByClassName('playing')[0]) {
                     document.getElementsByClassName('playing')[0].getElementsByClassName('play-podcast')[0].classList.add('ion-play');

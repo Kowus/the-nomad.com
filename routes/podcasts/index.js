@@ -22,8 +22,8 @@ router.get('/:permalink', function (req, res, next) {
         res.render('single', {title: "The Nomad Podcasts", podcast: podcast});
     })
 });
-router.post('/play/:_id', function (req, res, next) {
-    Podcast.findOneAndUpdate({_id: req.params['_id']}, {
+router.post('/play', function (req, res, next) {
+    Podcast.findOneAndUpdate({_id: req.body['_id']}, {
         $inc: {
             "stats.played": 1
         }
@@ -31,7 +31,7 @@ router.post('/play/:_id', function (req, res, next) {
         if (err)res.end();
         else res.json({curr_played:result.stats.played});
     })
-})
+});
 
 
 module.exports = router;

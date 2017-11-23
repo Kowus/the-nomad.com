@@ -1,5 +1,5 @@
 {{#each podcasts as |podcast|}}
-    <div class="bgrid feature podcast-pill">
+    <div class="bgrid feature podcast-pill" data-identifier="{{podcast._id}}">
         <div style="margin-top: 5px;">
             <p style="margin-bottom: 0;"><img src="{{podcast.content.banner_picture}}" class="img-responsive" style="width: 100%; height: 300px; object-fit: cover; border-top-left-radius: 20px;border-top-right-radius: 20px;"></p>
         </div>
@@ -17,7 +17,7 @@
                 {{#each podcast.categories as |category|}}
                     <a href="#">{{category}}</a>
                 {{/each}}
-                | <span style="text-transform: capitalize">Guest Name</span></small>
+                | <span style="text-transform: capitalize">{{podcast.guest.name}}</span></small>
             <p class="text-left podcast-description">{{{podcast.subtitle}}}
             </p>
             <div class="playback">

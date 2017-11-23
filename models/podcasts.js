@@ -26,14 +26,13 @@ let PodcastSchema = new Schema({
         type:String,
         unique:true
     },
-    guest: [
-        {
+    guest: {
             name: String,
             company: String,
             position: String,
             about: String
         }
-    ],
+    ,
     date: {
         type: Date,
         default: Date.now()
