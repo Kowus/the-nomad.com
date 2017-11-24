@@ -20,7 +20,7 @@ router.get('/', function (req, res, next) {
 router.get('/:permalink', function (req, res, next) {
     Podcast.findOne({permalink: req.params['permalink']}, function (err, podcast) {
         if (err) return res.send("An error occurred: " + err);
-        res.render('single', {title: "The Nomad Podcasts", podcast: podcast});
+        res.render('single', {title: "The Nomad Podcasts", podcast: podcast, user: req.user || null});
     })
 });
 router.post('/play', function (req, res, next) {
@@ -33,21 +33,43 @@ router.post('/play', function (req, res, next) {
         else res.json({curr_played: result.stats.played + 1});
     })
 });
-router.post('/comment',isLoggedIn, function (req, res, next) {
+router.post('/comment', isLoggedIn, function (req, res, next) {
     let newComment = new Comment({
-        user:req.user._id,
-        podcast:req.body.podcast,
-        content:req.body.comment,
-        isReply:false
+        user: req.user._id,
+        podcast: req.body.podcast,
+        content: req.body.comment,
+        isReply: false
     });
 
-    newComment.save(function (err) {
-        if(err)return res.status(404).json(err);
-        else return res.json({
-            status:200,
-            msg:"OK"
+    newComment.save(function (err, comment) {
+        if (err) return res.status(404).json(err);
+        User.findOneAndUpdate({_id: comment.user}, {
+            $push: {
+                comments: {
+                    $position: 0,
+                    $each: [comment._id]
+                }
+            }
+        }, function (err, user) {
+            if (err) return res.status(404).json(err);
+            Podcast.findOneAndUpdate({_id: comment.podcast}, {
+                $push: {
+                    comments: {
+                        $each: [comment._id],
+                        $position: 0
+                    }
+                }
+            }, function (err, user) {
+                if (err) return res.status(404).json(err);
+                else return res.json({
+                    status: 200,
+                    msg: "OK"
+                });
+            });
         });
     });
+
+
 });
 
 module.exports = router;

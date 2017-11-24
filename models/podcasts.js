@@ -33,9 +33,9 @@ let PodcastSchema = new Schema({
             about: String
         }
     ,
-    date: {
+    createdAt: {
         type: Date,
-        default: Date.now()
+        default: Date.now
     }, comments:[{
         comment_id: Schema.Types.ObjectId,
     }],

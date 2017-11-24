@@ -28,8 +28,7 @@ module.exports = mongoose.model('comment', commentSchema);
 
 commentSchema.pre('save', function (next) {
     let comment = this;
-
-    if (this.isNew) {
+console.log(comment);
         User.findOneAndUpdate({_id: comment.user}, {
             $push: {
                 comments: {
@@ -40,8 +39,7 @@ commentSchema.pre('save', function (next) {
         }, function (err, user) {
             if (err) return next(new Error(err));
         });
-    }
-    if (this.isNew && !comment.isReply) {
+    if (!comment.isReply) {
         Podcast.findOneAndUpdate({_id: comment.podcast}, {
             $push: {
                 comments: {

@@ -8,7 +8,7 @@ let express = require('express'),
 router.get('/', function (req, res, next) {
     Podcast.aggregate(
         [
-            {$sort:{date:-1} },
+            {$sort:{createdAt:-1} },
             {$limit: 3}
         ], function (err, podcasts) {
             if (err) return res.send("An error occurred: " + err);
