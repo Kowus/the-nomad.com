@@ -4,7 +4,9 @@
 let express = require('express'),
     router = express.Router(),
     passport = require('passport'),
-    Podcast = require('../../models/podcasts')
+    Podcast = require('../../models/podcasts'),
+    User = require('../../models/user'),
+    Comment = require('../../models/comments')
 ;
 
 router.get('/', function (req, res, next) {
@@ -12,7 +14,6 @@ router.get('/', function (req, res, next) {
         {$sort: {date: -1}}
     ], function (err, podcasts) {
         if (err) return res.send("An error occurred: " + err);
-        /*res.json(podcasts)*/
         res.render('podcasts', {title: "The Nomad Podcasts", podcasts: podcasts});
     });
 });
@@ -28,10 +29,18 @@ router.post('/play', function (req, res, next) {
             "stats.played": 1
         }
     }, function (err, result) {
-        if (err)res.end();
-        else res.json({curr_played:result.stats.played+1});
+        if (err) res.end();
+        else res.json({curr_played: result.stats.played + 1});
     })
 });
+router.post('/comment', function (req, res, next) {
 
+});
 
 module.exports = router;
+
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated())
+        return next();
+    res.redirect('/login');
+}
