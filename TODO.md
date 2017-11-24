@@ -1,2 +1,0 @@
-* Times played
-* 
