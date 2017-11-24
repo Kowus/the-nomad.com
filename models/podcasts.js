@@ -36,9 +36,7 @@ let PodcastSchema = new Schema({
     createdAt: {
         type: Date,
         default: Date.now
-    }, comments:[{
-        comment_id: Schema.Types.ObjectId,
-    }],
+    }, comments:Array,
     stats:{
         played:{
             type:Number,

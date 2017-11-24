@@ -20,8 +20,21 @@ router.get('/', function (req, res, next) {
 router.get('/:permalink', function (req, res, next) {
     Podcast.findOne({permalink: req.params['permalink']}, function (err, podcast) {
         if (err) return res.send("An error occurred: " + err);
-        res.render('single', {title: "The Nomad Podcasts", podcast: podcast, user: req.user || null});
+
+        podcast.comments.forEach(function (item) {
+            Comment.findOne({_id:item},function (err, comm) {
+                if(err) return console.error(err);
+                User.findOne({_id:comm.user},{displayName:1},function (err, user) {
+                    if(err) return console.error(err);
+                    comm.username = user.displayName;
+                    console.log(comm)
+                });
+                res.render('single', {title: "The Nomad Podcasts", podcast: podcast, user: req.user || null});
+            })
+        });
+
     })
+
 });
 router.post('/play', function (req, res, next) {
     Podcast.findOneAndUpdate({_id: req.body['_id']}, {
@@ -43,6 +56,7 @@ router.post('/comment', isLoggedIn, function (req, res, next) {
 
     newComment.save(function (err, comment) {
         if (err) return res.status(404).json(err);
+        let id = comment._id;
         User.findOneAndUpdate({_id: comment.user}, {
             $push: {
                 comments: {
@@ -55,11 +69,11 @@ router.post('/comment', isLoggedIn, function (req, res, next) {
             Podcast.findOneAndUpdate({_id: comment.podcast}, {
                 $push: {
                     comments: {
-                        $each: [comment._id],
-                        $position: 0
+                        $position: 0,
+                        $each: [comment._id]
                     }
                 }
-            }, function (err, user) {
+            }, function (err, podcast) {
                 if (err) return res.status(404).json(err);
                 else return res.json({
                     status: 200,

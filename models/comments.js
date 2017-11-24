@@ -25,7 +25,7 @@ let commentSchema = new Schema({
 });
 
 module.exports = mongoose.model('comment', commentSchema);
-
+/*
 commentSchema.pre('save', function (next) {
     let comment = this;
 console.log(comment);
@@ -54,3 +54,4 @@ console.log(comment);
 
     return next()
 });
+*/
