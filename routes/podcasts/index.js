@@ -17,7 +17,7 @@ router.get('/', function (req, res, next) {
         res.render('podcasts', {title: "The Nomad Podcasts", podcasts: podcasts});
     });
 });
-router.get('/:permalink', function (req, res, next) {
+router.get('/view/:permalink', function (req, res, next) {
     Podcast.findOne({permalink: req.params['permalink']}, function (err, podcast) {
         if (err) return res.send("An error occurred: " + err);
         /*podcast.comments.forEach(function (item) {
@@ -38,7 +38,15 @@ router.get('/:permalink', function (req, res, next) {
 router.get('/comment', function (req, res, next) {
     Comment.findOne({_id:req.query['obj_id']},function (err, comment) {
         if (err) return res.send("An error occurred: " + err);
-        res.json(comment);
+        User.findOne({_id:comment.user},{displayName:1},function (err, user) {
+            if (err) return res.send("An error occurred: " + err);
+            res.json({comment: {
+                _id:comment._id,
+                user:user,
+                content:comment.content,
+                createdAt:comment.createdAt
+            }});
+        })
     })
 });
 router.post('/play', function (req, res, next) {

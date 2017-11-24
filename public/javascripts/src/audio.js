@@ -34,15 +34,14 @@ function playAudio(domEl) {
             if (oAudio.src.toString() != audioUrl.value.toString()) {
 
                 var xhttp = new XMLHttpRequest() || new ActiveXObject("Microsoft.XMLHTTP");
-                xhttp.onreadystatechange = function() {
+                xhttp.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         domEl.getElementsByClassName('plays')[0].innerHTML = JSON.parse(this.response).curr_played;
                     }
                 };
                 xhttp.open("POST", "/podcasts/play", true);
                 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                xhttp.send("_id="+p_id);
-
+                xhttp.send("_id=" + p_id);
 
 
                 oAudio.src = audioUrl.value;
@@ -117,12 +116,12 @@ function initEvents() {
                     play_button.classList.remove('ion-pause');
                     oAudio.pause();
                 }
-                if (alr_played===false) {
+                if (alr_played === false) {
                     var p_id = document.getElementById('played').getAttribute('data-identifier');
                     var xhttp = new XMLHttpRequest() || new ActiveXObject("Microsoft.XMLHTTP");
                     xhttp.onreadystatechange = function () {
                         if (this.readyState == 4 && this.status == 200) {
-                            document.getElementById('played').innerText= JSON.parse(this.response).curr_played;
+                            document.getElementById('played').innerText = JSON.parse(this.response).curr_played;
                         }
                     };
                     xhttp.open("POST", "/podcasts/play", true);
@@ -154,17 +153,17 @@ function initEvents() {
     oAudio.addEventListener('timeupdate', progressBar, true);
     if (document.getElementsByClassName('playing')) {
         oAudio.addEventListener('ended', function () {
-            alr_played=false;
+            alr_played = false;
             try {
                 document.getElementsByClassName('playing')[0].getElementsByClassName('play-podcast')[0].classList.add('ion-play');
                 document.getElementsByClassName('playing')[0].getElementsByClassName('play-podcast')[0].classList.remove('ion-pause');
-            }catch (err){
+            } catch (err) {
                 catcher(err)
             }
             try {
                 document.getElementById('play_stat').classList.remove('ion-pause');
                 document.getElementById('play_stat').classList.add('ion-play');
-            }catch (err){
+            } catch (err) {
                 catcher(err)
             }
         });
@@ -208,19 +207,22 @@ function initEvents() {
     });
 
 
-    [].forEach.call(document.getElementsByClassName('comment'),function (el) {
-       // console.log(el.getAttribute('data-_id'));
+    [].forEach.call(document.getElementsByClassName('comment'), function (el) {
+        // console.log(el.getAttribute('data-_id'));
         var p_id = el.getAttribute('data-_id');
         var xhttp = new XMLHttpRequest() || new ActiveXObject("Microsoft.XMLHTTP");
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
-                // document.getElementById('played').innerText= JSON.parse(this.response).curr_played;
-                console(this.response)
+                var comment = JSON.parse(this.response).comment;
+                el.getElementsByClassName('comm-user')[0].innerHTML = comment.user.displayName;
+                el.getElementsByClassName('comment-content')[0].innerHTML = comment.content+"<br><small class=\"pull-right createdAt\">"+moment(new Date(comment.createdAt).toUTCString()).fromNow()+"</small>";
+                // el.getElementsByClassName('createdAt')[0].innerHTML = comment.createdAt;
+                    //
             }
         };
-        xhttp.open("GET", "/podcasts/comment", true);
-        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp.send("_id=" + p_id);
+        var commUrl = "/podcasts/comment?obj_id=" + p_id;
+        xhttp.open("GET", commUrl, true);
+        xhttp.send();
     });
 }
 
