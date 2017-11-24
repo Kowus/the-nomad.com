@@ -33,8 +33,13 @@ router.post('/play', function (req, res, next) {
         else res.json({curr_played: result.stats.played + 1});
     })
 });
-router.post('/comment', function (req, res, next) {
-
+router.post('/comment',isLoggedIn, function (req, res, next) {
+    let newComment = new Comment({
+        user:req.user._id,
+        podcast:req.body.podcast,
+        content:req.body.content,
+        isReply:false
+    })
 });
 
 module.exports = router;
