@@ -22,7 +22,7 @@
 
         });
 
-    })
+    });
 
 
     /*----------------------------------------------------*/
@@ -240,5 +240,21 @@
         }
 
     });
+$('#comment-form').submit(function (event) {
+    event.preventDefault();
+    var $form = this,
+        comment = $form.find('input[name="comment"]').val(),
+        url=$form.attr('action'),
+        podcast=$form.attr('data-podcast')
+    ;
+
+    var posting = $.post(url, {
+        comment:comment,
+        podcast:podcast
+    });
+    posting.done(function( data ) {
+       console.log(data)
+    });
+})
 
 })(jQuery);

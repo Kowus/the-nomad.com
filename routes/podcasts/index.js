@@ -37,9 +37,17 @@ router.post('/comment',isLoggedIn, function (req, res, next) {
     let newComment = new Comment({
         user:req.user._id,
         podcast:req.body.podcast,
-        content:req.body.content,
+        content:req.body.comment,
         isReply:false
-    })
+    });
+
+    newComment.save(function (err) {
+        if(err)return res.status(404).json(err);
+        else return res.json({
+            status:200,
+            msg:"OK"
+        });
+    });
 });
 
 module.exports = router;
