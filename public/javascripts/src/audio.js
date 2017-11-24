@@ -207,6 +207,21 @@ function initEvents() {
         el.innerText = moment(new Date(el.getAttribute('data-date')).toUTCString()).format('Do MMM. YYYY');
     });
 
+
+    [].forEach.call(document.getElementsByClassName('comment'),function (el) {
+       // console.log(el.getAttribute('data-_id'));
+        var p_id = el.getAttribute('data-_id');
+        var xhttp = new XMLHttpRequest() || new ActiveXObject("Microsoft.XMLHTTP");
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                // document.getElementById('played').innerText= JSON.parse(this.response).curr_played;
+                console(this.response)
+            }
+        };
+        xhttp.open("GET", "/podcasts/comment", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("_id=" + p_id);
+    });
 }
 
 window.addEventListener("DOMContentLoaded", initEvents, false);

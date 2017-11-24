@@ -20,8 +20,7 @@ router.get('/', function (req, res, next) {
 router.get('/:permalink', function (req, res, next) {
     Podcast.findOne({permalink: req.params['permalink']}, function (err, podcast) {
         if (err) return res.send("An error occurred: " + err);
-
-        podcast.comments.forEach(function (item) {
+        /*podcast.comments.forEach(function (item) {
             Comment.findOne({_id:item},function (err, comm) {
                 if(err) return console.error(err);
                 User.findOne({_id:comm.user},{displayName:1},function (err, user) {
@@ -29,12 +28,18 @@ router.get('/:permalink', function (req, res, next) {
                     comm.username = user.displayName;
                     console.log(comm)
                 });
-                res.render('single', {title: "The Nomad Podcasts", podcast: podcast, user: req.user || null});
+
             })
-        });
+        });*/
+        res.render('single', {title: "The Nomad Podcasts", podcast: podcast, user: req.user || null});
 
     })
-
+});
+router.get('/comment', function (req, res, next) {
+    Comment.findOne({_id:req.query['obj_id']},function (err, comment) {
+        if (err) return res.send("An error occurred: " + err);
+        res.json(comment);
+    })
 });
 router.post('/play', function (req, res, next) {
     Podcast.findOneAndUpdate({_id: req.body['_id']}, {

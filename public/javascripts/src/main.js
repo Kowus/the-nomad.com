@@ -258,6 +258,6 @@ $('#comment-form').submit(function (event) {
     posting.fail(function() {
         alert( "error" );
     })
-})
+});
 
 })(jQuery);
