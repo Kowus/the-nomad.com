@@ -52,8 +52,21 @@
             </p>
         </div>
         <div class="col-twelve">
-            <h2 style="margin: 50px auto; letter-spacing: 5px; word-spacing: 5px;">Leave a Comment!</h2>
+            <h2 style="margin: 50px auto; letter-spacing: 5px; word-spacing: 5px;">Comments</h2>
+
             <hr style="margin-bottom: 50px;">
+            <div class="text-left">
+                <div class="pull-left"><img src="/favicon.png" style="width: 30px; height: 30px; object-fit: cover;margin-right: 10px; padding: 3px; border: 2px solid black; border-radius: 20px"><span>Username</span></div>
+                <div class="pull-right">Controls</div>
+                <hr>
+                <div>
+                    The Promise interface also allows jQuery's Ajax methods, including $.get(), to chain multiple .done(), .fail(), and .always() callbacks on a single request, and even to assign these callbacks after the request may have completed. If the request is already complete, the callback is fired immediately.
+                    <br>
+                    <small class="pull-right" data-date="">Date Here</small>
+                </div>
+
+            <hr style="margin-bottom: 50px;">
+            </div>
             <form action="/podcasts/comment" id="comment-form" data-podcast="{{podcast._id}}">
                 <textarea placeholder="Leave a Comment" required style="width: 100%; resize: none;" name="comment"></textarea>
                 <input type="submit">
