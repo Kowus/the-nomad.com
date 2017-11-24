@@ -155,8 +155,18 @@ function initEvents() {
     if (document.getElementsByClassName('playing')) {
         oAudio.addEventListener('ended', function () {
             alr_played=false;
-            document.getElementsByClassName('playing')[0].getElementsByClassName('play-podcast')[0].classList.add('ion-play');
-            document.getElementsByClassName('playing')[0].getElementsByClassName('play-podcast')[0].classList.remove('ion-pause');
+            try {
+                document.getElementsByClassName('playing')[0].getElementsByClassName('play-podcast')[0].classList.add('ion-play');
+                document.getElementsByClassName('playing')[0].getElementsByClassName('play-podcast')[0].classList.remove('ion-pause');
+            }catch (err){
+                catcher(err)
+            }
+            try {
+                document.getElementById('play_stat').classList.remove('ion-pause');
+                document.getElementById('play_stat').classList.add('ion-play');
+            }catch (err){
+                catcher(err)
+            }
         });
     }
     // Click Handler for each
@@ -183,7 +193,6 @@ function initEvents() {
                 var mybar = pane.getElementsByClassName('myBar')[0];
                 var oAudio = document.getElementById('myaudio'),
                     audioUrl = pane.getElementsByClassName('audio-src')[0];
-                // console.log('hello')
                 if (oAudio.src.toString() == audioUrl.value.toString()) {
                     oAudio.currentTime = mybar.value;
                 }
