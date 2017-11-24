@@ -13,7 +13,7 @@ router.get('/', function (req, res, next) {
         ], function (err, podcasts) {
             if (err) return res.send("An error occurred: " + err);
             /*res.json(podcasts)*/
-            res.render('index', {title: "The Nomad", podcasts: podcasts});
+            res.render('index', {title: "The Nomad", podcasts: podcasts,user:req.user||null});
         });
 });
 
@@ -21,7 +21,7 @@ router.get('/login', isNotLoggedIn, function (req, res, next) {
     res.render('login', {title: 'Login', hide_footer:true})
 });
 
-router.post('/login', passport.authenticate('local-login', {
+router.post('/login',isNotLoggedIn, passport.authenticate('local-login', {
     successRedirect: '/profile',
     failureRedirect: '/login',
     failureFlash: true
@@ -51,7 +51,7 @@ router.get('/logout', function (req, res, next) {
     res.redirect('/');
 });
 
-router.use('/@admin'/*, needsGroup('admin')*/, require('./admin/index'));
+router.use('/@admin', needsGroup('admin'), require('./admin/index'));
 
 router.use('/podcasts', require('./podcasts/index'));
 
