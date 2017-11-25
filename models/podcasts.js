@@ -3,7 +3,6 @@
 */
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-
 let PodcastSchema = new Schema({
     title: {
         type: String,

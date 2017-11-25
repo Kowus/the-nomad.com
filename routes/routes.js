@@ -4,6 +4,8 @@ let express = require('express'),
     Podcast = require('../models/podcasts')
 ;
 
+
+
 /* GET home page. */
 router.get('/', function (req, res, next) {
     Podcast.aggregate(
@@ -17,8 +19,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/login', isNotLoggedIn, function (req, res, next) {
-    let next_page = req.query.next || '/';
-    req.session.next = next_page;
+    req.session.next = req.query.next || '/';
     res.render('login', {title: 'Login', hide_footer:true})
 });
 
@@ -31,7 +32,6 @@ router.post('/login',isNotLoggedIn, passport.authenticate('local-login', {
 router.get('/profile', isLoggedIn, function (req, res, next) {
         res.redirect(`${req.session.next}`)
 });
-console.log('yo')
 router.get('/signup', isNotLoggedIn, function (req, res, next) {
     res.render('signup', {title: 'Signup', hide_footer:true})
 });
