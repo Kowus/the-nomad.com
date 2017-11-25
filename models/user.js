@@ -32,7 +32,8 @@ let userSchema = new Schema({
         default:'user'
     }, 
     likes:[],
-    comments:[]
+    comments:[],
+    profile_picture:String
 });
 userSchema.pre('save', function (next) {
     let user = this;

@@ -39,6 +39,12 @@
       "public/*",
       "gruntfile.js"
     ],
+    "watch":[
+      "views/partials/*"
+    ],
+    "events": {
+      "restart": "osascript -e 'display notification \"app restarted\" with title \"the-nomad.com\"'"
+    },
     "delay": "2500"
   }
 }

@@ -44,10 +44,27 @@
 
         <nav id="main-nav-wrap">
             <ul class="main-navigation">
-                <li class="current"><a class="smoothscroll" href="#intro" title="">Home</a></li>
-                <li><a class="smoothscroll" href="#process" title="">About</a></li>
-                <li><a class="smoothscroll" href="#features" title="">Episodes</a></li>
-                <li><a class="smoothscroll" href="#faq" title="">FAQ</a></li>
+                {{#if_eq curr_page 'podcasts'}}
+
+                {{else}}
+                {{>heads}}
+                {{/if_eq}}
+
+
+
+
+
+                {{#if_eq curr_page 'single'}}
+                    <li><a class="smoothscroll" href="#process" title="">About</a></li>
+                    <li><a class="smoothscroll" href="#comments" title="">Comments</a></li>
+                {{else}}
+                    {{>heads}}
+                {{/if_eq}}
+
+
+
+
+
                 <li class="with-sep"><a href="/podcasts" style="color: #f15d65">Podcasts</a></li>
 
                 <li class="highlight with-sep"><a style="color:#ffaa00;font-size: .8em">Volume</a></li>

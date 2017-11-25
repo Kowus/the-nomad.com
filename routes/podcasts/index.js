@@ -14,25 +14,15 @@ router.get('/', function (req, res, next) {
         {$sort: {createdAt: -1}}
     ], function (err, podcasts) {
         if (err) return res.send("An error occurred: " + err);
+        res.locals.curr_page = 'podcasts';
         res.render('podcasts', {title: "The Nomad Podcasts", podcasts: podcasts});
     });
 });
 router.get('/view/:permalink', function (req, res, next) {
     Podcast.findOne({permalink: req.params['permalink']}, function (err, podcast) {
         if (err) return res.send("An error occurred: " + err);
-        /*podcast.comments.forEach(function (item) {
-            Comment.findOne({_id:item},function (err, comm) {
-                if(err) return console.error(err);
-                User.findOne({_id:comm.user},{displayName:1},function (err, user) {
-                    if(err) return console.error(err);
-                    comm.username = user.displayName;
-                    console.log(comm)
-                });
-
-            })
-        });*/
+        res.locals.curr_page = 'single';
         res.render('single', {title: "The Nomad Podcasts", podcast: podcast, user: req.user || null});
-
     })
 });
 router.get('/comment', function (req, res, next) {

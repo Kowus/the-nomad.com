@@ -19,6 +19,13 @@ let routes = require('./routes/routes');
 let app = express();
 
 hbs.registerPartials('./views/partials');
+hbs.registerHelper('if_eq', function(a, b, opts) {
+    if (a == b) {
+        return opts.fn(this);
+    } else {
+        return opts.inverse(this);
+    }
+});
 app.locals.curr_year = new Date().getUTCFullYear();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

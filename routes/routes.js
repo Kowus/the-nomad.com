@@ -12,12 +12,13 @@ router.get('/', function (req, res, next) {
             {$limit: 3}
         ], function (err, podcasts) {
             if (err) return res.send("An error occurred: " + err);
-            /*res.json(podcasts)*/
             res.render('index', {title: "The Nomad", podcasts: podcasts,user:req.user||null});
         });
 });
 
 router.get('/login', isNotLoggedIn, function (req, res, next) {
+    let next_page = req.query.next || '/';
+    req.session.next = next_page;
     res.render('login', {title: 'Login', hide_footer:true})
 });
 
@@ -28,14 +29,9 @@ router.post('/login',isNotLoggedIn, passport.authenticate('local-login', {
 }));
 
 router.get('/profile', isLoggedIn, function (req, res, next) {
-    if(req.user.group ==='admin'){
-        res.send('redirect to admin')
-    } else {
-        res.send('redirect to user')
-    }
-
+        res.redirect(`${req.session.next}`)
 });
-
+console.log('yo')
 router.get('/signup', isNotLoggedIn, function (req, res, next) {
     res.render('signup', {title: 'Signup', hide_footer:true})
 });

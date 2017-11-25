@@ -214,6 +214,7 @@ function initEvents() {
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 var comment = JSON.parse(this.response).comment;
+                el.getElementsByClassName('comment-logo')[0].setAttribute('src',comment.user.profile_picture||'/favicon.png');
                 el.getElementsByClassName('comm-user')[0].innerHTML = comment.user.displayName;
                 el.getElementsByClassName('comment-content')[0].innerHTML = comment.content+"<br><small class=\"pull-right createdAt\">"+moment(new Date(comment.createdAt).toUTCString()).fromNow()+"</small>";
                 // el.getElementsByClassName('createdAt')[0].innerHTML = comment.createdAt;
