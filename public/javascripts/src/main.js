@@ -295,5 +295,28 @@
         });
     });
 
+    $("#upload_audio").click(function () {
+        // alert("Upload!");
+        var file_data = $("#audio_box").prop("files")[0];
+        var form_data = new FormData();
+        form_data.append("audio", file_data);
+        $.ajax({
+            url: "/@admin/upload/audio",
+            data: form_data,
+            cache: false,
+            processData: false,
+            contentType:false,
+            type: 'POST',
+            success:function (data, status, req) {
+                alert("Success!");
+                console.log(data);
+                // $("#img_display").attr("src", data.url);
+            },
+            error:function (req, status, error) {
+                alert("error uploading image");
+                // $("#img_display").attr("src")
+            }
+        });
+    });
 
 })(jQuery);
