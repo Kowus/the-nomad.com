@@ -281,14 +281,14 @@
             data: form_data,
             cache: false,
             processData: false,
-            contentType:false,
+            contentType: false,
             type: 'POST',
-            success:function (data, status, req) {
+            success: function (data, status, req) {
                 alert("Success!");
                 console.log(data);
                 // $("#img_display").attr("src", data.url);
             },
-            error:function (req, status, error) {
+            error: function (req, status, error) {
                 alert("error uploading image");
                 // $("#img_display").attr("src")
             }
@@ -297,26 +297,34 @@
 
     $("#upload_audio").click(function () {
         // alert("Upload!");
+        var btn = $(this);
         var file_data = $("#audio_box").prop("files")[0];
-        var form_data = new FormData();
-        form_data.append("audio", file_data);
-        $.ajax({
-            url: "/@admin/upload/audio",
-            data: form_data,
-            cache: false,
-            processData: false,
-            contentType:false,
-            type: 'POST',
-            success:function (data, status, req) {
-                alert("Success!");
-                console.log(data);
-                // $("#img_display").attr("src", data.url);
-            },
-            error:function (req, status, error) {
-                alert("error uploading image");
-                // $("#img_display").attr("src")
-            }
-        });
+        if(file_data) {
+            var form_data = new FormData();
+            btn.attr('disabled', true);
+            btn.attr('value', 'Submitting..');
+            form_data.append("audio", file_data);
+            $.ajax({
+                url: "/@admin/upload/audio",
+                data: form_data,
+                cache: false,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                success: function (data, status, req) {
+                    console.log(data);
+                    setTimeout(function () {
+                        btn.attr('value', 'Submitted Successfully');
+                        alert("Success!");
+                    }, 5000);
+                },
+                error: function (req, status, error) {
+                    btn.attr('disabled', false);
+                    btn.attr('value', 'Try Again');
+                    alert("error uploading image");
+                }
+            });
+        }else alert('Attach an audio file to upload')
     });
 
 })(jQuery);
