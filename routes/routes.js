@@ -66,9 +66,12 @@ function isNotLoggedIn(req, res, next) {
 
 function needsGroup(group) {
     return function (req, res, next) {
-        if (req.user && req.user.group === group)
+        if (req.user && req.user.group === group) {
+            res.locals.user = req.user;
             next();
-        else
+        }
+        else {
             res.status(401).send('Unauthorized');
+        }
     };
 }

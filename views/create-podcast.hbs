@@ -1,0 +1,51 @@
+<section id="process">
+
+    <div class="row section-intro">
+        <div class="col-twelve with-bottom-line">
+
+            <h5>Create or Modify</h5>
+            <h1 style="font-size: 2rem">Podcasts</h1>
+            <hr>
+
+            <div>
+                <form>
+                    <fieldset>
+                        <div class="col-six">
+                            <h4 class="text-left">Audio</h4>
+                            <input type="file" name="audio">
+                        </div>
+                        <div class="col-six">
+                            <h4 class="text-left">Banner Picture</h4>
+                            <input type="file" name="picture">
+                        </div>
+                    </fieldset>
+                    <hr style="width:60%; margin: 0 auto">
+                    <fieldset>
+                        <h4 class="text-left">Title</h4>
+                        <input placeholder="Title" name="title" title="Title" style="height: 50px;">
+                    </fieldset>
+                    <fieldset>
+                        <h4 class="text-left">Description</h4>
+                        <input placeholder="Description" name="subtitle" title="Description"
+                               style="height: 100px; word-wrap: break-word; overflow-wrap: break-word; word-break: break-all">
+                    </fieldset>
+                    <hr style="width:60%; margin: 0 auto">
+                    <fieldset style="margin-top: 50px;">
+                        <textarea name="text" style="width: 100%; resize: none" placeholder="Content Text Here">Use Tiny MCE</textarea>
+                    </fieldset>
+                    <hr>
+                    <fieldset>
+                        <h4 class="text-left">Categories <i class="ion ion-plus" style="background-color: #f15d65; padding: 10px; border-radius: 3px; color: white; float: right;" id="categories"></i></h4>
+
+                    </fieldset>
+                </form>
+            </div>
+            <hr>
+            <p class="lead" style="color: #353F49;">
+                <span style="color: #3F3F3F; font-weight: 700;">{{user.displayName}}</span>
+            </p>
+        </div>
+
+    </div>
+
+</section> <!-- /process-->

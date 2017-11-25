@@ -40,12 +40,12 @@
       "gruntfile.js",
       ".gtm/*"
     ],
-    "watch":[
+    "watch": [
       "*.js",
       "views/partials/*"
     ],
     "events": {
-      "restart": "osascript -e 'display notification \"app restarted\" with title \"the-nomad.com\"'"
+      "restart": "osascript -e 'display notification \"App Restarted\" with title \"the-nomad.com\"'"
     },
     "delay": "2500"
   }
