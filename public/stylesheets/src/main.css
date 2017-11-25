@@ -2879,3 +2879,10 @@ input[type=range]:focus::-ms-fill-upper {
     border: 2px solid black;
     border-radius: 20px;
 }
+
+.dismiss-category{
+    cursor: pointer;
+}
+.dismiss-category:hover{
+    color: #0b0b0b;
+}

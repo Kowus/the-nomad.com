@@ -262,7 +262,12 @@
 
 
     $('#categories').click(function () {
-        alert('Yo fried balls.')
+        $('#cat-zone').prepend('<div class="col-three">\n' +
+            '                            <div><input style="border: none; border-bottom: 1px solid #2a6495; width:80%"\n' +
+            '                                        name="categories" placeholder="category">' +
+            '<span class="dismiss-category" style="font-size: x-large" onclick="$(this).parents()[1].remove()">&times;</span>\n' +
+            '                            </div>\n' +
+            '                        </div>');
     });
 
 })(jQuery);
