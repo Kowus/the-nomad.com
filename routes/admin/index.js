@@ -51,5 +51,7 @@ router.post('/podcasts/create', function (req, res, next) {
         });
     });
 });
-
+router.post('/upload/:file_type', function (req, res, next) {
+    res.json({file_type:req.params['file_type']})
+});
 module.exports = router;

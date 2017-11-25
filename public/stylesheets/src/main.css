@@ -2879,7 +2879,9 @@ input[type=range]:focus::-ms-fill-upper {
     border: 2px solid black;
     border-radius: 20px;
 }
-
+#categories{
+    cursor: pointer;
+}
 .dismiss-category{
     cursor: pointer;
 }

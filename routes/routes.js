@@ -52,8 +52,14 @@ router.use('/podcasts', require('./podcasts/index'));
 module.exports = router;
 
 function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated())
+    if (req.isAuthenticated()) {
+        res.locals.user ={
+            displayName:req.user.displayName,
+            email: req.user.email,
+
+        };
         return next();
+    }
     res.redirect('/login');
 }
 
