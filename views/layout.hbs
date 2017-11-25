@@ -47,19 +47,18 @@
                 {{#if_eq curr_page 'podcasts'}}
 
                 {{else}}
-                {{>heads}}
+                    {{#if_eq curr_page 'single'}}
+                        <li><a class="smoothscroll" href="#process" title="">About</a></li>
+                    {{else}}
+                        {{>heads}}
+                    {{/if_eq}}
                 {{/if_eq}}
 
 
 
 
 
-                {{#if_eq curr_page 'single'}}
-                    <li><a class="smoothscroll" href="#process" title="">About</a></li>
-                    <li><a class="smoothscroll" href="#comments" title="">Comments</a></li>
-                {{else}}
-                    {{>heads}}
-                {{/if_eq}}
+
 
 
 

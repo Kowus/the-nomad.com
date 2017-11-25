@@ -4,8 +4,6 @@ let express = require('express'),
     Podcast = require('../models/podcasts')
 ;
 
-
-
 /* GET home page. */
 router.get('/', function (req, res, next) {
     Podcast.aggregate(

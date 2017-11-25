@@ -27,7 +27,7 @@ module.exports = (grunt) => {
                     interrupt:true
                 }
             }, configFiles: {
-                files: ['gruntfile.js', 'config/*.js'],
+                files: ['gruntfile.js'],
                 options: {
                     reload: true
                 }

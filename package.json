@@ -6,7 +6,7 @@
     "prestart": "grunt",
     "start": "node ./bin/www",
     "predev": "grunt",
-    "dev": "grunt watch & nodemon"
+    "dev": "grunt watch & nodemon --verbose"
   },
   "dependencies": {
     "body-parser": "~1.18.2",
@@ -37,14 +37,16 @@
   "nodemonConfig": {
     "ignore": [
       "public/*",
-      "gruntfile.js"
+      "gruntfile.js",
+      ".gtm/*"
     ],
     "watch":[
+      "*.js",
       "views/partials/*"
     ],
     "events": {
       "restart": "osascript -e 'display notification \"app restarted\" with title \"the-nomad.com\"'"
     },
-    "delay": "500"
+    "delay": "2500"
   }
 }

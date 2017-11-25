@@ -18,7 +18,7 @@ router.get('/podcasts', function (req, res, next) {
 });
 
 router.get('/podcasts/create', function (req, res, next) {
-    res.render('index', {title: 'Create a Podcast'})
+    res.render('create-podcast', {title: 'Create a Podcast'})
 });
 router.post('/podcasts/create', function (req, res, next) {
     Podcast.count({},function (err, count) {
