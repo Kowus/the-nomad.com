@@ -1,3 +1,4 @@
+
 <section id="process">
 
     <div class="row section-intro">
@@ -8,7 +9,7 @@
             <hr>
 
             <div>
-                <form>
+                <form id="podacast-form">
                     <fieldset>
                         <div class="col-six">
                             <h4 class="text-left">Audio</h4>
@@ -22,12 +23,12 @@
                     <hr style="width:60%; margin: 0 auto">
                     <fieldset>
                         <h4 class="text-left">Title</h4>
-                        <input placeholder="Title" name="title" title="Title" style="height: 50px;">
+                        <input placeholder="Title" name="title" title="Title" style="height: 50px; text-transform: capitalize;">
                     </fieldset>
                     <fieldset>
                         <h4 class="text-left">Description</h4>
-                        <input placeholder="Description" name="subtitle" title="Description"
-                               style="height: 100px; word-wrap: break-word; overflow-wrap: break-word; word-break: break-all">
+                        <textarea placeholder="Description" name="subtitle" title="Description"
+                                  style="height: 100px;min-height: 100px;width: 100%;resize: none;"></textarea>
                     </fieldset>
                     <hr style="width:60%; margin: 0 auto">
                     <fieldset style="margin-top: 50px;">
@@ -36,7 +37,23 @@
                     <hr>
                     <fieldset>
                         <h4 class="text-left">Categories <i class="ion ion-plus" style="background-color: #f15d65; padding: 10px; border-radius: 3px; color: white; float: right;" id="categories"></i></h4>
+                        <div id="cat-zone"></div>
+                        <div class="col-three">
+                            <div><input style="border: none; border-bottom: 1px solid #2a6495; width:80%" name="categories" placeholder="category"><span style="font-size: x-large">&times;</span></div>
+                        </div>
 
+                    </fieldset>
+                    <fieldset>
+                        <h4 class="text-left">Takeaways</h4>
+                        <div class="col-four">
+                            <textarea style="height: 50px;min-height: 100px;width: 100%; border: none; border-bottom: 1px solid #f9a700; resize: none;" placeholder="Lesson 1" name="take_aways"></textarea>
+                        </div>
+                        <div class="col-four">
+                            <textarea style="height: 50px;min-height: 100px;width: 100%; border: none; border-bottom: 1px solid #f9a700; resize: none;" placeholder="Lesson 2" name="take_aways"></textarea>
+                        </div>
+                        <div class="col-four">
+                            <textarea style="height: 50px;min-height: 100px;width: 100%; border: none; border-bottom: 1px solid #f9a700; resize: none;" placeholder="Lesson 3" name="take_aways"></textarea>
+                        </div>
                     </fieldset>
                 </form>
             </div>

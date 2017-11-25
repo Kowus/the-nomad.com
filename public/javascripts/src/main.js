@@ -240,24 +240,29 @@
         }
 
     });
-$('#comment-form').submit(function (event) {
-    event.preventDefault();
-    var $form = $('#comment-form'),
-        comment = $form.find('textarea[name="comment"]').val(),
-        url=$form.attr('action'),
-        podcast=$form.attr('data-podcast')
-    ;
+    $('#comment-form').submit(function (event) {
+        event.preventDefault();
+        var $form = $('#comment-form'),
+            comment = $form.find('textarea[name="comment"]').val(),
+            url = $form.attr('action'),
+            podcast = $form.attr('data-podcast')
+        ;
 
-    var posting = $.post(url, {
-        comment:comment,
-        podcast:podcast
+        var posting = $.post(url, {
+            comment: comment,
+            podcast: podcast
+        });
+        posting.done(function (data) {
+            console.log(data)
+        });
+        posting.fail(function () {
+            alert("error");
+        })
     });
-    posting.done(function( data ) {
-       console.log(data)
+
+
+    $('#categories').click(function () {
+        alert('Yo fried balls.')
     });
-    posting.fail(function() {
-        alert( "error" );
-    })
-});
 
 })(jQuery);
