@@ -280,8 +280,8 @@
 
             var form_data = new FormData();
             btn.attr('disabled', true);
-            btn.attr('value', 'Submitting..')
-            form_data.append("images", file_data);
+            btn.attr('value', 'Submitting..');
+            form_data.append("image", file_data);
             $.ajax({
                 url: "/@admin/upload/image",
                 data: form_data,
@@ -290,17 +290,13 @@
                 contentType: false,
                 type: 'POST',
                 success: function (data, status, req) {
-                    setTimeout(function () {
                         btn.attr('value', 'Uploaded Successfully');
-                    }, 5000);
-                    console.log(data);
-                    // $("#img_display").attr("src", data.url);
+                        $('#image_loc').attr('src', data.Location)
                 },
                 error: function (req, status, error) {
                     alert("error uploading image");
                     btn.attr('disabled', false);
                     btn.attr('value', 'Try Again');
-                    alert("error uploading audio");
                 }
             });
         }else alert('Attach an image file to upload!')
@@ -323,10 +319,8 @@
                 contentType: false,
                 type: 'POST',
                 success: function (data, status, req) {
-                    console.log(data);
-                    setTimeout(function () {
                         btn.attr('value', 'Uploaded Successfully');
-                    }, 5000);
+                        $('#audio_loc').attr('src', data.Location)
                 },
                 error: function (req, status, error) {
                     btn.attr('disabled', false);

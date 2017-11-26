@@ -45,7 +45,7 @@
       "public/*",
       "gruntfile.js",
       ".gtm/*",
-      "config/gen-map.js"
+      "scratch/"
     ],
     "watch": [
       "*.js",
