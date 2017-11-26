@@ -14,6 +14,7 @@ const express = require('express'),
     compression = require('compression')
 ;
 
+
 mongoose.connect(config.database.url, {useMongoClient: true});
 let routes = require('./routes/routes');
 
@@ -48,16 +49,7 @@ app.use(flash());
 
 
 app.use('/', routes);
-app.get('/sitemap.xml', function (req, res, next) {
-   let sitemap = require('./config/sitemap');
-    sitemap.toXML( function (err, xml) {
-        if (err) {
-            return res.status(500).end();
-        }
-        res.header('Content-Type', 'application/xml');
-        res.send( xml );
-    });
-});
+app.use('/sitemap.xml', require('./config/sitemap'));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -1,10 +1,20 @@
 /*
  * Created by barnabasnomo on 11/12/17 at 12:45 PM
 */
-const express = require('express'),
+var express = require('express'),
     router = express.Router(),
-    Podcast = require('../../models/podcasts')
+    Podcast = require('../../models/podcasts'),
+    multipart = require('connect-multiparty'),
+    AWS = require('aws-sdk'),
+    env = require('../../config/env')
 ;
+
+AWS.config.update({
+    accessKeyId: env.aws.key,
+    secretAccessKey:env.aws.secret
+})
+
+router.use('/upload', multipart());
 
 router.get('/', function (req, res, next) {
     res.render('index', {title: 'If User, go to Dashboard'});
@@ -52,6 +62,24 @@ router.post('/podcasts/create', function (req, res, next) {
     });
 });
 router.post('/upload/:file_type', function (req, res, next) {
-    res.json({file_type:req.params['file_type']})
+    let file_type =req.params['file_type'];
+    fs.readFile(req.files[file_type].path, function (err, data) {
+        let options = {queueSize:1},
+            base64data=new Buffer.from(data, 'binary'),
+            s3 = new AWS.s3();
+        s3.upload({
+            Bucket:env.aws.bucket,
+            Key:`${file_type}/${req.files[file_type].name}`,
+            Body:base64data,
+            ACL:'public-read'
+        },options,function (err, data) {
+            if(err){
+                console.log(err);
+                return res.status(err.code).send(err)
+            } res.json({data,file_type:file_type})
+        })
+    });
+
+
 });
 module.exports = router;

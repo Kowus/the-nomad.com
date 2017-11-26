@@ -27,6 +27,7 @@
     "newrelic": "^2.4.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
+    "redis": "^2.8.0",
     "secure-password": "^2.1.2",
     "serve-favicon": "~2.4.5",
     "sitemap": "^1.13.0"
@@ -43,14 +44,16 @@
     "ignore": [
       "public/*",
       "gruntfile.js",
-      ".gtm/*"
+      ".gtm/*",
+      "config/gen-map.js"
     ],
     "watch": [
       "*.js",
+      "*.json",
       "views/partials/*"
     ],
     "events": {
-      "restart": "osascript -e 'display notification \"App Restarted\" with title \"the-nomad.com\"'"
+      "restart": "osascript -e 'display notification \"App restarted due to changes\" with title \"the-nomad.com\"'"
     },
     "delay": "2500"
   }
