@@ -10,16 +10,18 @@ const express = require('express'),
     config = require('./config/env'),
     session = require('express-session'),
     flash = require('connect-flash'),
-    hbs = require('hbs')
+    hbs = require('hbs'),
+    compression = require('compression')
 ;
 
 mongoose.connect(config.database.url, {useMongoClient: true});
 let routes = require('./routes/routes');
 
 let app = express();
+app.use(compression());
 
 hbs.registerPartials('./views/partials');
-hbs.registerHelper('if_eq', function(a, b, opts) {
+hbs.registerHelper('if_eq', function (a, b, opts) {
     if (a == b) {
         return opts.fn(this);
     } else {
@@ -39,13 +41,23 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({secret:config.session.secret, resave:true, saveUninitialized:true}));
+app.use(session({secret: config.session.secret, resave: true, saveUninitialized: true}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
 
 app.use('/', routes);
+app.get('/sitemap.xml', function (req, res, next) {
+   let sitemap = require('./config/sitemap');
+    sitemap.toXML( function (err, xml) {
+        if (err) {
+            return res.status(500).end();
+        }
+        res.header('Content-Type', 'application/xml');
+        res.send( xml );
+    });
+});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -67,13 +79,13 @@ app.use(function (err, req, res, next) {
 
 
 mongoose.connection.on('connected', function () {
-    console.log('Mongoose default connection connected')
+    console.log('Mongoose default connection connected');
 });
 mongoose.connection.on('error', function (err) {
-    console.log('Mongoose default connection error:' + err)
+    console.log('Mongoose default connection error:' + err);
 });
 mongoose.connection.on('disconnected', function () {
-    console.log('Mongoose default connection disconnected')
+    console.log('Mongoose default connection disconnected');
 });
 process.on('SIGINT', function () {
     mongoose.connection.close(function () {
