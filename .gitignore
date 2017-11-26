@@ -68,3 +68,5 @@ gen
 # Scratch files
 scratch/
 /.gtm/
+public/javascripts/dist/bundle.min.js
+public/stylesheets/dist/bundle.min.css
