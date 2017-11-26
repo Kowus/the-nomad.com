@@ -262,12 +262,7 @@
 
 
     $('#categories').click(function () {
-        $('#cat-zone').prepend('<div class="col-three">\n' +
-            '                            <div><input style="border: none; border-bottom: 1px solid #2a6495; width:80%"\n' +
-            '                                        name="categories" placeholder="category">' +
-            '<span class="dismiss-category" style="font-size: x-large" onclick="$(this).parents()[1].remove()">&times;</span>\n' +
-            '                            </div>\n' +
-            '                        </div>');
+        $('#cat-zone').prepend('<div class="col-three"><div><input style="border: none; border-bottom: 1px solid #2a6495; width:80%" name="categories" placeholder="category"><span class="dismiss-category" style="font-size: x-large" onclick="$(this).parents()[1].remove()">&times;</span></div></div>');
     });
 
 
@@ -291,7 +286,7 @@
                 type: 'POST',
                 success: function (data, status, req) {
                         btn.attr('value', 'Uploaded Successfully');
-                        $('#image_loc').attr('src', data.Location)
+                        $('#image_loc').attr('value', data.Location)
                 },
                 error: function (req, status, error) {
                     alert("error uploading image");
@@ -320,7 +315,7 @@
                 type: 'POST',
                 success: function (data, status, req) {
                         btn.attr('value', 'Uploaded Successfully');
-                        $('#audio_loc').attr('src', data.Location)
+                        $('#audio_loc').attr('value', data.Location)
                 },
                 error: function (req, status, error) {
                     btn.attr('disabled', false);
