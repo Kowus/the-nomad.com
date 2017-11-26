@@ -76,7 +76,9 @@ router.post('/upload/:file_type', function (req, res, next) {
             if(err){
                 console.log(err);
                 return res.status(err.code).send(err)
-            } res.json({data,file_type:file_type})
+            }
+            console.log(data);
+            res.json({data,file_type:file_type})
         })
     });
 
