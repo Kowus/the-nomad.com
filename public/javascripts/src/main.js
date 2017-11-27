@@ -253,6 +253,8 @@
             podcast: podcast
         });
         posting.done(function (data) {
+            $form.find('textarea[name="comment"]').val("");
+            $("#comments").append('<div class="text-left comment"><div class="pull-left"><img src="" class="comment-logo"><span class="comm-user">'+data.user.displayName+'</span></div><div class="pull-right">Controls</div><hr style="width: 80%;"><div class="comment-content">'+data.content+ '<br><small class="pull-right ion ion-clock"> '+data.createdAt+'</small></div><hr style="margin-bottom: 50px;"></div>');
             console.log(data)
         });
         posting.fail(function () {
