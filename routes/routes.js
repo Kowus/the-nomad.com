@@ -80,7 +80,7 @@ function needsGroup(group) {
         }
         else {
             req.session.message= "Unauthorized Access";
-            res.status(401).redirect(`/login?${req.originalUrl}`);
+            res.status(401).redirect(`/login?next=${req.originalUrl}`);
         }
     };
 }
