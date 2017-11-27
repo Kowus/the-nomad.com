@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "aws-sdk": "^2.156.0",
+    "bluebird": "^3.5.1",
     "body-parser": "~1.18.2",
     "compression": "^1.7.1",
     "connect-flash": "^0.1.1",

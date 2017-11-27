@@ -17,6 +17,8 @@ const express = require('express'),
 
 mongoose.connect(config.database.url, {useMongoClient: true});
 let routes = require('./routes/routes');
+mongoose.Promise = require('bluebird');
+
 
 let app = express();
 app.use(compression());
