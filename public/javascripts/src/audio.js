@@ -202,29 +202,6 @@ function initEvents() {
     });
 
 
-    [].forEach.call(document.getElementsByClassName("podcast-date"), function (el) {
-        el.innerText = moment(new Date(el.getAttribute('data-date')).toUTCString()).format('Do MMM. YYYY');
-    });
-
-
-    [].forEach.call(document.getElementsByClassName('comment'), function (el) {
-        // console.log(el.getAttribute('data-_id'));
-        var p_id = el.getAttribute('data-_id');
-        var xhttp = new XMLHttpRequest() || new ActiveXObject("Microsoft.XMLHTTP");
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                var comment = JSON.parse(this.response).comment;
-                el.getElementsByClassName('comment-logo')[0].setAttribute('src',comment.user.profile_picture||'/favicon.png');
-                el.getElementsByClassName('comm-user')[0].innerHTML = comment.user.displayName;
-                el.getElementsByClassName('comment-content')[0].innerHTML = comment.content+"<br><small class=\"pull-right createdAt\">"+moment(new Date(comment.createdAt).toUTCString()).fromNow()+"</small>";
-                // el.getElementsByClassName('createdAt')[0].innerHTML = comment.createdAt;
-                    //
-            }
-        };
-        var commUrl = "/podcasts/comment?obj_id=" + p_id;
-        xhttp.open("GET", commUrl, true);
-        xhttp.send();
-    });
 }
 
 window.addEventListener("DOMContentLoaded", initEvents, false);

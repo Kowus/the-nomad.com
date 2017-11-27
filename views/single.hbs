@@ -59,37 +59,45 @@
                 </blockquote>
             {{/each}}
             <p class="lead" style="color: #353F49;">
-                <span style="color: #3F3F3F; font-weight: 700;">{{{podcast.title}}}</span> <i>by</i> {{podcast.guest.name}}
+                <span style="color: #3F3F3F; font-weight: 700;">{{{podcast.title}}}</span>
+                <i>by</i> {{podcast.guest.name}}
             </p>
         </div>
         <div class="col-twelve" id="comments">
             <h2 style="margin: 50px auto; letter-spacing: 5px; word-spacing: 5px;">Comments</h2>
 
             <hr style="margin-bottom: 50px;">
-            {{#each podcast.comments as |comment_id|}}
+            {{#each comments as |comment|}}
 
-            <div class="text-left comment" data-_id="{{comment_id}}">
-                <div class="pull-left"><img src="" class="comment-logo"><span class="comm-user"></span></div>
-                <!--<div class="pull-right">Controls</div>-->
-                <hr style="opacity:0;">
-                <div class="comment-content">
-                    <!--The Promise interface also allows jQuery's Ajax methods, including $.get(), to chain multiple .done(), .fail(), and .always() callbacks on a single request, and even to assign these callbacks after the request may have completed. If the request is already complete, the callback is fired immediately.-->
-                    <br>
+                <div class="text-left comment">
+                    <div class="pull-left">
+                        {{#unless comment.user.profile_picture}}
+                            <img src="" class="comment-logo">
+                        {{/unless}}
+                        <span class="comm-user">{{comment.user.displayName}}</span></div>
+                    <div class="pull-right">Controls</div>
+                    <hr style="width: 80%;">
+                    <div class="comment-content">
+                        {{comment.content}}
+                        <!--The Promise interface also allows jQuery's Ajax methods, including $.get(), to chain multiple .done(), .fail(), and .always() callbacks on a single request, and even to assign these callbacks after the request may have completed. If the request is already complete, the callback is fired immediately.-->
+                        <br>
+                        <small class="pull-right ion ion-clock"> {{comment.createdAt}}</small>
+                    </div>
 
+                    <hr style="margin-bottom: 50px;">
                 </div>
-
-            <hr style="margin-bottom: 50px;">
-            </div>
             {{/each}}
             {{#if user}}
 
-            <form action="/podcasts/comment" id="comment-form" data-podcast="{{podcast._id}}">
-                <textarea placeholder="Leave a Comment" required style="width: 100%; resize: none;" name="comment"></textarea>
-                <input type="submit">
-            </form>
+                <form action="/podcasts/comment" id="comment-form" data-podcast="{{podcast._id}}">
+                    <textarea placeholder="Leave a Comment" required style="width: 100%; resize: none;"
+                              name="comment"></textarea>
+                    <input type="submit">
+                </form>
             {{else}}
                 <div style="border: 1px solid #ccc;">
-                    <h3 style="margin: 50px auto;">Please <a href="/login?next=/podcasts/view/{{podcast.permalink}}">Login</a> to comment</h3>
+                    <h3 style="margin: 50px auto;">Please <a href="/login?next=/podcasts/view/{{podcast.permalink}}">Login</a>
+                        to comment</h3>
                 </div>
             {{/if}}
         </div>

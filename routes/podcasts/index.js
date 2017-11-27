@@ -6,7 +6,9 @@ let express = require('express'),
     passport = require('passport'),
     Podcast = require('../../models/podcasts'),
     User = require('../../models/user'),
-    Comment = require('../../models/comments')
+    Comment = require('../../models/comments'),
+    async = require('async'),
+    moment = require('moment')
 ;
 
 router.get('/', function (req, res, next) {
@@ -19,6 +21,7 @@ router.get('/', function (req, res, next) {
     });
 });
 router.get('/view/:permalink', function (req, res, next) {
+    let podcast_comments=[];
     Podcast.findOne({permalink: req.params['permalink']}, function (err, podcast) {
         if (err) {
             res.locals.message = err.message;
@@ -31,34 +34,82 @@ router.get('/view/:permalink', function (req, res, next) {
         res.locals.curr_page = 'single';
         // console.log("podcast: ",podcast);
 
-        if(podcast == null){
+        if (podcast == null) {
             res.locals.message = 'Could not find the requested podcast';
-            res.locals.error = req.app.get('env') === 'development' ? {status: 404, stack: `Requested file ${req.params['permalink']} not found.`} : {status: 404, stack: `Requested file ${req.params['permalink']} not found.`};
+            res.locals.error = req.app.get('env') === 'development' ? {
+                status: 404,
+                stack: `Requested file ${req.params['permalink']} not found.`
+            } : {status: 404, stack: `Requested file ${req.params['permalink']} not found.`};
 
             // render the error page
-            res.status( 500);
-            res.render('error',{hide_footer:true});
-        }else {
-            res.render('single', {title: "The Nomad Podcasts", podcast: podcast, user: req.user || null});
+            res.status(500);
+            res.render('error', {hide_footer: true});
+        } else {
+
+            async.forEachOf(podcast.comments, (value, key, callback)=>{
+                Comment.findOne({_id:value}, (err, comment)=>{
+                    if(err) return callback(err);
+                    try{
+                        User.findOne({_id:comment.user},{displayName:1, profile_picture:1}, (err, user)=>{
+                            if(err) return callback(err);
+                            podcast_comments[key] = {
+                                _id: comment._id,
+                                user: {
+                                    _id:user._id,
+                                    displayName:user.displayName,
+                                    profile_picture:user.profile_picture
+                                },
+                                content: comment.content,
+                                createdAt: moment(new Date(comment.createdAt).toUTCString()).fromNow(),
+                                replies: comment.replies
+                            };
+                        });
+                    } catch (e){
+                        return callback(e);
+                    }
+                    callback();
+                });
+            }, err=>{
+                if(err) console.error(err.message);
+                res.render('single', {title: "The Nomad Podcasts", podcast: podcast, comments: podcast_comments});
+                }
+            );
+
+
+
+
         }
-    })
+    });
 });
-/*
+
 router.get('/comment', function (req, res, next) {
-    Comment.findOne({_id:req.query['obj_id']},function (err, comment) {
-        if (err) return res.send("An error occurred: " + err);
-        User.findOne({_id:comment.user},{displayName:1},function (err, user) {
-            if (err) return res.send("An error occurred: " + err);
-            res.json({comment: {
-                _id:comment._id,
-                user:user,
-                content:comment.content,
-                createdAt:comment.createdAt
-            }});
-        })
-    })
+    let conf = [];
+    Comment.find({}, function (err, comments) {
+        async.forEachOf(comments, (value, key, callback) => {
+            User.findOne({_id: value.user}, function (err, user) {
+                if (err) return callback(err);
+                try {
+                    conf[key] = {
+                        _id: value._id,
+                        user: user.displayName,
+                        content: value.content,
+                        createdAt: moment(new Date(value.createdAt).toUTCString()).fromNow(),
+                        replies: value.replies
+                    };
+
+                } catch (e) {
+                    return callback(e);
+                }
+                callback();
+            });
+
+        }, err => {
+            if (err) console.error(err.message);
+            res.json(conf);
+        });
+    });
 });
-*/
+
 router.post('/play', function (req, res, next) {
     Podcast.findOneAndUpdate({_id: req.body['_id']}, {
         $inc: {
@@ -67,7 +118,7 @@ router.post('/play', function (req, res, next) {
     }, function (err, result) {
         if (err) res.end();
         else res.json({curr_played: result.stats.played + 1});
-    })
+    });
 });
 router.post('/comment', isLoggedIn, function (req, res, next) {
     let newComment = new Comment({
