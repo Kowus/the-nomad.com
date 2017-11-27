@@ -56,6 +56,6 @@
     "events": {
       "restart": "osascript -e 'display notification \"App restarted due to changes\" with title \"the-nomad.com\"'"
     },
-    "delay": "2500"
+    "delay": "500"
   }
 }

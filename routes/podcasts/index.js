@@ -38,8 +38,9 @@ router.get('/view/:permalink', function (req, res, next) {
             // render the error page
             res.status( 500);
             res.render('error',{hide_footer:true});
+        }else {
+            res.render('single', {title: "The Nomad Podcasts", podcast: podcast, user: req.user || null});
         }
-        res.render('single', {title: "The Nomad Podcasts", podcast: podcast, user: req.user || null});
     })
 });
 router.get('/comment', function (req, res, next) {
