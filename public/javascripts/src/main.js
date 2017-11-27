@@ -254,7 +254,7 @@
         });
         posting.done(function (data) {
             $form.find('textarea[name="comment"]').val("");
-            $("#comments").append('<div class="text-left comment"><div class="pull-left"><img src="" class="comment-logo"><span class="comm-user">'+data.user.displayName+'</span></div><div class="pull-right">Controls</div><hr style="width: 80%;"><div class="comment-content">'+data.content+ '<br><small class="pull-right ion ion-clock"> '+data.createdAt+'</small></div><hr style="margin-bottom: 50px;"></div>');
+            $('<div class="text-left comment"><div class="pull-left"><img src="" class="comment-logo"><span class="comm-user">'+data.user.displayName+'</span></div><div class="pull-right">Controls</div><hr style="width: 80%;"><div class="comment-content">'+data.content+ '<br><small class="pull-right ion ion-clock"> '+data.createdAt+'</small></div><hr style="margin-bottom: 50px;"></div>').insertBefore('#comment-form');
             console.log(data)
         });
         posting.fail(function () {
@@ -266,6 +266,21 @@
     $('#categories').click(function () {
         $('#cat-zone').append('<div class="col-three"><div><input style="border: none; border-bottom: 1px solid #2a6495; width:80%" name="categories" placeholder="category" autofocus><span class="dismiss-category" style="font-size: x-large" onclick="$(this).parents()[1].remove()">&times;</span></div></div>');
     });
+
+    $('.reply-box').on("keypress", function(e) {
+        var $reply= $(this);
+        if (e.keyCode == 13) {
+            console.log($reply);
+$('<p>'+$reply.val()+'</p>').insertBefore($reply)
+
+
+            return false; // prevent the button click from happening
+        }
+    });
+
+
+
+    // Handle Uploads
 
     $("#upload_image").click(function () {
         // alert("Upload!");

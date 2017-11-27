@@ -82,12 +82,17 @@
                         <!--The Promise interface also allows jQuery's Ajax methods, including $.get(), to chain multiple .done(), .fail(), and .always() callbacks on a single request, and even to assign these callbacks after the request may have completed. If the request is already complete, the callback is fired immediately.-->
                         <br>
                         <small class="pull-right ion ion-clock"> {{comment.createdAt}}</small>
-                    </div>
+                        <hr style="clear: both; opacity:0;">
+                        <div class="reply_zone">
+                            <input placeholder="Post a reply"
+                                   style="border: none; border-bottom: 3px solid #3e85cd; width: 90%; margin-left: 5%"
+                                   class="reply-box">
+                        </div>
 
+                    </div>
                     <hr style="margin-bottom: 50px;">
                 </div>
             {{/each}}
-        </div>
             {{#if user}}
 
                 <form action="/podcasts/comment" id="comment-form" data-podcast="{{podcast._id}}">
@@ -101,7 +106,7 @@
                         to comment</h3>
                 </div>
             {{/if}}
-
+        </div>
     </div>
 
 </section> <!-- /process-->
