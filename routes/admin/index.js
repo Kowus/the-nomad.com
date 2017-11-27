@@ -7,7 +7,9 @@ var express = require('express'),
     multipart = require('connect-multiparty'),
     AWS = require('aws-sdk'),
     env = require('../../config/env'),
-    fs =require('fs')
+    fs =require('fs'),
+    rimraf = require('rimraf'),
+    path = require('path')
 ;
 
 AWS.config.update({
@@ -79,7 +81,9 @@ router.post('/upload/:file_type', function (req, res, next) {
                 console.log(err);
                 return res.status(err.code).send(err);
             }
-            console.log(data);
+            rimraf(path.dirname(req.files[file_type].path),function () {
+                console.log("Deleted temporary server files after upload")
+            });
             res.json({data, file_type: file_type});
         });
     });

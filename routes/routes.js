@@ -18,7 +18,7 @@ router.get('/', function (req, res, next) {
 
 router.get('/login', isNotLoggedIn, function (req, res, next) {
     req.session.next = req.query.next || '/';
-    res.render('login', {title: 'Login', hide_footer:true})
+    res.render('login', {title: 'Login', hide_footer:true, message:req.flash('loginMessage')})
 });
 
 router.post('/login',isNotLoggedIn, passport.authenticate('local-login', {
@@ -77,7 +77,8 @@ function needsGroup(group) {
             next();
         }
         else {
-            res.status(401).send('Unauthorized');
+            res.session.message= "Unauthorized Access";
+            res.status(401).redirect('/login');
         }
     };
 }
