@@ -30,6 +30,7 @@ hbs.registerHelper('if_eq', function (a, b, opts) {
     }
 });
 app.locals.curr_year = new Date().getUTCFullYear();
+app.locals.tiny_mce = config.tiny_mce.key;
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');

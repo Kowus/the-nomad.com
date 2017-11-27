@@ -1,3 +1,21 @@
+<script src="https://cloud.tinymce.com/stable/tinymce.min.js?{{tiny_mce}}"></script>
+
+<script>
+    tinymce.init({
+        selector: 'textarea#text-content',
+        height: 500,
+        menubar: false,
+        plugins: [
+            'advlist autolink lists link image charmap print preview anchor textcolor',
+            'searchreplace visualblocks code fullscreen',
+            'insertdatetime media table contextmenu paste code help'
+        ],
+        toolbar: 'insert | undo redo |  formatselect | bold italic backcolor  | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
+        content_css: [
+            '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+            '//www.tinymce.com/css/codepen.min.css']
+    });
+</script>
 <section id="process">
 
     <div class="row section-intro">
@@ -36,7 +54,7 @@
                     </fieldset>
                     <hr style="width:60%; margin: 0 auto">
                     <fieldset style="margin-top: 50px;">
-                        <textarea name="text" style="width: 100%; resize: none" placeholder="Content Text Here">Use Tiny MCE</textarea>
+                        <textarea name="text" style="width: 100%; resize: none" placeholder="Content Text Here" id="text-content"></textarea>
                     </fieldset>
                     <hr>
                     <fieldset>
