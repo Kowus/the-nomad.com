@@ -48,8 +48,18 @@
             <div style="text-align: left;">
                 {{{podcast.content.text}}}
             </div>
+
+            {{#each podcast.take_aways as |lesson|}}
+                <blockquote class="text-left">
+                    {{lesson}}
+                    <cite class="text-right" style="font-size: 1.3em">
+                        <a class="ion ion-social-twitter"> </a> |
+                        <a class="ion ion-social-facebook"> </a>
+                    </cite>
+                </blockquote>
+            {{/each}}
             <p class="lead" style="color: #353F49;">
-                <span style="color: #3F3F3F; font-weight: 700;">{{{podcast.title}}}</span> by {{podcast.guest.name}}
+                <span style="color: #3F3F3F; font-weight: 700;">{{{podcast.title}}}</span> <i>by</i> {{podcast.guest.name}}
             </p>
         </div>
         <div class="col-twelve" id="comments">

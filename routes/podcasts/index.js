@@ -20,8 +20,25 @@ router.get('/', function (req, res, next) {
 });
 router.get('/view/:permalink', function (req, res, next) {
     Podcast.findOne({permalink: req.params['permalink']}, function (err, podcast) {
-        if (err) return res.send("An error occurred: " + err);
+        if (err) {
+            res.locals.message = err.message;
+            res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+            // render the error page
+            res.status(err.status || 500);
+            res.render('error');
+        }
         res.locals.curr_page = 'single';
+        // console.log("podcast: ",podcast);
+
+        if(podcast == null){
+            res.locals.message = 'Could not find the requested podcast';
+            res.locals.error = req.app.get('env') === 'development' ? {status: 404, stack: `Requested file ${req.params['permalink']} not found.`} : {status: 404, stack: `Requested file ${req.params['permalink']} not found.`};
+
+            // render the error page
+            res.status( 500);
+            res.render('error',{hide_footer:true});
+        }
         res.render('single', {title: "The Nomad Podcasts", podcast: podcast, user: req.user || null});
     })
 });
