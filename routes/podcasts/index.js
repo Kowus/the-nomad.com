@@ -43,6 +43,7 @@ router.get('/view/:permalink', function (req, res, next) {
         }
     })
 });
+/*
 router.get('/comment', function (req, res, next) {
     Comment.findOne({_id:req.query['obj_id']},function (err, comment) {
         if (err) return res.send("An error occurred: " + err);
@@ -57,6 +58,7 @@ router.get('/comment', function (req, res, next) {
         })
     })
 });
+*/
 router.post('/play', function (req, res, next) {
     Podcast.findOneAndUpdate({_id: req.body['_id']}, {
         $inc: {

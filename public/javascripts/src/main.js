@@ -285,7 +285,7 @@
                 type: 'POST',
                 success: function (data, status, req) {
                         btn.attr('value', 'Uploaded Successfully');
-                        $('#image_loc').val(data.Location)
+                        $('#image_loc').val(data.data.Location)
                 },
                 error: function (req, status, error) {
                     alert("error uploading image");
@@ -314,7 +314,7 @@
                 type: 'POST',
                 success: function (data, status, req) {
                         btn.attr('value', 'Uploaded Successfully');
-                        $('#audio_loc').val(data.Location)
+                        $('#audio_loc').val(data.data.Location)
                 },
                 error: function (req, status, error) {
                     btn.attr('disabled', false);
