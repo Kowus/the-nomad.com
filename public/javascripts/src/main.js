@@ -262,9 +262,8 @@
 
 
     $('#categories').click(function () {
-        $('#cat-zone').prepend('<div class="col-three"><div><input style="border: none; border-bottom: 1px solid #2a6495; width:80%" name="categories" placeholder="category"><span class="dismiss-category" style="font-size: x-large" onclick="$(this).parents()[1].remove()">&times;</span></div></div>');
+        $('#cat-zone').prepend('<div class="col-three"><div><input style="border: none; border-bottom: 1px solid #2a6495; width:80%" name="categories" placeholder="category" autofocus><span class="dismiss-category" style="font-size: x-large" onclick="$(this).parents()[1].remove()">&times;</span></div></div>');
     });
-
 
     $("#upload_image").click(function () {
         // alert("Upload!");
