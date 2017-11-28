@@ -2376,7 +2376,7 @@ footer ul li {
 .footer-main .footer-logo {
     width: 162px;
     height: 39px;
-    background: url("../../images/footer-logo.png") no-repeat center;
+    background: url("../../images/footer-logo_v2.png") no-repeat center;
     background-size: 162px 39px;
     margin: -.6rem 0 2.1rem -.3rem;
     display: block;
@@ -3047,4 +3047,10 @@ input[type=range]:focus::-ms-fill-upper {
 .reply_user {
     font-size: .8em;
     margin-bottom: 0;
+}
+.action>a{
+    color:rgb(200,200,200);
+}
+.action>a:hover{
+    text-shadow: 1px 1px 1px floralwhite;
 }
