@@ -255,7 +255,7 @@
         });
         posting.done(function (data) {
             $form.find('textarea[name="comment"]').val("");
-            $('<div class="text-left comment"><div class="pull-left"><img src="" class="comment-logo"><span class="comm-user">' + data.user.displayName + '</span></div><div class="pull-right">Controls</div><hr style="width: 80%;"><div class="comment-content">' + data.content + '<br><small class="pull-right ion ion-clock"> ' + data.createdAt + '</small></div><hr style="margin-bottom: 50px;"></div>').insertBefore('#comment-form');
+            $('<div class="text-left comment"><div class="pull-left"><img src="" class="comment-logo"><span class="comm-user">' + data.user.displayName + '</span></div><div class="pull-right">Controls</div><hr style="width: 80%;"><div class="comment-content">' + data.content + '<br><small class="pull-right ion ion-clock"> ' + data.createdAt + '</small><hr style="clear: both; opacity: 0;"><div class="reply_zone"><input placeholder="Post a reply" class="reply-box" data-comment_id='+data._id+'></div></div><hr style="margin-bottom: 50px;"></div>').insertBefore('#comment-form');
         });
         posting.fail(function () {
             alert("error");

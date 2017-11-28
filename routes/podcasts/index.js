@@ -34,7 +34,7 @@ router.get('/view/:permalink', function (req, res, next) {
         res.locals.curr_page = 'single';
         // console.log("podcast: ",podcast);
 
-        if (podcast == null) {
+        if (podcast === null) {
             res.locals.message = 'Could not find the requested podcast';
             res.locals.error = req.app.get('env') === 'development' ? {
                 status: 404,
@@ -149,6 +149,7 @@ router.post('/comment', isLoggedIn, function (req, res, next) {
             }, function (err, podcast) {
                 if (err) return res.status(404).json(err);
                 else return res.json({
+                    _id:comment._id,
                     status: 200,
                     msg: "OK",
                     user: {
