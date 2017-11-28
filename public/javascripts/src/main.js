@@ -115,7 +115,7 @@
             slideshowSpeed: 7000,
             animationSpeed: 600,
             randomize: false,
-            touch: true,
+            touch: true
         });
 
     });
@@ -144,7 +144,7 @@
     /*  Placeholder Plugin Settings
     ------------------------------------------------------*/
 
-    $('input, textarea, select').placeholder()
+    $('input, textarea, select').placeholder();
 
 
     /*---------------------------------------------------- */
@@ -152,7 +152,7 @@
      ------------------------------------------------------ */
 
     // Example MailChimp url: http://xxx.xxx.list-manage.com/subscribe/post?u=xxx&id=xxx
-    var mailChimpURL = 'http://facebook.us8.list-manage.com/subscribe/post?u=cdb7b577e41181934ed6a6a44&amp;id=e65110b38d'
+    var mailChimpURL = 'http://facebook.us8.list-manage.com/subscribe/post?u=cdb7b577e41181934ed6a6a44&amp;id=e65110b38d';
 
     $('#mc-form').ajaxChimp({
 
@@ -180,7 +180,7 @@
         3: '<i class="fa fa-warning"></i> E-mail address is not valid.',
         4: '<i class="fa fa-warning"></i> E-mail address is not valid.',
         5: '<i class="fa fa-warning"></i> E-mail address is not valid.'
-    }
+    };
 
 
     /*---------------------------------------------------- */
@@ -224,7 +224,8 @@
     var pxShow = 300; // height on which the button will show
     var fadeInTime = 400; // how slow/fast you want the button to show
     var fadeOutTime = 400; // how slow/fast you want the button to hide
-    var scrollSpeed = 300; // how slow/fast you want the button to scroll to top. can be a value, 'slow', 'normal' or 'fast'
+    var scrollSpeed = 300; // how slow/fast you want the button to scroll to top. can be a value, 'slow', 'normal' or
+                           // 'fast'
 
     // Show or hide the sticky footer button
     jQuery(window).scroll(function () {
@@ -254,12 +255,11 @@
         });
         posting.done(function (data) {
             $form.find('textarea[name="comment"]').val("");
-            $('<div class="text-left comment"><div class="pull-left"><img src="" class="comment-logo"><span class="comm-user">'+data.user.displayName+'</span></div><div class="pull-right">Controls</div><hr style="width: 80%;"><div class="comment-content">'+data.content+ '<br><small class="pull-right ion ion-clock"> '+data.createdAt+'</small></div><hr style="margin-bottom: 50px;"></div>').insertBefore('#comment-form');
-            console.log(data)
+            $('<div class="text-left comment"><div class="pull-left"><img src="" class="comment-logo"><span class="comm-user">' + data.user.displayName + '</span></div><div class="pull-right">Controls</div><hr style="width: 80%;"><div class="comment-content">' + data.content + '<br><small class="pull-right ion ion-clock"> ' + data.createdAt + '</small></div><hr style="margin-bottom: 50px;"></div>').insertBefore('#comment-form');
         });
         posting.fail(function () {
             alert("error");
-        })
+        });
     });
 
 
@@ -267,17 +267,16 @@
         $('#cat-zone').append('<div class="col-three"><div><input style="border: none; border-bottom: 1px solid #2a6495; width:80%" name="categories" placeholder="category" autofocus><span class="dismiss-category" style="font-size: x-large" onclick="$(this).parents()[1].remove()">&times;</span></div></div>');
     });
 
-    $('.reply-box').on("keypress", function(e) {
-        var $reply= $(this);
+    $('.reply-box').on("keypress", function (e) {
+        var $reply = $(this);
         if (e.keyCode == 13) {
             console.log($reply);
-$('<p>'+$reply.val()+'</p>').insertBefore($reply)
+            $('<p>' + $reply.val() + '</p>').insertBefore($reply);
 
 
             return false; // prevent the button click from happening
         }
     });
-
 
 
     // Handle Uploads
@@ -286,7 +285,7 @@ $('<p>'+$reply.val()+'</p>').insertBefore($reply)
         // alert("Upload!");
         var btn = $(this);
         var file_data = $("#image_box").prop("files")[0];
-        if(file_data) {
+        if (file_data) {
 
 
             var form_data = new FormData();
@@ -301,8 +300,8 @@ $('<p>'+$reply.val()+'</p>').insertBefore($reply)
                 contentType: false,
                 type: 'POST',
                 success: function (data, status, req) {
-                        btn.attr('value', 'Uploaded Successfully');
-                        $('#image_loc').val(data.data.Location)
+                    btn.attr('value', 'Uploaded Successfully');
+                    $('#image_loc').val(data.data.Location);
                 },
                 error: function (req, status, error) {
                     alert("error uploading image");
@@ -310,14 +309,14 @@ $('<p>'+$reply.val()+'</p>').insertBefore($reply)
                     btn.attr('value', 'Try Again');
                 }
             });
-        }else alert('Attach an image file to upload!')
+        } else alert('Attach an image file to upload!');
     });
 
     $("#upload_audio").click(function () {
         // alert("Upload!");
         var btn = $(this);
         var file_data = $("#audio_box").prop("files")[0];
-        if(file_data) {
+        if (file_data) {
             var form_data = new FormData();
             btn.attr('disabled', true);
             btn.attr('value', 'Submitting..');
@@ -330,8 +329,8 @@ $('<p>'+$reply.val()+'</p>').insertBefore($reply)
                 contentType: false,
                 type: 'POST',
                 success: function (data, status, req) {
-                        btn.attr('value', 'Uploaded Successfully');
-                        $('#audio_loc').val(data.data.Location)
+                    btn.attr('value', 'Uploaded Successfully');
+                    $('#audio_loc').val(data.data.Location);
                 },
                 error: function (req, status, error) {
                     btn.attr('disabled', false);
@@ -339,7 +338,7 @@ $('<p>'+$reply.val()+'</p>').insertBefore($reply)
                     alert("error uploading audio");
                 }
             });
-        }else alert('Attach an audio file to upload!')
+        } else alert('Attach an audio file to upload!');
     });
 
 })(jQuery);

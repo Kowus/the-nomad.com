@@ -3015,14 +3015,36 @@ input[type=range]:focus::-ms-fill-upper {
 .ion-social-twitter {
     color: #2fcbf1;
 }
+
 .ion-social-twitter:hover {
     color: #fff;
     text-shadow: 1px 1px 8px #3a87ad;
 }
-.ion-social-facebook{
+
+.ion-social-facebook {
     color: #3e85cd;
 }
+
 .ion-social-facebook:hover {
     color: #fff;
     text-shadow: 1px 1px 5px #3e85cd;
+}
+
+.reply_content {
+    margin-left: 10%;
+    font-size: .9em;
+    line-height: 1.2em;
+    margin-bottom: 0;
+}
+
+.reply-box {
+    border: none;
+    border-bottom: 3px solid #3e85cd;
+    width: 90%;
+    margin-left: 5%
+}
+
+.reply_user {
+    font-size: .8em;
+    margin-bottom: 0;
 }
