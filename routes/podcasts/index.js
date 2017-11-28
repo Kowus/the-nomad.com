@@ -63,7 +63,7 @@ router.get('/view/:permalink', function (req, res, next) {
                                     createdAt: moment(new Date(comment.createdAt).toUTCString()).fromNow(),
                                     replies: comment.replies
                                 };
-                                
+
                             });
                         } catch (e) {
                             return callback(e);

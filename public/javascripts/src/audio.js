@@ -202,6 +202,11 @@ function initEvents() {
     });
 
 
+    [].forEach.call(document.getElementsByClassName("podcast-date"), function (el) {
+        el.innerText = moment(new Date(el.getAttribute('data-date')).toUTCString()).format('Do MMM. YYYY');
+    });
+
+
 }
 
 window.addEventListener("DOMContentLoaded", initEvents, false);
