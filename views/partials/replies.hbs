@@ -1,0 +1,13 @@
+{{#each comment.replies as |reply|}}
+
+    <div style="margin-left:5%;">
+        <div class="pull-left reply_user">
+            <img src="" class="comment-logo" style="width:20px; height: 20px;">
+            <span class="comm-user">{{reply.user.displayName}}</span>
+        </div>
+        <hr style="opacity: 0;margin: 0;padding: 0;clear: both;">
+        <p class="reply_content">{{reply.content}}</p>
+        <small class="pull-right ion ion-clock"> {{reply.createdAt}}</small>
+        <hr style="opacity: 0;margin: 0;padding: 0;clear: both;">
+    </div>
+{{/each}}

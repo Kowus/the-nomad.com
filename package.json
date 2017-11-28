@@ -54,11 +54,11 @@
     "watch": [
       "*.js",
       "*.json",
-      "views/partials/*"
+      "views/partials/*.hbs"
     ],
     "events": {
       "restart": "osascript -e 'display notification \"App restarted due to changes\" with title \"the-nomad.com\"'"
     },
-    "delay": "500"
+    "delay": "100"
   }
 }

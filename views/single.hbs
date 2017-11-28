@@ -82,17 +82,10 @@
                         <small class="pull-right ion ion-clock"> {{comment.createdAt}}</small>
                         <hr style="clear: both; opacity:0;">
 
+
                         <div class="reply_zone">
-                            <div style="margin-left:5%;">
-                                <div class="pull-left reply_user">
-                                    <img src="" class="comment-logo" style="width:20px; height: 20px;">
-                                    <span class="comm-user">Username</span>
-                                </div>
-                                <hr style="opacity: 0;margin: 0;padding: 0;clear: both;">
-                                <p class="reply_content">We could be free All the particles experience spheroid, gravimetric crews.</p>
-                                <small class="pull-right ion ion-clock"> 3 minutes ago</small>
-                                <hr style="opacity: 0;margin: 0;padding: 0;clear: both;">
-                            </div>
+                            {{>replies}}
+
                             <input placeholder="Post a reply" class="reply-box">
                         </div>
 

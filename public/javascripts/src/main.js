@@ -270,10 +270,19 @@
     $('.reply-box').on("keypress", function (e) {
         var $reply = $(this);
         if (e.keyCode == 13) {
-            console.log($reply);
-            $('<p>' + $reply.val() + '</p>').insertBefore($reply);
 
+            $('<div style="margin-left:5%;">\n' +
+                '    <div class="pull-left reply_user">\n' +
+                '        <img src="" class="comment-logo" style="width:20px; height: 20px;">\n' +
+                '        <span class="comm-user">Username</span>\n' +
+                '    </div>\n' +
+                '    <hr style="opacity: 0;margin: 0;padding: 0;clear: both;">\n' +
+                '    <p class="reply_content">'+$reply.val()+'</p>\n' +
+                '    <small class="pull-right ion ion-clock"> 1 hour ago</small>\n' +
+                '    <hr style="opacity: 0;margin: 0;padding: 0;clear: both;">\n' +
+                '</div>').insertBefore($reply);
 
+$reply.val("");
             return false; // prevent the button click from happening
         }
     });
