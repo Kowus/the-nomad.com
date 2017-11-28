@@ -69,7 +69,7 @@
             <hr style="margin-bottom: 50px;">
             {{#each comments as |comment|}}
 
-                <div class="text-left comment" data-_id="{{comment._id}}">
+                <div class="text-left comment">
                     <div class="pull-left">
                         <img src="" class="comment-logo">
                         <span class="comm-user">{{comment.user.displayName}}</span></div>
@@ -86,7 +86,12 @@
                         <div class="reply_zone">
                             {{>replies}}
 
-                            <input placeholder="Post a reply" class="reply-box">
+                            {{#if ../user}}
+                            <input placeholder="Post a reply" class="reply-box" data-comment_id="{{comment._id}}">
+                            {{else}}
+                                <em style="margin-left: 5%; letter-spacing: 2px;">Please <a href="/login?next=/podcasts/view/{{../podcast.permalink}}">login</a>
+                                    to reply.</em>
+                            {{/if}}
                         </div>
 
                     </div>

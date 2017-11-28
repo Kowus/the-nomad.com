@@ -63,6 +63,7 @@ router.get('/view/:permalink', function (req, res, next) {
                                     createdAt: moment(new Date(comment.createdAt).toUTCString()).fromNow(),
                                     replies: comment.replies
                                 };
+                                
                             });
                         } catch (e) {
                             return callback(e);
@@ -130,7 +131,6 @@ router.post('/comment', isLoggedIn, function (req, res, next) {
 
     newComment.save(function (err, comment) {
         if (err) return res.status(404).json(err);
-        let id = comment._id;
         User.findOneAndUpdate({_id: comment.user}, {
             $push: {
                 comments: {
@@ -161,8 +161,48 @@ router.post('/comment', isLoggedIn, function (req, res, next) {
             });
         });
     });
+});
 
-
+router.post('/reply', isLoggedIn, function (req, res, next) {
+    let newReply = new Comment({
+        user: req.user._id,
+        podcast: req.body.podcast,
+        content: req.body.content,
+        isReply:true,
+        replyTo: req.body.comment_id
+    });
+    newReply.save((err, reply) => {
+        if (err) return res.status(404).json(err);
+        User.findOneAndUpdate({_id: reply.user}, {
+            $push: {
+                comments: {
+                    $position: 0,
+                    $each: [reply._id]
+                }
+            }
+        }, err=>{
+            if(err) return res.status(404).json(err);
+            Comment.findOneAndUpdate({_id:req.body.comment_id},{
+                $push:{
+                    replies:{
+                        $each:[reply._id]
+                    }
+                }
+            },err=>{
+                if(err) return res.status(404).json(err);
+                else return res.json({
+                    status: 200,
+                    msg:'OK',
+                    user:{
+                        displayName:req.user.displayName,
+                        profile_picture:req.user.profile_picture
+                    },
+                    content: reply.content,
+                    createdAt:moment(new Date(reply.createdAt).toUTCString()).fromNow()
+                });
+            });
+        });
+    });
 });
 
 module.exports = router;
