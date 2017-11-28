@@ -4,21 +4,23 @@
     <div class="modal-content">
         <div class="modal-header">
             <span class="close" id="close-contacts">&times;</span>
-            <h2>Modal Header</h2>
+            <h2>Contact</h2>
         </div>
         <div class="modal-body">
-            <form style="margin: 10px 10px 0 10px;">
-                <fieldset>
-                    <label for="family_name">Full Name</label>
-                    <input placeholder="Full Name" required id="family_name">
-                </fieldset>
-                <fieldset>
-                    <label for="contact-email">Email</label>
-                    <input placeholder="Email" required type="email" id="contact-email">
-                </fieldset>
+            <form style="margin: 10px 10px 0 10px;" action="/contact" method="post">
+                {{#unless user}}
+                    <fieldset>
+                        <label for="family_name">Full Name</label>
+                        <input placeholder="Full Name" required id="family_name" style="color: white">
+                    </fieldset>
+                    <fieldset>
+                        <label for="contact-email">Email</label>
+                        <input placeholder="Email" required type="email" id="contact-email">
+                    </fieldset>
+                {{/unless}}
                 <fieldset>
                     <label for="contact-message"> Message</label>
-                    <textarea id="contact-message" required style="width: 100%;" placeholder="Message Here" ></textarea>
+                    <textarea id="contact-message" required style="width: 100%;" placeholder="Message Here" name="message"></textarea>
                 </fieldset>
                 <hr>
                 <button class="send-mail"><i class="ion ion-ios-paperplane"></i></button>
