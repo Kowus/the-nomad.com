@@ -192,7 +192,7 @@ function initEvents() {
                 var mybar = pane.getElementsByClassName('myBar')[0];
                 var oAudio = document.getElementById('myaudio'),
                     audioUrl = pane.getElementsByClassName('audio-src')[0];
-                if (oAudio.src.toString() == audioUrl.value.toString()) {
+                if (oAudio.src.toString() === audioUrl.value.toString()) {
                     oAudio.currentTime = mybar.value;
                 }
             } catch (e) {
