@@ -1206,7 +1206,7 @@ a.menu-toggle {
  */
 
 #intro {
-    background: #14181E url(../../images/intro-bg.jpg) no-repeat center;
+    background: #14181E url(../../images/water-gaze.jpg) no-repeat center;
     background-size: cover;
     width: 100%;
     height: 100%;
@@ -1216,10 +1216,10 @@ a.menu-toggle {
 }
 
 #intro-podcasts {
-    background: #14181E url(../../images/intro-bg.jpg) no-repeat center;
+    background: #14181E url(../../images/waterfall.jp2) no-repeat top;
     background-size: cover;
     width: 100%;
-    height: 30%;
+    height: 50%;
     min-height: 320px;
     display: table;
     position: relative;
@@ -1379,12 +1379,13 @@ a.menu-toggle {
  * video popup modal
  * - 
  */
+/*
 
 .popup-modal {
     max-width: 800px;
     background: #FFF;
     position: relative;
-    margin: 0 auto; /* close */
+    margin: 0 auto; !* close *!
 }
 
 .popup-modal .close-popup {
@@ -1412,6 +1413,7 @@ a.menu-toggle {
     font-size: 21px;
     color: rgba(255, 255, 255, 0.5);
 }
+*/
 
 /**
  * responsive:
@@ -1420,7 +1422,7 @@ a.menu-toggle {
  */
 
 @media only screen and (max-width: 900px) {
-    .popup-modal {
+/*    .popup-modal {
         max-width: 700px;
     }
 }
@@ -1429,7 +1431,7 @@ a.menu-toggle {
     .popup-modal {
         width: auto;
         margin: 0 20px;
-    }
+    }*/
 }
 
 /**
@@ -2698,7 +2700,7 @@ footer ul li {
     padding: 5px;
 }
 
-#contact-modal {
+/*#contact-modal {
     border: 1px solid white;
     border-radius: 10px;
     background-color: white;
@@ -2712,7 +2714,7 @@ footer ul li {
 
 .modal-header {
     font-size: 2em;
-}
+}*/
 
 input {
     width: 100%;
@@ -3053,4 +3055,87 @@ input[type=range]:focus::-ms-fill-upper {
 }
 .action>a:hover{
     text-shadow: 1px 1px .4px floralwhite;
+}
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 9999999999; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    color: floralwhite;
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.53);
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    width: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    -webkit-animation-name: animatetop;
+            animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+            animation-duration: 0.4s
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-header {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    padding: 2px 16px;
+    background-color: #14181E;
+    color: white;
+}
+.modal-header>h2{
+    margin-top: 40px;
+    color: floralwhite;
+}
+.modal-body {padding: 2px 16px;}
+
+.modal-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 2px 16px;
+    background-color: rgba(0,0,0,0);
+    color: white;
+}
+.modal-footer>h3{
+    color: floralwhite;
 }

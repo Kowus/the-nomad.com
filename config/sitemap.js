@@ -3,7 +3,6 @@ let router = express.Router();
 let sm = require('sitemap');
 let Podcast = require('../models/podcasts');
 
-
 let sitemap = sm.createSitemap({
     hostname: 'https://the-nomad.com',
     cacheTime: 600000,
@@ -20,7 +19,7 @@ function addToSitemap(podcast) {
 
 
 router.get('/', function (req, res, next) {
-    Podcast.find({}, function (err, podcast) {
+    Podcast.find({},{permalink:1,_id:0}, function (err, podcast) {
         if (err) console.error('could not get podcasts');
         podcast.map(addToSitemap);
 

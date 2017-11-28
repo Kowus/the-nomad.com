@@ -21,7 +21,9 @@ router.get('/', function (req, res, next) {
     });
 });
 router.get('/view/:permalink', function (req, res, next) {
-    let podcast_comments = [];
+    let podcast_comments = [],
+        reps=[]
+    ;
     Podcast.findOne({permalink: req.params['permalink']}, function (err, podcast) {
         if (err) {
             res.locals.message = err.message;
@@ -52,18 +54,21 @@ router.get('/view/:permalink', function (req, res, next) {
                         try {
                             User.findOne({_id: comment.user}, {displayName: 1, profile_picture: 1}, (err, user) => {
                                 if (err) return callback(err);
-                                podcast_comments[key] = {
-                                    _id: comment._id,
-                                    user: {
-                                        _id: user._id,
-                                        displayName: user.displayName,
-                                        profile_picture: user.profile_picture
-                                    },
-                                    content: comment.content,
-                                    createdAt: moment(new Date(comment.createdAt).toUTCString()).fromNow(),
-                                    replies: comment.replies
-                                };
-
+                                if(!comment.isReply) {
+                                    podcast_comments[key] = {
+                                        _id: comment._id,
+                                        user: {
+                                            _id: user._id,
+                                            displayName: user.displayName,
+                                            profile_picture: user.profile_picture
+                                        },
+                                        content: comment.content,
+                                        createdAt: moment(new Date(comment.createdAt).toUTCString()).fromNow()
+                                    };
+                                }else {
+                                    // Find comment with that ID and stick it in.
+                                    console.log('found reply: ', comment)
+                                }
                             });
                         } catch (e) {
                             return callback(e);
@@ -149,7 +154,7 @@ router.post('/comment', isLoggedIn, function (req, res, next) {
             }, function (err, podcast) {
                 if (err) return res.status(404).json(err);
                 else return res.json({
-                    _id:comment._id,
+                    _id: comment._id,
                     status: 200,
                     msg: "OK",
                     user: {
@@ -169,7 +174,7 @@ router.post('/reply', isLoggedIn, function (req, res, next) {
         user: req.user._id,
         podcast: req.body.podcast,
         content: req.body.content,
-        isReply:true,
+        isReply: true,
         replyTo: req.body.comment_id
     });
     newReply.save((err, reply) => {
@@ -181,25 +186,34 @@ router.post('/reply', isLoggedIn, function (req, res, next) {
                     $each: [reply._id]
                 }
             }
-        }, err=>{
-            if(err) return res.status(404).json(err);
-            Comment.findOneAndUpdate({_id:req.body.comment_id},{
-                $push:{
-                    replies:{
-                        $each:[reply._id]
+        }, err => {
+            if (err) return res.status(404).json(err);
+            Comment.findOneAndUpdate({_id: req.body.comment_id}, {
+                $push: {
+                    replies: {
+                        $each: [reply._id]
                     }
                 }
-            },err=>{
-                if(err) return res.status(404).json(err);
-                else return res.json({
-                    status: 200,
-                    msg:'OK',
-                    user:{
-                        displayName:req.user.displayName,
-                        profile_picture:req.user.profile_picture
-                    },
-                    content: reply.content,
-                    createdAt:moment(new Date(reply.createdAt).toUTCString()).fromNow()
+            }, err => {
+                if (err) return res.status(404).json(err);
+                Podcast.findOneAndUpdate({_id:reply.podcast},{
+                    $push:{
+                        comments:{
+                            $each:[reply._id]
+                        }
+                    }
+                }, err=>{
+                    if (err) return res.status(404).json(err);
+                    else return res.json({
+                        status: 200,
+                        msg: 'OK',
+                        user: {
+                            displayName: req.user.displayName,
+                            profile_picture: req.user.profile_picture
+                        },
+                        content: reply.content,
+                        createdAt: moment(new Date(reply.createdAt).toUTCString()).fromNow()
+                    });
                 });
             });
         });
