@@ -47,6 +47,10 @@ router.get('/logout', function (req, res, next) {
     res.redirect('/');
 });
 
+router.get('/unsubscribe', function (req, res, next) {
+    res.render('error',{error:{status:'success', stack:'You successfully unsubscribed from email notifications.'},message:"Successfully Unsubscribed"});
+});
+
 router.use('/@admin', needsGroup('admin'), require('./admin/index'));
 
 router.use('/podcasts', require('./podcasts/index'));
