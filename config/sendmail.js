@@ -21,10 +21,10 @@ const email = new Email({
     message:{
         from:'Barnabas Nomo <barnabasnomo@gmail.com>'
     },
-    send:true,
+    // send:true,
     transport:transporter,views:{
         options:{
-            extension:'hbs'
+            extension:'handlebars'
         }
     }
 });
@@ -34,7 +34,7 @@ const email = new Email({
 module.exports={
     sendWelcome: function (user, token) {
         email.send({
-            render:path.normalize('../../views/email'),
+            template:path.normalize('../../views/email/confirm_account'),
             message:{
                 to:`${user.displayName} <${user.email}>`
             },
