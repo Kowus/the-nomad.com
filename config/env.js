@@ -16,5 +16,8 @@ module.exports ={
     },
     tiny_mce:{
         key:process.env.TINY_MCE_API_KEY
+    }, node_mailer:{
+        user:process.env.NODE_MAILER_AUTH_EMAIL,
+        pass:process.env.NODE_MAILER_AUTH_PASSWORD
     }
 };
