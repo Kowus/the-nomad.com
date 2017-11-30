@@ -29,6 +29,8 @@ const email = new Email({
     }
 });
 
+
+
 module.exports={
     sendConfirmation: function (user, token) {
         email.send({
@@ -39,6 +41,6 @@ module.exports={
             locals:{
                 user:user, token:token
             }
-        }).then(console.log)
+        }).then(console.log).catch(console.error);
     }
 };

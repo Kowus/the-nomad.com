@@ -30,7 +30,8 @@ router.post('/login',isNotLoggedIn, passport.authenticate('local-login', {
 }));
 
 router.get('/profile', isLoggedIn, function (req, res, next) {
-        res.redirect(`${req.session.next}`)
+    let next_page = req.session.next||'/';
+        res.redirect(next_page)
 });
 router.get('/signup', isNotLoggedIn, function (req, res, next) {
     res.render('signup', {title: 'Signup', hide_footer:true})
