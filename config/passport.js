@@ -1,7 +1,9 @@
 /*
  * Created by barnabasnomo on 11/12/17 at 6:03 PM
 */
-const LocalStrategy = require('passport-local').Strategy;
+const LocalStrategy = require('passport-local').Strategy,
+    mailer = require('./sendmail')
+;
 let User = require('../models/user');
 
 module.exports = function (passport) {
@@ -40,8 +42,9 @@ module.exports = function (passport) {
 
 
                         //	save the user
-                        newUser.save(function (err) {
+                        newUser.save(function (err,user) {
                             if (err) throw err;
+                            mailer.sendConfirmation(user,'This Is a moCk toKen.')
                             return done(null, newUser);
                         });
                     }

@@ -29,19 +29,15 @@ const email = new Email({
     }
 });
 
-
-
 module.exports={
-    sendWelcome: function (user, token) {
+    sendConfirmation: function (user, token) {
         email.send({
-            template:path.normalize('../../views/email/confirm_account'),
+            template:'confirm_account',
             message:{
                 to:`${user.displayName} <${user.email}>`
             },
             locals:{
-                user:{
-                    displayName:user.displayName
-                }, token:token
+                user:user, token:token
             }
         }).then(console.log).catch(console.error);
     }

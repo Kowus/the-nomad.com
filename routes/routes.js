@@ -36,7 +36,7 @@ router.get('/signup', isNotLoggedIn, function (req, res, next) {
     res.render('signup', {title: 'Signup', hide_footer:true})
 });
 
-router.post('/signup', passport.authenticate('local-signup', {
+router.post('/signup', isNotLoggedIn, passport.authenticate('local-signup', {
     successRedirect: '/profile',
     failureRedirect: '/signup',
     failureFlash: true
