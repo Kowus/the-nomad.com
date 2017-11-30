@@ -8,33 +8,33 @@ let express = require('express'),
 router.get('/', function (req, res, next) {
     Podcast.aggregate(
         [
-            {$sort:{createdAt:-1} },
+            {$sort: {createdAt: -1}},
             {$limit: 3}
         ], function (err, podcasts) {
             if (err) return res.send("An error occurred: " + err);
-            res.render('index', {title: "The Nomad", podcasts: podcasts,user:req.user||null});
+            res.render('index', {title: "The Nomad", podcasts: podcasts, user: req.user || null});
         });
 });
 
 router.get('/login', isNotLoggedIn, function (req, res, next) {
     req.session.next = req.query.next || '/';
     let message = req.session.message || req.flash('loginMessage');
-    if(req.session.message) req.session.message=null;
-    res.render('login', {title: 'Login', hide_footer:true, message:message})
+    if (req.session.message) req.session.message = null;
+    res.render('login', {title: 'Login', hide_footer: true, message: message});
 });
 
-router.post('/login',isNotLoggedIn, passport.authenticate('local-login', {
+router.post('/login', isNotLoggedIn, passport.authenticate('local-login', {
     successRedirect: '/profile',
     failureRedirect: '/login',
     failureFlash: true
 }));
 
 router.get('/profile', isLoggedIn, function (req, res, next) {
-    let next_page = req.session.next||'/';
-        res.redirect(next_page)
+    let next_page = req.session.next || '/';
+    res.redirect(next_page);
 });
 router.get('/signup', isNotLoggedIn, function (req, res, next) {
-    res.render('signup', {title: 'Signup', hide_footer:true})
+    res.render('signup', {title: 'Signup', hide_footer: true});
 });
 
 router.post('/signup', isNotLoggedIn, passport.authenticate('local-signup', {
@@ -48,9 +48,18 @@ router.get('/logout', function (req, res, next) {
     res.redirect('/');
 });
 
+
 router.get('/unsubscribe', function (req, res, next) {
-    res.render('error',{error:{status:'success', stack:'You successfully unsubscribed from email notifications.'},message:"Successfully Unsubscribed"});
+    res.render('error', {
+        error: {status: 'success', stack: 'You successfully unsubscribed from email notifications.'},
+        message: "Successfully Unsubscribed"
+    });
 });
+
+router.get('/verify', passport.authenticate('jwt', {session: false}), (req, res) => {
+
+});
+
 
 router.use('/@admin', needsGroup('admin'), require('./admin/index'));
 
@@ -60,9 +69,9 @@ module.exports = router;
 
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
-        res.locals.user ={
-            displayName:req.user.displayName,
-            email: req.user.email,
+        res.locals.user = {
+            displayName: req.user.displayName,
+            email: req.user.email
 
         };
         return next();
@@ -84,7 +93,7 @@ function needsGroup(group) {
             next();
         }
         else {
-            req.session.message= "Unauthorized Access";
+            req.session.message = "Unauthorized Access";
             res.status(401).redirect(`/login?next=${req.originalUrl}`);
         }
     };

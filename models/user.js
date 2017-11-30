@@ -3,7 +3,8 @@
 */
 const mongoose = require('mongoose'),
     Schema = mongoose.Schema,
-    securePassword = require('secure-password')
+    securePassword = require('secure-password'),
+    gib = require('../lib/gibberish')
 ;
 
 pwd = securePassword();
@@ -33,11 +34,21 @@ let userSchema = new Schema({
     }, 
     likes:[],
     comments:[],
-    profile_picture:String
+    profile_picture:String,
+    account_stat:{
+        confirmed:{
+            type:Boolean,
+            default:false
+        },
+        confirmation_str:String
+    }
 });
 userSchema.pre('save', function (next) {
     let user = this;
     this.displayName = `${user.given_name} ${user.family_name}`;
+    if(this.isNew){
+        user.account_stat.confirmation_str = gib();
+    }
     if (this.isModified('password') || this.isNew) {
         let userPassword = Buffer.from(user.password);
         pwd.hash(userPassword, function (err, hash) {

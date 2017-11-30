@@ -2,13 +2,25 @@
  * Created by barnabasnomo on 11/12/17 at 6:03 PM
 */
 const LocalStrategy = require('passport-local').Strategy,
-    mailer = require('./sendmail')
+    mailer = require('./sendmail'),
+    JwtStrategy = require('passport-jwt').Strategy,
+    ExtractJwt = require('passport-jwt').ExtractJwt,
+    env = require('./env'),
+    jwt = require('jsonwebtoken')
 ;
 let User = require('../models/user');
 
+
+let opts = {
+    audience: env.jwt.audience,
+    issuer: env.jwt.issuer,
+    jwtFromRequest: ExtractJwt.fromUrlQueryParameter('token'),
+    secretOrKey: env.jwt.key
+};
+
 module.exports = function (passport) {
     passport.serializeUser(function (req, user, done) {
-        done(null, user.id)
+        done(null, user.id);
     });
 
     passport.deserializeUser(function (req, id, done) {
@@ -29,7 +41,7 @@ module.exports = function (passport) {
                 User.findOne({email: email}, function (err, user) {
                     if (err) return done(err);
                     if (user) {
-                        return done(null, false, req.flash('signupMessage', 'That email has already been used with an account.'))
+                        return done(null, false, req.flash('signupMessage', 'That email has already been used with an account.'));
                     } else {
                         //	User doesn't already exist
                         //	Create User
@@ -42,9 +54,27 @@ module.exports = function (passport) {
 
 
                         //	save the user
-                        newUser.save(function (err,user) {
-                            if (err) throw err;
-                            mailer.sendConfirmation(user,'This Is a moCk toKen.')
+                        newUser.save(function (err, user) {
+                            if (err) {
+                                console.log(err);
+                                return done(null, false, req.flash('signupMessage', "Couldn't create your account."));}
+                            jwt.sign({
+                                audience: env.jwt.audience,
+                                data: {
+                                    user: {
+                                        _id: user._id,
+                                        account_stat: {
+                                            confirmation_str: user.account_stat.confirmation_str
+                                        }
+                                    }
+                                },
+                                exp: Math.floor(Date.now() / 1000) + (259200),
+                                issuer: env.jwt.issuer
+
+                            }, env.jwt.key, (err, token) => {
+                                if(err) return console.log(err);
+                                mailer.sendConfirmation(user, token);
+                            });
                             return done(null, newUser);
                         });
                     }
@@ -79,5 +109,17 @@ module.exports = function (passport) {
         }
     ));
 
-
+    passport.use(new JwtStrategy(opts, (jwt_payload, done) => {
+        User.findOne({_id: jwt_payload.data._id}, (err, user) => {
+            if (err) {
+                return done(err, false);
+            }
+            if (user) {
+                return done(null, user);
+            } else {
+                return done(null, false);
+                // or you could create a new account
+            }
+        });
+    }));
 };
