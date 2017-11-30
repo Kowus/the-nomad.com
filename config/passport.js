@@ -8,7 +8,7 @@ let User = require('../models/user');
 
 module.exports = function (passport) {
     passport.serializeUser(function (req, user, done) {
-        done(null, user.id)
+        done(null, user.id);
     });
 
     passport.deserializeUser(function (req, id, done) {
@@ -29,7 +29,7 @@ module.exports = function (passport) {
                 User.findOne({email: email}, function (err, user) {
                     if (err) return done(err);
                     if (user) {
-                        return done(null, false, req.flash('signupMessage', 'That email has already been used with an account.'))
+                        return done(null, false, req.flash('signupMessage', 'That email has already been used with an account.'));
                     } else {
                         //	User doesn't already exist
                         //	Create User
@@ -42,10 +42,13 @@ module.exports = function (passport) {
 
 
                         //	save the user
-                        newUser.save(function (err,user) {
+                        newUser.save(function (err, user) {
                             if (err) throw err;
-                            mailer.sendConfirmation(user,'This Is a moCk toKen.')
-                            return done(null, newUser);
+                            mailer.sendConfirmation(user, 'This Is a moCk toKen.')
+                                .then(function () {
+                                    return done(null, user);
+                                })
+                                .catch(console.error);
                         });
                     }
                 });

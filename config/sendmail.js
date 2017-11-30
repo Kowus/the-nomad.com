@@ -39,6 +39,6 @@ module.exports={
             locals:{
                 user:user, token:token
             }
-        }).then(console.log).catch(console.error);
+        }).then(console.log)
     }
 };
