@@ -60,6 +60,10 @@ router.get('/verify', passport.authenticate('verify', {session: false}), (req, r
     res.json(req.user);
 });
 
+router.get('/nominate', (req, res, next)=>{
+   res.render('nominate',{title:'Nominate'})
+});
+
 
 router.use('/@admin', needsGroup('admin'), require('./admin/index'));
 
