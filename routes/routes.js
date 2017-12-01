@@ -56,8 +56,8 @@ router.get('/unsubscribe', function (req, res, next) {
     });
 });
 
-router.get('/verify', passport.authenticate('jwt', {session: false}), (req, res) => {
-
+router.get('/verify', passport.authenticate('verify', {session: false}), (req, res) => {
+    res.json(req.user);
 });
 
 

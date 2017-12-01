@@ -11,12 +11,7 @@ const LocalStrategy = require('passport-local').Strategy,
 let User = require('../models/user');
 
 
-let opts = {
-    audience: env.jwt.audience,
-    issuer: env.jwt.issuer,
-    jwtFromRequest: ExtractJwt.fromUrlQueryParameter('token'),
-    secretOrKey: env.jwt.key
-};
+
 
 module.exports = function (passport) {
     passport.serializeUser(function (req, user, done) {
@@ -59,7 +54,7 @@ module.exports = function (passport) {
                                 console.log(err);
                                 return done(null, false, req.flash('signupMessage', "Couldn't create your account."));}
                             jwt.sign({
-                                audience: env.jwt.audience,
+
                                 data: {
                                     user: {
                                         _id: user._id,
@@ -69,9 +64,9 @@ module.exports = function (passport) {
                                     }
                                 },
                                 exp: Math.floor(Date.now() / 1000) + (259200),
-                                issuer: env.jwt.issuer
 
-                            }, env.jwt.key, (err, token) => {
+
+                            }, env.jwt.key,{audience: env.jwt.audience,issuer: env.jwt.issuer}, (err, token) => {
                                 if(err) return console.log(err);
                                 mailer.sendConfirmation(user, token);
                             });
@@ -109,8 +104,27 @@ module.exports = function (passport) {
         }
     ));
 
-    passport.use(new JwtStrategy(opts, (jwt_payload, done) => {
-        User.findOne({_id: jwt_payload.data._id}, (err, user) => {
+
+
+    let opts = {
+
+    };
+        opts.audience= env.jwt.audience;
+        opts.issuer= env.jwt.issuer;
+        opts.jwtFromRequest= ExtractJwt.fromUrlQueryParameter('token');
+        opts.secretOrKey= env.jwt.key;
+
+
+    passport.use('verify', new JwtStrategy(opts, (jwt_payload, done) => {
+
+        User.findOneAndUpdate({_id: jwt_payload.data.user._id,"account_stat.confirmation_str":jwt_payload.data.user.account_stat.confirmation_str},{
+            $set:{
+                "account_stat.confirmed":true
+            },
+            $unset:{
+                "account_stat.confirmation_str":1
+            }
+        }, (err, user) => {
             if (err) {
                 return done(err, false);
             }
@@ -118,7 +132,6 @@ module.exports = function (passport) {
                 return done(null, user);
             } else {
                 return done(null, false);
-                // or you could create a new account
             }
         });
     }));
