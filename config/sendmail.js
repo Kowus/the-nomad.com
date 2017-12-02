@@ -42,5 +42,16 @@ module.exports={
                 user:user, token:token
             }
         }).then(console.log).catch(console.error);
+    },
+    nominate:function (user, nominee) {
+        email.send({
+            template:'nominate',
+            message:{
+                to:`${user.name} <${user.email}>`
+            },
+            locals:{
+                user:user, nominee:nominee
+            }
+        }).then(console.log).catch(console.error);
     }
 };
