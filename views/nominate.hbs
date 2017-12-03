@@ -90,7 +90,7 @@
             <div class="bgrid">
 
                 <small>Name of Nominee</small>
-                <input placeholder="Name of Person You Want To Nominate">
+                <input placeholder="Name of Person You Want To Nominate" style="height: 50px; background-color: #fff">
 
 
 
@@ -111,9 +111,9 @@
             <div class="bgrid">
                 <p>Who are you? And what is your relationship with this person</p>
                 <small>Name</small>
-                <input name="name" placeholder="name">
+                <input name="name" placeholder="name" style="height: 50px; background-color: #fff" {{#if user}} readonly disabled value="{{user.displayName}}" {{/if}}>
                 <small>Your Email Address</small>
-                <input name="email" type="email" placeholder="Your Email Address">
+                <input name="email" type="email" placeholder="Your Email Address" {{#if user}} readonly disabled value="{{user.email}}" {{/if}}>
 
                 <div>
                     <p style="margin-bottom: 0;">I nominated....</p>
@@ -129,7 +129,7 @@
             </div>
             <div class="text-center">
 
-<button class="large">Submit</button>
+<button class="large button button-primary">Submit</button>
             </div>
         </div> <!-- /q-and-a -->
     </div> <!-- /faq-content -->
