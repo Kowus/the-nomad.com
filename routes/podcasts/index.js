@@ -85,7 +85,6 @@ router.get('/view/:permalink', function (req, res, next) {
         }
     });
 });
-/*
 
 router.get('/comment', function (req, res, next) {
     let conf = [];
@@ -99,8 +98,8 @@ router.get('/comment', function (req, res, next) {
                         user: user.displayName,
                         content: value.content,
                         createdAt: moment(new Date(value.createdAt).toUTCString()).fromNow(),
-                        replies: value.replies
                     };
+                    async.parallel()
 
                 } catch (e) {
                     return callback(e);
@@ -114,7 +113,6 @@ router.get('/comment', function (req, res, next) {
         });
     });
 });
-*/
 
 router.post('/play', function (req, res, next) {
     Podcast.findOneAndUpdate({_id: req.body['_id']}, {
@@ -196,14 +194,7 @@ router.post('/reply', isLoggedIn, function (req, res, next) {
                 }
             }, err => {
                 if (err) return res.status(404).json(err);
-                Podcast.findOneAndUpdate({_id:reply.podcast},{
-                    $push:{
-                        comments:{
-                            $each:[reply._id]
-                        }
-                    }
-                }, err=>{
-                    if (err) return res.status(404).json(err);
+
                     else return res.json({
                         status: 200,
                         msg: 'OK',
@@ -217,7 +208,6 @@ router.post('/reply', isLoggedIn, function (req, res, next) {
                 });
             });
         });
-    });
 });
 
 module.exports = router;

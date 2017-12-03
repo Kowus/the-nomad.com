@@ -19,7 +19,7 @@ let transporter = nodemailer.createTransport({
 });
 const email = new Email({
     message:{
-        from:'Barnabas Nomo <barnabasnomo@gmail.com>'
+        from:'Barnabas Nomo'
     },
     // send:true,
     transport:transporter,views:{
