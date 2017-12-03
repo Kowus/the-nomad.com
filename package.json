@@ -55,11 +55,6 @@
       ".gtm/*",
       "scratch/"
     ],
-    "watch": [
-      "*.js",
-      "*.json",
-      "views/partials/*.hbs"
-    ],
     "events": {
       "restart": "osascript -e 'display notification \"App restarted due to changes\" with title \"the-nomad.com\"'"
     },

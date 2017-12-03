@@ -3,3 +3,10 @@ CACHE MANIFEST
 
 CACHE:
 /favicon.png
+/images/460.jpg
+/images/features-bg.jpg
+/images
+
+NETWORK:
+*
+
