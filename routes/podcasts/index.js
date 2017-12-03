@@ -99,7 +99,7 @@ router.get('/comment', function (req, res, next) {
                         content: value.content,
                         createdAt: moment(new Date(value.createdAt).toUTCString()).fromNow(),
                     };
-                    async.parallel()
+                    // async.parallel()
 
                 } catch (e) {
                     return callback(e);
