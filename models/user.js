@@ -40,7 +40,11 @@ let userSchema = new Schema({
             type:Boolean,
             default:false
         },
-        confirmation_str:String
+        confirmation_str:String,
+        subscribed:{
+            type: Boolean,
+            default:true
+        }
     }
 });
 userSchema.pre('save', function (next) {
