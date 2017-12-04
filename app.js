@@ -11,7 +11,9 @@ var express = require('express'),
     session = require('express-session'),
     flash = require('connect-flash'),
     hbs = require('hbs'),
-    compression = require('compression')
+    compression = require('compression'),
+    redis = require('redis').createClient(config.redis.url,{no_ready_check:true}),
+    RedisStore = require('connect-redis')(session)
 ;
 
 
@@ -45,7 +47,12 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({secret: config.session.secret, resave: true, saveUninitialized: true}));
+app.use(session({
+    resave: false,
+    saveUninitialized: true,
+    secret: config.session.secret,
+    store: new RedisStore(redis)
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
@@ -84,6 +91,10 @@ mongoose.connection.on('error', function (err) {
 });
 mongoose.connection.on('disconnected', function () {
     console.log('Mongoose default connection disconnected');
+});
+
+redis.on('error', function (err) {
+    console.log("Redis default connection error: " + err);
 });
 process.on('SIGINT', function () {
     mongoose.connection.close(function () {

@@ -25,5 +25,8 @@ module.exports = {
         key: process.env.JWT_KEY,
         issuer: process.env.JWT_ISSUER,
         audience:process.env.JWT_AUDIENCE
+    },
+    redis:{
+        url: process.env.REDIS_URL
     }
 };
