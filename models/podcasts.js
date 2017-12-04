@@ -30,8 +30,7 @@ let PodcastSchema = new Schema({
             company: String,
             position: String,
             about: String
-        }
-    ,
+        },
     createdAt: {
         type: Date,
         default: Date.now
@@ -41,6 +40,11 @@ let PodcastSchema = new Schema({
             type:Number,
             default:0
         }
+    },
+    location:{
+        x: Number,
+        y: Number,
+        des: String
     }
 });
 
