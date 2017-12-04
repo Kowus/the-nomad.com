@@ -51,7 +51,7 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     secret: config.session.secret,
-    store: new RedisStore(redis)
+    store: new RedisStore({client:redis})
 }));
 app.use(passport.initialize());
 app.use(passport.session());
