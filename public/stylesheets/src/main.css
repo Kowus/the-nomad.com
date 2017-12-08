@@ -1521,7 +1521,7 @@ a.menu-toggle {
 .process-content .image-part {
     margin: 0 auto;
     height: 660px;
-    background-image: url("../../images/mic.png");
+    background-image: url("../../images/dist/mic.png");
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;

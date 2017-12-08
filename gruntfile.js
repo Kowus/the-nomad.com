@@ -16,23 +16,6 @@ module.exports = (grunt) => {
                 }
             }
         },
-        watch: {
-            css: {
-                files: ['public/stylesheets/src/*.css'],
-                tasks: ['css']
-            }, scripts: {
-                files: ['public/javascripts/src/*.js'],
-                tasks: ['js'],
-                options: {
-                    interrupt: true
-                }
-            }, configFiles: {
-                files: ['gruntfile.js'],
-                options: {
-                    reload: true
-                }
-            }
-        },
         uglify: {
             my_target: {
                 files: {
@@ -53,6 +36,23 @@ module.exports = (grunt) => {
                     dest: 'public/images/dist/'
                 }]
             }
+        },
+        watch: {
+            css: {
+                files: ['public/stylesheets/src/*.css'],
+                tasks: ['css']
+            }, scripts: {
+                files: ['public/javascripts/src/*.js'],
+                tasks: ['js'],
+                options: {
+                    interrupt: true
+                }
+            }, configFiles: {
+                files: ['gruntfile.js'],
+                options: {
+                    reload: true
+                }
+            }
         }
     });
 
@@ -65,6 +65,6 @@ module.exports = (grunt) => {
     grunt.registerTask('image',['imagemin']);
     grunt.registerTask('js', ['uglify']);
     grunt.registerTask('css', ['autoprefixer', 'cssmin']);
-    grunt.registerTask('bundle', ['css', 'js']);
+    grunt.registerTask('bundle', ['css', 'js', 'image']);
     grunt.registerTask('default', ['bundle']);
 };
