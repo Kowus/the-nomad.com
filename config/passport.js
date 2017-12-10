@@ -70,7 +70,7 @@ module.exports = function (passport) {
                                 if(err) return console.log(err);
                                 mailer.sendConfirmation(user, token);
                             });
-                            return done(null, newUser);
+                            return done(null, user);
                         });
                     }
                 });
