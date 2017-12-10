@@ -1,7 +1,8 @@
 let express = require('express'),
     router = express.Router(),
     passport = require('passport'),
-    Podcast = require('../models/podcasts')
+    Podcast = require('../models/podcasts'),
+    User = require('../models/user')
 ;
 
 /* GET home page. */
@@ -50,9 +51,21 @@ router.get('/logout', function (req, res, next) {
 
 
 router.get('/unsubscribe', function (req, res, next) {
-    res.render('error', {
-        error: {status: 'success', stack: 'You successfully unsubscribed from email notifications.'},
-        message: "Successfully Unsubscribed"
+    User.findOneAndUpdate({_id: req.query['user_id']}, {
+        $set: {
+            "account_stat.subscribed": false
+        }
+    }, (err, user) => {
+        if (err) {
+            return res.render('error', {
+                error: {status: 'success', stack: 'Error cancelling your subscription.'},
+                message: "Error"
+            });
+        }
+        res.render('error', {
+            error: {status: 'success', stack: 'You successfully unsubscribed from email notifications.'},
+            message: "Successf"
+        });
     });
 });
 
@@ -60,8 +73,8 @@ router.get('/verify', passport.authenticate('verify', {session: false}), (req, r
     res.json(req.user);
 });
 
-router.get('/nominate', (req, res, next)=>{
-   res.render('nominate',{title:'Nominate'})
+router.get('/nominate', (req, res, next) => {
+    res.render('nominate', {title: 'Nominate'});
 });
 
 
