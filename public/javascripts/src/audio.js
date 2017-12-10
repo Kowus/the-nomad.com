@@ -17,6 +17,7 @@ function progressBar() {
         var oAudio = document.getElementById('myaudio');
         var date = new Date(null);
         date.setSeconds(Number(oAudio.currentTime));
+        document.getElementsByClassName('podcast-elapsed')[0].innerText = date.toISOString().substr(11, 8);
         var myRange = document.getElementById('stat_bar');
         myRange.max = oAudio.duration;
         myRange.value = oAudio.currentTime;
