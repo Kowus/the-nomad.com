@@ -26,7 +26,7 @@ module.exports = (grunt) => {
         imagemin: {
             dynamic: {
                 options:{
-                    optimizationLevel:7,
+                    optimizationLevel:3,
                     svgoPlugins:[{removeViewBox: false}],
                 },
                 files: [{
