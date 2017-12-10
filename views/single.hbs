@@ -25,6 +25,11 @@
                         style="text-shadow: 1px 1px 2px black;font-size: 2em; border-radius: 80px;"
                         data-ser="{{podcast._id}}"></button>
 
+                <div style="position: absolute; bottom: 10px;">
+
+                    <h1 class="podcast-elapsed" style="font-size: 3em; opacity: .4;text-shadow: 1px 2px 2px black;">
+                        00:00:00</h1>
+                </div>
             </div>
 
         </div>
@@ -87,9 +92,10 @@
                             {{>replies}}
 
                             {{#if ../user}}
-                            <input placeholder="Post a reply" class="reply-box" data-comment_id="{{comment._id}}">
+                                <input placeholder="Post a reply" class="reply-box" data-comment_id="{{comment._id}}">
                             {{else}}
-                                <em style="margin-left: 5%; letter-spacing: 2px;">Please <a href="/login?next=/podcasts/view/{{../podcast.permalink}}">login</a>
+                                <em style="margin-left: 5%; letter-spacing: 2px;">Please <a
+                                        href="/login?next=/podcasts/view/{{../podcast.permalink}}">login</a>
                                     to reply.</em>
                             {{/if}}
                         </div>
