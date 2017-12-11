@@ -64,7 +64,7 @@ router.get('/unsubscribe', function (req, res, next) {
         }
         res.render('error', {
             error: {status: 'success', stack: 'You successfully unsubscribed from email notifications.'},
-            message: "Successf"
+            message: "Success"
         });
     });
 });
