@@ -10,7 +10,10 @@ const mongoose = require('mongoose'),
 
 let Subscriber = new Schema({
     email: String,
-    confirmed: true
+    confirmed: {
+        type: Boolean,
+        default:true
+    }
 });
 
 module.exports = mongoose.model('Subscriber', Subscriber);
