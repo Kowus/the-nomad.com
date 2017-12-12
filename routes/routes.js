@@ -2,7 +2,8 @@ let express = require('express'),
     router = express.Router(),
     passport = require('passport'),
     Podcast = require('../models/podcasts'),
-    User = require('../models/user')
+    User = require('../models/user'),
+    Subscriber = require('../models/subscriber')
 ;
 
 /* GET home page. */
@@ -75,6 +76,38 @@ router.get('/verify', passport.authenticate('verify', {session: false}), (req, r
 
 router.get('/nominate', (req, res, next) => {
     res.render('nominate', {title: 'Nominate'});
+});
+
+router.post('/subscribe', (req, res, next)=>{
+    /*
+    * RESPONSES
+    * =========
+    * 0 = success
+    * 1 = account already subscribed
+    * 2 = could not complete request
+    *
+    *
+    */
+    User.findOneAndUpdate({email:req.body.email},{
+        $set:{
+            'account_stat.subscribed':true
+        }
+    },function (err, user) {
+        if(err) return res.send('2');
+        if(!user){
+            Subscriber.findOne({email:req.body.email})
+        }
+        else{
+            if(user.account_stat.subscribed) return res.send('1');
+            else {
+                // send confirmation email
+                return res.send('0');
+            }
+        }
+    })
+
+
+
 });
 
 
