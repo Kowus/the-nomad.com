@@ -2,7 +2,7 @@
  * Created by barnabasnomo on 11/12/17 at 6:03 PM
 */
 const LocalStrategy = require('passport-local').Strategy,
-    mailer = require('./sendmail'),
+    mailer = require('../lib/sendmail'),
     JwtStrategy = require('passport-jwt').Strategy,
     ExtractJwt = require('passport-jwt').ExtractJwt,
     env = require('./env'),
