@@ -78,7 +78,7 @@ router.get('/nominate', (req, res, next) => {
     res.render('nominate', {title: 'Nominate'});
 });
 
-router.post('/subscribe', (req, res, next)=>{
+router.post('/subscribe', (req, res, next) => {
     /*
     * RESPONSES
     * =========
@@ -88,24 +88,37 @@ router.post('/subscribe', (req, res, next)=>{
     *
     *
     */
-    User.findOneAndUpdate({email:req.body.email},{
-        $set:{
-            'account_stat.subscribed':true
+    User.findOneAndUpdate({email: req.body.email}, {
+        $set: {
+            'account_stat.subscribed': true
         }
-    },function (err, user) {
-        if(err) return res.send('2');
-        if(!user){
-            Subscriber.findOne({email:req.body.email})
+    }, function (err, user) {
+        if (err) return res.send('2');
+        if (!user) {
+            Subscriber.findOne({email: req.body.email}, (err, subscriber) => {
+                if (err) return res.send('2');
+                if (!subscriber) {
+                    newSubscriber = new Subscriber({
+                        email: req.body.email
+                    });
+                    newSubscriber.save(err => {
+                        if (err) return res.send('2');
+                        res.send('0')
+                    });
+                }
+                else{
+                    res.send('1')
+                }
+            });
         }
-        else{
-            if(user.account_stat.subscribed) return res.send('1');
+        else {
+            if (user.account_stat.subscribed) return res.send('1');
             else {
                 // send confirmation email
                 return res.send('0');
             }
         }
-    })
-
+    });
 
 
 });
