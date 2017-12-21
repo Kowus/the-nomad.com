@@ -34,7 +34,7 @@ const BlogSchema = new Schema({
     },
     author: {
         type: Schema.Types.ObjectId,
-        ref:'users',
+        ref:'User',
         required:true
     }, publish:{
         type:Boolean,
