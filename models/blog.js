@@ -47,13 +47,3 @@ module.exports = mongoose.model('blog', BlogSchema);
 BlogSchema.post('init', function(doc) {
     console.log('%s has been initialized from the db', doc._id);
 });
-
-BlogSchema.pre('save', function (next) {
-    let blog = this;
-
-    if (this.isModified('title')||this.isNew){
-        blog.permalink = blog.title.trim().toLowerCase().split(/[\s,.-]+/).join('_');
-    }
-
-    return next();
-});

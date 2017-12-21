@@ -7,7 +7,7 @@
     "start": "node ./bin/www",
     "predev": "grunt",
     "dev": "grunt watch & nodemon --verbose",
-    "test": "nyc mocha"
+    "test": "nyc --reporter=html --reporter=text mocha"
   },
   "dependencies": {
     "async": "^2.6.0",
