@@ -5,7 +5,6 @@ var express = require('express'),
     logger = require('morgan'),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser'),
-    mongoose = require('mongoose'),
     passport = require('passport'),
     config = require('./config/env'),
     session = require('express-session'),
@@ -15,11 +14,12 @@ var express = require('express'),
     redis = require('redis').createClient(config.redis.url,{no_ready_check:true}),
     RedisStore = require('connect-redis')(session)
 ;
+    require('./config/mongoose-defaults');
 
 
-mongoose.connect(config.database.url, {useMongoClient: true});
+
 let routes = require('./routes/routes');
-mongoose.Promise = require('bluebird');
+
 
 
 let app = express();
@@ -83,25 +83,11 @@ app.use(function (err, req, res, next) {
 });
 
 
-mongoose.connection.on('connected', function () {
-    console.log('Mongoose default connection connected');
-});
-mongoose.connection.on('error', function (err) {
-    console.log('Mongoose default connection error:' + err);
-});
-mongoose.connection.on('disconnected', function () {
-    console.log('Mongoose default connection disconnected');
-});
 
 redis.on('error', function (err) {
     console.log("Redis default connection error: " + err);
 });
-process.on('SIGINT', function () {
-    mongoose.connection.close(function () {
-        console.log("Mongoose default connection disconnected on app termination");
-        process.exit(0);
-    });
-});
+
 
 
 module.exports = app;

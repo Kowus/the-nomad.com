@@ -58,7 +58,8 @@
       "public/*",
       "gruntfile.js",
       ".gtm/*",
-      "scratch/"
+      "scratch/",
+      "test/"
     ],
     "events": {
       "restart": "osascript -e 'display notification \"App restarted due to changes\" with title \"the-nomad.com\"'"
