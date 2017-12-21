@@ -21,7 +21,6 @@ describe('Array', function () {
 });
 
 
-connection.on('connected', function () {
 
 
     describe('Blog', function () {
@@ -39,8 +38,6 @@ connection.on('connected', function () {
                 Blog.createOne(blog)
                     .then(function (data) {
                         expect(data.success).to.equal(true);
-                    }).catch(err => {
-                        console.error(err.message);
                     })
                     .finally(done());
             });
@@ -48,15 +45,19 @@ connection.on('connected', function () {
 
         describe('Find Entry', function () {
             it('Blog.findOne(permalink) should return blog object with reference url: node_js_open_cv_face_match', (done) => {
-                Blog.findBlog('node_js_open_cv_face_match')
+                Blog.findBlog('node_js_opencv_face_match')
                     .then(function (blog) {
-                        expect(blog.permalink).to.equal('node_js_open_cv_face_match');
+                        expect('node_js_opencv_face_match').to.equal(blog.permalink.toString());
                     }).catch(function (err) {
-                    console.error(err)
+                    console.error(err.message)
                     })
-                    .finally(done());
+                    .finally(()=>{
+                        connection.close(function () {
+                            console.log("Mongoose default connection disconnected on app termination");
+                        });
+                    done()
+                });
             });
 
         });
     });
-});
