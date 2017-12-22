@@ -44,7 +44,10 @@ describe('Blog', function () {
 
 
     after(function () {
-        connection.collections[Blog.collection].drop();
+        connection.collections[Blog.collection].drop(function () {
+
+            console.log("Collection dropped");
+        });
         connection.close(function () {
             console.log("Mongoose default connection disconnected on app termination");
         });
