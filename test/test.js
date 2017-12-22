@@ -6,6 +6,7 @@
 require('dotenv').config();
 require('../config/mongoose-defaults');
 var Blog = require('../lib/blog'),
+    Subscriber = require('../lib/subscribe'),
     blog = require('./blog.json'),
     connection = require('mongoose').connection,
     chai = require('chai'),
@@ -43,13 +44,33 @@ describe('Blog', function () {
     });
 
 
-    after(function () {
-        connection.collections[Blog.collection].drop(function () {
+});
 
-            console.log("Collection dropped");
+describe('Subscription', function () {
+    describe('Validator', function () {
+        it('Should run validations for subscriber email', (done) => {
+            Subscriber.subscribe('foo@bar.baz')
+                .then(response => {
+                    expect(response.code).to.equal(0 || 1);
+                })
+                .catch(err => {
+                    // expect(err.code).to.equal(2);
+                    console.error(err)
+                })
+                .finally(() => {
+                    done();
+                });
         });
-        connection.close(function () {
-            console.log("Mongoose default connection disconnected on app termination");
-        });
+    });
+});
+
+
+after(function () {
+    connection.collections[Blog.collection].drop(function () {
+
+        console.log("Collection dropped");
+    });
+    connection.close(function () {
+        console.log("Mongoose default connection disconnected on app termination");
     });
 });
