@@ -366,5 +366,8 @@
             });
         } else alert('Attach an audio file to upload!');
     });
+    $('.timer').each(function () {
+        $(this).text(moment(new Date($(this).attr('data-createdAt')).toUTCString()).fromNow())
+    })
 
 })(jQuery);

@@ -84,7 +84,7 @@
                         {{comment.content}}
                         <!--The Promise interface also allows jQuery's Ajax methods, including $.get(), to chain multiple .done(), .fail(), and .always() callbacks on a single request, and even to assign these callbacks after the request may have completed. If the request is already complete, the callback is fired immediately.-->
                         <br>
-                        <small class="pull-right ion ion-clock"> {{comment.createdAt}}</small>
+                        <small class="pull-right ion ion-clock timer" data-createdAt="{{comment.createdAt}}"> </small>
                         <hr style="clear: both; opacity:0;">
 
 
@@ -97,7 +97,7 @@
                                     </div>
                                     <hr style="opacity: 0;margin: 0;padding: 0;clear: both;">
                                     <p class="reply_content">{{reply.content}}</p>
-                                    <small class="pull-right ion ion-clock"> {{reply.createdAt}}</small>
+                                    <small class="pull-right ion ion-clock timer" data-createdAt="{{reply.createdAt}}"> </small>
                                     <hr style="opacity: 0;margin: 0;padding: 0;clear: both;">
                                 </div>
                             {{/each}}
