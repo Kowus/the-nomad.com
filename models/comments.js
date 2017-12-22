@@ -11,11 +11,17 @@ let commentSchema = new Schema({
     },
     podcast: {
         type: Schema.Types.ObjectId,
+        ref:'Podcast',
         required: true
     },
 
     content: String,
-    replies: Array,
+    replies: [
+        {
+            type:Schema.Types.ObjectId,
+            ref:'Comment'
+        }
+    ],
     isReply: Boolean,
     replyTo: Schema.Types.ObjectId,
     createdAt: {
@@ -24,4 +30,4 @@ let commentSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('comment', commentSchema);
+module.exports = mongoose.model('Comment', commentSchema);

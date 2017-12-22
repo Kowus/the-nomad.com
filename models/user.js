@@ -33,7 +33,7 @@ let userSchema = new Schema({
         default:'user'
     }, 
     likes:[],
-    comments:[],
+    comments:[{type:Schema.Types.ObjectId,ref:'Comment'}],
     profile_picture:String,
     account_stat:{
         confirmed:{
