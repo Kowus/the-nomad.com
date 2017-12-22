@@ -7,6 +7,7 @@ const mongoose = require('mongoose'),
 let commentSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
+        ref:'User',
         required: true
     },
     podcast: {

@@ -22,68 +22,50 @@ router.get('/', function (req, res, next) {
 });
 router.get('/view/:permalink', function (req, res, next) {
     let podcast_comments = [],
-        reps=[]
+        reps = []
     ;
-    Podcast.findOne({permalink: req.params['permalink']}, function (err, podcast) {
-        if (err) {
-            res.locals.message = err.message;
-            res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-            // render the error page
-            res.status(err.status || 500);
-            res.render('error');
-        }
-        res.locals.curr_page = 'single';
-        // console.log("podcast: ",podcast);
-
-        if (podcast === null) {
-            res.locals.message = 'Could not find the requested podcast';
-            res.locals.error = req.app.get('env') === 'development' ? {
-                status: 404,
-                stack: `Requested file ${req.params['permalink']} not found.`
-            } : {status: 404, stack: `Requested file ${req.params['permalink']} not found.`};
-
-            // render the error page
-            res.status(500);
-            res.render('error', {hide_footer: true});
-        } else {
-
-            async.forEachOf(podcast.comments, (value, key, callback) => {
-                    Comment.findOne({_id: value}, (err, comment) => {
-                        if (err) return callback(err);
-                        try {
-                            User.findOne({_id: comment.user}, {displayName: 1, profile_picture: 1}, (err, user) => {
-                                if (err) return callback(err);
-                                if(!comment.isReply) {
-                                    podcast_comments[key] = {
-                                        _id: comment._id,
-                                        user: {
-                                            _id: user._id,
-                                            displayName: user.displayName,
-                                            profile_picture: user.profile_picture
-                                        },
-                                        content: comment.content,
-                                        createdAt: moment(new Date(comment.createdAt).toUTCString()).fromNow()
-                                    };
-                                }else {
-                                    // Find comment with that ID and stick it in.
-                                    console.log('found reply: ', comment)
-                                }
-                            });
-                        } catch (e) {
-                            return callback(e);
-                        }
-                        callback();
-                    });
-                }, err => {
-                    if (err) console.error(err.message);
-                    res.render('single', {title: "The Nomad Podcasts", podcast: podcast, comments: podcast_comments});
-                }
-            );
 
 
-        }
-    });
+    Podcast.findOne({permalink: req.params['permalink']}).lean()
+        .populate(
+            {
+                path: 'comments',
+                populate: [
+                    {
+                        path: 'user', select: 'email displayName profile_picture'
+                    },
+                    {
+                        path: 'replies', populate:{path: 'user', select:'displayName'}
+                    }
+                ]
+            })
+        .exec((err, podcast) => {
+            if (err) {
+                res.locals.message = err.message;
+                res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+                // render the error page
+                res.status(err.status || 500);
+                res.render('error');
+            }
+            res.locals.curr_page = 'single';
+
+            if (podcast === null) {
+                res.locals.message = 'Could not find the requested podcast';
+                res.locals.error = req.app.get('env') === 'development' ? {
+                    status: 404,
+                    stack: `Requested file ${req.params['permalink']} not found.`
+                } : {status: 404, stack: `Requested file ${req.params['permalink']} not found.`};
+
+                // render the error page
+                res.status(404);
+                res.render('error', {hide_footer: true});
+            } else {
+                console.log(podcast);
+                res.render('single', {title: "The Nomad Podcasts", podcast: podcast});
+            }
+        });
+
 });
 
 router.get('/comment', function (req, res, next) {
@@ -97,7 +79,7 @@ router.get('/comment', function (req, res, next) {
                         _id: value._id,
                         user: user.displayName,
                         content: value.content,
-                        createdAt: moment(new Date(value.createdAt).toUTCString()).fromNow(),
+                        createdAt: moment(new Date(value.createdAt).toUTCString()).fromNow()
                     };
                     // async.parallel()
 
@@ -195,19 +177,19 @@ router.post('/reply', isLoggedIn, function (req, res, next) {
             }, err => {
                 if (err) return res.status(404).json(err);
 
-                    else return res.json({
-                        status: 200,
-                        msg: 'OK',
-                        user: {
-                            displayName: req.user.displayName,
-                            profile_picture: req.user.profile_picture
-                        },
-                        content: reply.content,
-                        createdAt: moment(new Date(reply.createdAt).toUTCString()).fromNow()
-                    });
+                else return res.json({
+                    status: 200,
+                    msg: 'OK',
+                    user: {
+                        displayName: req.user.displayName,
+                        profile_picture: req.user.profile_picture
+                    },
+                    content: reply.content,
+                    createdAt: moment(new Date(reply.createdAt).toUTCString()).fromNow()
                 });
             });
         });
+    });
 });
 
 module.exports = router;
