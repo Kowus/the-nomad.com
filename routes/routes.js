@@ -103,21 +103,20 @@ router.post('/subscribe', (req, res, next) => {
                     });
                     newSubscriber.save(err => {
                         if (err) return res.send('2');
-                        res.send('0')
+                        res.send('0');
                     });
                 }
-                else{
-                    res.send('1')
+                else {
+                    res.send('1');
                 }
             });
         }
+        else if (user.account_stat.subscribed) return res.send('1');
         else {
-            if (user.account_stat.subscribed) return res.send('1');
-            else {
-                // send confirmation email
-                return res.send('0');
-            }
+            // send confirmation email
+            return res.send('0');
         }
+
     });
 
 
