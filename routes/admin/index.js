@@ -65,6 +65,9 @@ router.post('/podcasts/create', function (req, res, next) {
         });
     });
 });
+router.get('/blog/create', function (req, res, next) {
+    res.render('new-blog', {title: 'Create a Blog',tiny_mce:env.tiny_mce.key});
+});
 router.post('/upload/:file_type', function (req, res, next) {
     let file_type = req.params['file_type'];
     fs.readFile(req.files[file_type].path, function (err, data) {

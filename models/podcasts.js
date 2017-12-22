@@ -14,6 +14,9 @@ let PodcastSchema = new Schema({
         text:String,
         banner_picture:String
     },
+    season:{
+        type: Number
+    },
     no:{
         type:Number
     },
