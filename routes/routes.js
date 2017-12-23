@@ -3,7 +3,7 @@ let express = require('express'),
     passport = require('passport'),
     Podcast = require('../models/podcasts'),
     User = require('../models/user'),
-    Subscriber = require('../models/subscriber')
+    Subscriber = require('../lib/subscribe')
 ;
 
 /* GET home page. */
@@ -88,38 +88,13 @@ router.post('/subscribe', (req, res, next) => {
     *
     *
     */
-    User.findOneAndUpdate({email: req.body.email}, {
-        $set: {
-            'account_stat.subscribed': true
-        }
-    }, function (err, user) {
-        if (err) return res.send('2');
-        if (!user) {
-            Subscriber.findOne({email: req.body.email}, (err, subscriber) => {
-                if (err) return res.send('2');
-                if (!subscriber) {
-                    newSubscriber = new Subscriber({
-                        email: req.body.email
-                    });
-                    newSubscriber.save(err => {
-                        if (err) return res.send('2');
-                        res.send('0');
-                    });
-                }
-                else {
-                    res.send('1');
-                }
-            });
-        }
-        else if (user.account_stat.subscribed) return res.send('1');
-        else {
-            // send confirmation email
-            return res.send('0');
-        }
-
-    });
-
-
+    Subscriber.subscribe(req.body.email)
+        .then(response => {
+            res.json(response);
+        })
+        .catch(err =>{
+            res.json(err);
+        })
 });
 
 

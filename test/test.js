@@ -42,8 +42,6 @@ describe('Blog', function () {
         });
 
     });
-
-
 });
 
 describe('Subscription', function () {
@@ -51,10 +49,10 @@ describe('Subscription', function () {
         it('Should run validations for subscriber email', (done) => {
             Subscriber.subscribe('foo@bar.baz')
                 .then(response => {
-                    expect(response.code).to.equal(0 || 1);
+                    console.log(response);
+                    expect(response.code).to.be.oneOf([0 , 1]);
                 })
                 .catch(err => {
-                    // expect(err.code).to.equal(2);
                     console.error(err)
                 })
                 .finally(() => {
@@ -63,12 +61,14 @@ describe('Subscription', function () {
         });
     });
 });
-
-
 after(function () {
     connection.collections[Blog.collection].drop(function () {
 
-        console.log("Collection dropped");
+        console.log(Blog.collection+" collection dropped.");
+    });
+    connection.collections[Subscriber.collection].drop(function () {
+
+        console.log(Subscriber.collection+" collection dropped.");
     });
     connection.close(function () {
         console.log("Mongoose default connection disconnected on app termination");

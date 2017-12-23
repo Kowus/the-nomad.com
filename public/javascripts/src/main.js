@@ -148,41 +148,36 @@
 
 
     /*---------------------------------------------------- */
-    /* ajaxchimp
+    /* Subscription
      ------------------------------------------------------ */
 
-    // Example MailChimp url: http://xxx.xxx.list-manage.com/subscribe/post?u=xxx&id=xxx
-    /*
-    var mailChimpURL = 'http://facebook.us8.list-manage.com/subscribe/post?u=cdb7b577e41181934ed6a6a44&amp;id=e65110b38d';
+    $('#mc-form').submit(function (event) {
+        event.preventDefault();
+        var stat_message = $('.subscribe-message');
+        stat_message.html('<i class="ion ion-paper-airplane" style="color: #0087cc"></i> Submitting...');
+        var $form = $('#mc-form'),
+            email = $form.find('#mc-email').val(),
+            url = $form.attr('action'),
+            posting = $.post(url, {
+                email: email
+            })
+        ;
 
-    $('#mc-form').ajaxChimp({
-
-        language: 'es',
-        url: mailChimpURL
+        posting.done(function (data) {
+            switch (data.code) {
+                case 0:
+                    stat_message.html('<i class="ion ion-checkmark-circled" style="color: #2f9c0a"></i>' + data.message);
+                    break;
+                case 1:
+                    stat_message.html('<i class="ion ion-android-warning"></i>' + data.message);
+                    break;
+            }
+        }).fail(function (err) {
+            stat_message.html('<i class="ion ion-heart-broken" style="color: #f15d65"></i>' + err.message);
+        });
 
     });
 
-    // Mailchimp translation
-    //
-    //  Defaults:
-    //	 'submit': 'Submitting...',
-    //  0: 'We have sent you a confirmation email',
-    //  1: 'Please enter a value',
-    //  2: 'An email address must contain a single @',
-    //  3: 'The domain portion of the email address is invalid (the portion after the @: )',
-    //  4: 'The username portion of the email address is invalid (the portion before the @: )',
-    //  5: 'This email address looks fake or invalid. Please enter a real email address'
-
-    $.ajaxChimp.translations.es = {
-        'submit': '<i class="fa fa-check"></i> Submitting...',
-        0: '<i class="fa fa-check"></i> We have sent you a confirmation email',
-        1: '<i class="fa fa-warning"></i> You must enter a valid e-mail address.',
-        2: '<i class="fa fa-warning"></i> E-mail address is not valid.',
-        3: '<i class="fa fa-warning"></i> E-mail address is not valid.',
-        4: '<i class="fa fa-warning"></i> E-mail address is not valid.',
-        5: '<i class="fa fa-warning"></i> E-mail address is not valid.'
-    };
-*/
 
     /*---------------------------------------------------- */
     /* FitVids
@@ -242,6 +237,7 @@
         }
 
     });
+
     $('#comment-form').submit(function (event) {
         event.preventDefault();
         var $form = $('#comment-form'),
@@ -256,7 +252,7 @@
         });
         posting.done(function (data) {
             $form.find('textarea[name="comment"]').val("");
-            $('<div class="text-left comment"><div class="pull-left"><img src="" class="comment-logo"><span class="comm-user">' + data.user.displayName + '</span></div><div class="pull-right">Controls</div><hr style="width: 80%;"><div class="comment-content">' + data.content + '<br><small class="pull-right ion ion-clock"> ' + data.createdAt + '</small><hr style="clear: both; opacity: 0;"><div class="reply_zone"><input placeholder="Post a reply" class="reply-box" data-comment_id='+data._id+'></div></div><hr style="margin-bottom: 50px;"></div>').insertBefore('#comment-form');
+            $('<div class="text-left comment"><div class="pull-left"><img src="" class="comment-logo"><span class="comm-user">' + data.user.displayName + '</span></div><div class="pull-right">Controls</div><hr style="width: 80%;"><div class="comment-content">' + data.content + '<br><small class="pull-right ion ion-clock"> ' + data.createdAt + '</small><hr style="clear: both; opacity: 0;"><div class="reply_zone"><input placeholder="Post a reply" class="reply-box" data-comment_id=' + data._id + '></div></div><hr style="margin-bottom: 50px;"></div>').insertBefore('#comment-form');
         });
         posting.fail(function () {
             alert("error");
@@ -279,7 +275,7 @@
             var createReply = $.post('/podcasts/reply', {
                 podcast: podcast,
                 content: content,
-                comment_id: replyTo,
+                comment_id: replyTo
             });
 
             createReply.done(function (data) {
@@ -294,10 +290,10 @@
                     '    <small class="pull-right ion ion-clock"> ' + data.createdAt + '</small>\n' +
                     '    <hr style="opacity: 0;margin: 0;padding: 0;clear: both;">\n' +
                     '</div>').insertBefore($reply);
-                console.log(data)
+                console.log(data);
             });
             createReply.fail(function () {
-               alert("Couldn't create your comment.")
+                alert("Couldn't create your comment.");
             });
 
             return false; // prevent the button click from happening
@@ -367,7 +363,7 @@
         } else alert('Attach an audio file to upload!');
     });
     $('.timer').each(function () {
-        $(this).text(moment(new Date($(this).attr('data-createdAt')).toUTCString()).fromNow())
-    })
+        $(this).text(moment(new Date($(this).attr('data-createdAt')).toUTCString()).fromNow());
+    });
 
 })(jQuery);
