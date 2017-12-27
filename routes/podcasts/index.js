@@ -21,11 +21,6 @@ router.get('/', function (req, res, next) {
     });
 });
 router.get('/view/:permalink', function (req, res, next) {
-    let podcast_comments = [],
-        reps = []
-    ;
-
-
     Podcast.findOne({permalink: req.params['permalink']}).lean()
         .populate(
             {
@@ -62,7 +57,7 @@ router.get('/view/:permalink', function (req, res, next) {
                 res.render('error', {hide_footer: true});
             } else {
                 console.log(podcast);
-                res.render('single', {title: "The Nomad Podcasts", podcast: podcast});
+                res.render('single', {title: podcast.title, description:podcast.subtitle, podcast: podcast});
             }
         });
 
