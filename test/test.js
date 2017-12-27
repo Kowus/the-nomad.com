@@ -10,7 +10,8 @@ var Blog = require('../lib/blog'),
     blog = require('./blog.json'),
     connection = require('mongoose').connection,
     chai = require('chai'),
-    expect = chai.expect
+    expect = chai.expect,
+    sitemap = require('../lib/sitemap')
 ;
 
 
@@ -50,10 +51,10 @@ describe('Subscription', function () {
             Subscriber.subscribe('foo@bar.baz')
                 .then(response => {
                     console.log(response);
-                    expect(response.code).to.be.oneOf([0 , 1]);
+                    expect(response.code).to.be.oneOf([0, 1]);
                 })
                 .catch(err => {
-                    console.error(err)
+                    console.error(err);
                 })
                 .finally(() => {
                     done();
@@ -61,14 +62,35 @@ describe('Subscription', function () {
         });
     });
 });
+
+
+describe('Sitemap', function () {
+    describe('Create', function () {
+        it('Should create sitemap.xml file', (done) => {
+            sitemap.createSitemapXML()
+                .then(response => {
+                    console.log(response);
+                    expect(response).to.equal('Successfully Generated XML File.');
+                })
+                .catch(err => {
+                    console.error(err);
+                })
+                .finally(() => {
+                    done();
+                });
+        });
+    });
+});
+
+
 after(function () {
     connection.collections[Blog.collection].drop(function () {
 
-        console.log(Blog.collection+" collection dropped.");
+        console.log(Blog.collection + " collection dropped.");
     });
     connection.collections[Subscriber.collection].drop(function () {
 
-        console.log(Subscriber.collection+" collection dropped.");
+        console.log(Subscriber.collection + " collection dropped.");
     });
     connection.close(function () {
         console.log("Mongoose default connection disconnected on app termination");
