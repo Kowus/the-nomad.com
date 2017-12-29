@@ -62,7 +62,7 @@ app.use((req, res, next)=>{
 });
 
 app.use('/', routes);
-app.use('/sitemap.xml', require('./config/sitemap'));
+// app.use('/sitemap.xml', require('./config/sitemap'));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
