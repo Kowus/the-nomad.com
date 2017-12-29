@@ -32,8 +32,8 @@ function playAudio(domEl) {
                 last_post = Number(domEl.getElementsByClassName('myBar')[0].value),
                 p_id = domEl.getAttribute('data-identifier')
             ;
-            if (oAudio.src.toString() != audioUrl.value.toString()) {
-
+            // if (oAudio.src.toString() != audioUrl.value.toString()) {
+            if (oAudio.getAttribute('data-now_playing') !== domEl.getElementsByClassName('podcast-title')[0].innerText) {
                 var xhttp = new XMLHttpRequest() || new ActiveXObject("Microsoft.XMLHTTP");
                 xhttp.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
@@ -46,6 +46,7 @@ function playAudio(domEl) {
 
 
                 oAudio.src = audioUrl.value;
+                oAudio.setAttribute('data-now_playing', domEl.getElementsByClassName('podcast-title')[0].innerText);
                 if (document.getElementsByClassName('playing')[0]) {
                     document.getElementsByClassName('playing')[0].getElementsByClassName('play-podcast')[0].classList.add('ion-play');
                     document.getElementsByClassName('playing')[0].getElementsByClassName('play-podcast')[0].classList.remove('ion-pause');
@@ -92,7 +93,7 @@ function initEvents() {
             var oAudio = document.getElementById('myaudio');
             oAudio.volume = document.getElementById('gain').value;
         } catch (e) {
-            catcher(e)
+            catcher(e);
         }
     });
     if (audioURL != null) {
@@ -146,7 +147,7 @@ function initEvents() {
                 oAudio.currentTime = single.value;
 
             } catch (e) {
-                catcher(e)
+                catcher(e);
             }
         });
     }
@@ -159,13 +160,13 @@ function initEvents() {
                 document.getElementsByClassName('playing')[0].getElementsByClassName('play-podcast')[0].classList.add('ion-play');
                 document.getElementsByClassName('playing')[0].getElementsByClassName('play-podcast')[0].classList.remove('ion-pause');
             } catch (err) {
-                catcher(err)
+                catcher(err);
             }
             try {
                 document.getElementById('play_stat').classList.remove('ion-pause');
                 document.getElementById('play_stat').classList.add('ion-play');
             } catch (err) {
-                catcher(err)
+                catcher(err);
             }
         });
     }
@@ -197,7 +198,7 @@ function initEvents() {
                     oAudio.currentTime = mybar.value;
                 }
             } catch (e) {
-                catcher(e)
+                catcher(e);
             }
         });
     });
@@ -217,21 +218,21 @@ function initEvents() {
     var span = document.getElementById("close-contacts");
 
     // When the user clicks the button, open the modal
-    btn.onclick = function() {
+    btn.onclick = function () {
         modal.style.display = "block";
-    }
+    };
 
     // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
+    span.onclick = function () {
         modal.style.display = "none";
-    }
+    };
 
     // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
+    window.onclick = function (event) {
         if (event.target == modal) {
             modal.style.display = "none";
         }
-    }
+    };
 }
 
 window.addEventListener("DOMContentLoaded", initEvents, false);
