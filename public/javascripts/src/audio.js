@@ -40,9 +40,6 @@ function playAudio(domEl) {
                         domEl.getElementsByClassName('plays')[0].innerHTML = JSON.parse(this.response).curr_played;
                     }
                 };
-                xhttp.open("POST", "/podcasts/play", true);
-                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                xhttp.send("_id=" + p_id);
 
 
                 oAudio.src = audioUrl.value;
@@ -56,6 +53,10 @@ function playAudio(domEl) {
 
                 domEl.classList.add('playing');
                 oAudio.currentTime = last_post;
+
+                xhttp.open("POST", "/podcasts/play", true);
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhttp.send("_id=" + p_id);
             }
             if (oAudio.paused) {
                 domEl.getElementsByClassName('play-podcast')[0].classList.add('ion-pause');
