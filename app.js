@@ -11,18 +11,18 @@ var express = require('express'),
     flash = require('connect-flash'),
     hbs = require('hbs'),
     compression = require('compression'),
-    redis = require('redis').createClient(config.redis.url,{no_ready_check:true}),
-    RedisStore = require('connect-redis')(session)
+    redis = require('redis').createClient(config.redis.url, {no_ready_check: true}),
+    RedisStore = require('connect-redis')(session),
+    helmet = require('helmet')
 ;
-    require('./config/mongoose-defaults');
-
+require('./config/mongoose-defaults');
 
 
 let routes = require('./routes/routes');
 
 
-
 let app = express();
+app.use(helmet());
 app.use(compression());
 
 hbs.registerPartials('./views/partials');
@@ -51,13 +51,13 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     secret: config.session.secret,
-    store: new RedisStore({client:redis})
+    store: new RedisStore({client: redis})
 }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-app.use((req, res, next)=>{
-    res.locals.user=req.user||null;
+app.use((req, res, next) => {
+    res.locals.user = req.user || null;
     next();
 });
 
@@ -75,7 +75,11 @@ app.use(function (req, res, next) {
 app.use(function (err, req, res, next) {
     // set locals, only providing error in development
     res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {status:err.status||500, message:err.message||'Not Found.',stack:`Requested resource not found: ${req.url}`};
+    res.locals.error = req.app.get('env') === 'development' ? err : {
+        status: err.status || 500,
+        message: err.message || 'Not Found.',
+        stack: `Requested resource not found: ${req.url}`
+    };
 
     // render the error page
     res.status(err.status || 500);
@@ -83,11 +87,9 @@ app.use(function (err, req, res, next) {
 });
 
 
-
 redis.on('error', function (err) {
     console.log("Redis default connection error: " + err);
 });
-
 
 
 module.exports = app;
