@@ -11,8 +11,6 @@ const LocalStrategy = require('passport-local').Strategy,
 let User = require('../models/user');
 
 
-
-
 module.exports = function (passport) {
     passport.serializeUser(function (req, user, done) {
         done(null, user.id);
@@ -52,7 +50,8 @@ module.exports = function (passport) {
                         newUser.save(function (err, user) {
                             if (err) {
                                 console.log(err);
-                                return done(null, false, req.flash('signupMessage', "Couldn't create your account."));}
+                                return done(null, false, req.flash('signupMessage', "Couldn't create your account."));
+                            }
                             jwt.sign({
 
                                 data: {
@@ -63,11 +62,11 @@ module.exports = function (passport) {
                                         }
                                     }
                                 },
-                                exp: Math.floor(Date.now() / 1000) + (259200),
+                                exp: Math.floor(Date.now() / 1000) + (259200)
 
 
-                            }, env.jwt.key,{audience: env.jwt.audience,issuer: env.jwt.issuer}, (err, token) => {
-                                if(err) return console.log(err);
+                            }, env.jwt.key, {audience: env.jwt.audience, issuer: env.jwt.issuer}, (err, token) => {
+                                if (err) return console.log(err);
                                 mailer.sendConfirmation(user, token);
                             });
                             return done(null, user);
@@ -107,22 +106,25 @@ module.exports = function (passport) {
 
 
     let opts = {
-
+        
     };
-        opts.audience= env.jwt.audience;
-        opts.issuer= env.jwt.issuer;
-        opts.jwtFromRequest= ExtractJwt.fromUrlQueryParameter('token');
-        opts.secretOrKey= env.jwt.key;
+    opts.audience = env.jwt.audience;
+    opts.issuer = env.jwt.issuer;
+    opts.jwtFromRequest = ExtractJwt.fromUrlQueryParameter('token');
+    opts.secretOrKey = env.jwt.key;
 
 
     passport.use('verify', new JwtStrategy(opts, (jwt_payload, done) => {
 
-        User.findOneAndUpdate({_id: jwt_payload.data.user._id,"account_stat.confirmation_str":jwt_payload.data.user.account_stat.confirmation_str},{
-            $set:{
-                "account_stat.confirmed":true
+        User.findOneAndUpdate({
+            _id: jwt_payload.data.user._id,
+            "account_stat.confirmation_str": jwt_payload.data.user.account_stat.confirmation_str
+        }, {
+            $set: {
+                "account_stat.confirmed": true
             },
-            $unset:{
-                "account_stat.confirmation_str":1
+            $unset: {
+                "account_stat.confirmation_str": 1
             }
         }, (err, user) => {
             if (err) {
