@@ -99,7 +99,7 @@ router.post('/subscribe', (req, res, next) => {
 
 
 router.use('/@admin', needsGroup('admin'), require('./admin/index'));
-router.use('/api', require('./api'));
+router.use('/api',needsGroup('admin'), require('./api'));
 
 router.use('/podcasts', require('./podcasts/index'));
 
