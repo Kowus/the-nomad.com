@@ -7,7 +7,7 @@ var express = require('express'),
     multipart = require('connect-multiparty'),
     AWS = require('aws-sdk'),
     env = require('../../config/env'),
-    fs =require('fs'),
+    fs = require('fs'),
     rimraf = require('rimraf'),
     path = require('path')
 ;
@@ -35,38 +35,37 @@ router.get('/podcasts/create', function (req, res, next) {
     res.render('create-podcast', {title: 'Create a Podcast'});
 });
 router.post('/podcasts/create', function (req, res, next) {
-    Podcast.count({}, function (err, count) {
-        if (err) return res.send('err');
-        let newPodcast = new Podcast({
-            title: req.body.title,
-            subtitle: req.body.subtitle,
-            content: {
-                src: req.body.src,
-                text: req.body.text,
-                banner_picture: req.body.banner_picture
-            },
-            categories: req.body.categories,
-            take_aways: req.body.take_aways,
-            guest: {
-                name: req.body.guest_name,
-                company: req.body.guest_company,
-                position: req.body.guest_position,
-                about: req.body.guest_about
-            },
-            no: Number(count) + 1 || 0
-        });
-        newPodcast.save(function (err, podcast) {
-            if (err) return res.send('An Error Occurred: ' + err);
-            res.json({
-                success: true,
-                msg: 'Podcast creation success',
-                data: podcast
-            });
+    let newPodcast = new Podcast({
+        title: req.body.title,
+        subtitle: req.body.subtitle,
+        content: {
+            src: req.body.src,
+            text: req.body.text,
+            banner_picture: req.body.banner_picture
+        },
+        categories: req.body.categories,
+        take_aways: req.body.take_aways,
+        guest: {
+            name: req.body.guest_name,
+            company: req.body.guest_company,
+            position: req.body.guest_position,
+            about: req.body.guest_about
+        },
+        no: Number(req.body.episode),
+        episode: Number(req.body.episode),
+        season: Number(req.body.season)
+    });
+    newPodcast.save(function (err, podcast) {
+        if (err) return res.send('An Error Occurred: ' + err);
+        res.json({
+            success: true,
+            msg: 'Podcast creation success',
+            data: podcast
         });
     });
 });
 router.get('/blog/create', function (req, res, next) {
-    res.render('new-blog', {title: 'Create a Blog',tiny_mce:env.tiny_mce.key});
+    res.render('new-blog', {title: 'Create a Blog', tiny_mce: env.tiny_mce.key});
 });
 router.post('/upload/:file_type', function (req, res, next) {
     let file_type = req.params['file_type'];
@@ -84,8 +83,8 @@ router.post('/upload/:file_type', function (req, res, next) {
                 console.log(err);
                 return res.status(err.code).send(err);
             }
-            rimraf(path.dirname(req.files[file_type].path),function () {
-                console.log("Deleted temporary server files after upload")
+            rimraf(path.dirname(req.files[file_type].path), function () {
+                console.log("Deleted temporary server files after upload");
             });
             res.json({data, file_type: file_type});
         });
