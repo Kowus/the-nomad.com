@@ -377,7 +377,6 @@
             success: function (data, status, req) {
                 //    Get Data elements
                 for (var i = 0; i < data.length; i++) {
-                    //.find('textarea[name="comment"]').val(),
                     if (!dList.find('option[value="' + data[i]._id + '"]').val()) {
                         dList.append('<option value=' + data[i]._id + '>' + data[i].title + '</option>');
                     }
