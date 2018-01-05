@@ -4,6 +4,7 @@
 var express = require('express'),
     router = express.Router(),
     Podcast = require('../../models/podcasts'),
+    Season = require('../../models/season'),
     multipart = require('connect-multiparty'),
     AWS = require('aws-sdk'),
     env = require('../../config/env'),
@@ -53,14 +54,25 @@ router.post('/podcasts/create', function (req, res, next) {
         },
         no: Number(req.body.episode),
         episode: Number(req.body.episode),
-        season: Number(req.body.season)
+        season: req.body.season
     });
     newPodcast.save(function (err, podcast) {
         if (err) return res.send('An Error Occurred: ' + err);
-        res.json({
-            success: true,
-            msg: 'Podcast creation success',
-            data: podcast
+        Season.findOneAndUpdate({_id: req.body.season},{
+            $push: {
+                podcasts:{
+                    $position:0,
+                    $each:[podcast._id]
+                }
+            }
+        }, function (err) {
+            if(err) return res.send('An Error Occurred: '+err);
+
+            res.json({
+                success: true,
+                msg: 'Podcast creation success',
+                data: podcast
+            });
         });
     });
 });
