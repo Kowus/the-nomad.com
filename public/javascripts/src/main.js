@@ -363,7 +363,32 @@
         } else alert('Attach an audio file to upload!');
     });
     $('.timer').each(function () {
-        $(this).text(moment(new Date($(this).attr('data-createdAt')).toUTCString()).fromNow());
+        $(this).text(' ' + moment(new Date($(this).attr('data-createdAt')).toUTCString()).fromNow());
     });
+
+
+    $('#season-in').on('keypress', function (e) {
+        var dList = $('#json-season-list'),
+            season = $(this),
+            proc_string = ''
+        ;
+        $.ajax({
+            url: '/api/seasons?q=title:' + season.val(),
+            type: 'GET',
+            success: function (data, status, req) {
+                //    Get Data elements
+                for (var i = 0; i < data.length; i++) {
+                    //.find('textarea[name="comment"]').val(),
+                    if (dList.find('option[value="' + data[i]._id + '"]').val()) {
+                        console.log(dList.find('option[value="' + data[i]._id + '"]').val());
+                    } else {
+                        dList.append('<option value=' + data[i]._id + '>' + data[i].title + '</option>');
+                    }
+                }
+
+            }
+        });
+    });
+
 
 })(jQuery);
