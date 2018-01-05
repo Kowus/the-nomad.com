@@ -21,7 +21,11 @@ router.get('/', function (req, res, next) {
     });
 });
 router.get('/view/:permalink', function (req, res, next) {
-    Podcast.findOne({permalink: req.params['permalink']}).lean()
+    Podcast.findOneAndUpdate({permalink: req.params['permalink']},{
+        $inc:{
+            'stats.views':1
+        }
+    }).lean()
         .populate(
             {
                 path: 'comments',
@@ -57,38 +61,11 @@ router.get('/view/:permalink', function (req, res, next) {
                 res.render('error', {hide_footer: true});
             } else {
                 console.log(podcast);
+                podcast.stats.views+=1;
                 res.render('single', {title: podcast.title, description:podcast.subtitle, keywords:podcast.categories, podcast: podcast});
             }
         });
 
-});
-
-router.get('/comment', function (req, res, next) {
-    let conf = [];
-    Comment.find({}, function (err, comments) {
-        async.forEachOf(comments, (value, key, callback) => {
-            User.findOne({_id: value.user}, function (err, user) {
-                if (err) return callback(err);
-                try {
-                    conf[key] = {
-                        _id: value._id,
-                        user: user.displayName,
-                        content: value.content,
-                        createdAt: moment(new Date(value.createdAt).toUTCString()).fromNow()
-                    };
-                    // async.parallel()
-
-                } catch (e) {
-                    return callback(e);
-                }
-                callback();
-            });
-
-        }, err => {
-            if (err) console.error(err.message);
-            res.json(conf);
-        });
-    });
 });
 
 router.post('/play', function (req, res, next) {
