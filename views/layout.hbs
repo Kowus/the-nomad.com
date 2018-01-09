@@ -9,7 +9,8 @@
     ================================================== -->
     <meta charset="utf-8">
     <title>{{{title}}}</title>
-    <meta name="description" content="{{#if description}}{{description}} {{else}}Audible memoirs of a traveling developer{{/if}}.">
+    <meta name="description"
+          content="{{#if description}}{{description}} {{else}}Audible memoirs of a traveling developer{{/if}}.">
     <meta name="author" content="Barnabas Nomo">
 
     <!-- mobile specific metas
@@ -28,6 +29,8 @@
     <!-- favicons
      ================================================== -->
     <link rel="icon" type="image/png" href="/favicon.png">
+
+
 
 </head>
 
@@ -63,7 +66,9 @@
                 <li class="highlight"><input type="range" min="0" max="1" step=".01" value="0.8"
                                              style="margin: 0; padding: 0;" id="gain"></li>
                 {{#if user}}
-                    <li class="highlight with-sep"><a href="#" title=""><small>{{user.displayName}}</small></a></li>
+                    <li class="highlight with-sep"><a href="#" title="">
+                        <small>{{user.displayName}}</small>
+                    </a></li>
                     <li class="highlight with-sep"><a href="/logout" title="">Logout</a></li>
                 {{else}}
                     <li class="highlight with-sep"><a href="/login" title="">Login</a></li>
@@ -142,7 +147,7 @@
 
                         <form id="mc-form" class="group" method="post" action="/subscribe">
 
-                            <input type="email"  name="dEmail" class="email" id="mc-email"
+                            <input type="email" name="dEmail" class="email" id="mc-email"
                                    placeholder="type email &amp; hit enter" required>
 
                             <input type="submit" name="subscribe">
@@ -191,8 +196,8 @@
 </audio>
 <!-- Java Script
 ================================================== -->
-<script src="/javascripts/dist/bundle.min.js"></script>
 
+<script src="/javascripts/dist/bundle.min.js"></script>
 </body>
 
 </html>
