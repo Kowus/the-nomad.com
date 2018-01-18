@@ -71,7 +71,13 @@ router.get('/unsubscribe', function (req, res, next) {
 });
 
 router.get('/verify', passport.authenticate('verify', {session: false}), (req, res) => {
-    res.json(req.user);
+    res.render('error',{
+        error:{
+            status:'Verified',
+            stack:'Your verification is complete',
+            message:'Account Verified'
+        }
+    })
 });
 
 router.get('/nominate', (req, res, next) => {
