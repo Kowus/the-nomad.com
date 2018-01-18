@@ -31,7 +31,12 @@ let userSchema = new Schema({
     group: {
         type:String,
         default:'user'
-    }, 
+    },
+    social:{
+      twitter:{
+          username:String
+      }
+    },
     likes:[],
     comments:[{type:Schema.Types.ObjectId,ref:'Comment'}],
     profile_picture:String,

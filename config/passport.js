@@ -106,7 +106,6 @@ module.exports = function (passport) {
 
 
     let opts = {
-
     };
     opts.audience = env.jwt.audience;
     opts.issuer = env.jwt.issuer;

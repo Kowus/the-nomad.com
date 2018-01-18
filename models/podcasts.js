@@ -32,7 +32,8 @@ let PodcastSchema = new Schema({
         name: String,
         company: String,
         position: String,
-        about: String
+        about: String,
+        twitter:String
     },
     createdAt: {
         type: Date,

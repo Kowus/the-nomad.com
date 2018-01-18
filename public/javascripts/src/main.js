@@ -119,7 +119,7 @@
         });
 
     });
-
+    $(".twitter-share-button.lesson").attr("data-url", window.location.href);
 
     /*----------------------------------------------------*/
     /* Smooth Scrolling

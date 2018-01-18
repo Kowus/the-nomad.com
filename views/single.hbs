@@ -37,6 +37,7 @@
 
 </section>
 
+
 <!-- Process Section
 ================================================== -->
 <section id="process">
@@ -53,12 +54,21 @@
             <div style="text-align: left;">
                 {{{podcast.content.text}}}
             </div>
-
             {{#each podcast.take_aways as |lesson|}}
                 <blockquote class="text-left">
                     {{lesson}}
                     <cite class="text-right" style="font-size: 1.3em">
-                        <a class="ion ion-social-twitter"> </a> |
+                        <a
+                                href="https://twitter.com/share?ref_src=twsrc%5Etfw"
+                                class="twitter-share-button lesson"
+                                data-text="{{lesson}}"
+                                data-via="barnabasnomo"
+                                data-related="{{podcast.guest.twitter}}"
+                                data-lang="en"
+                                data-show-count="true"
+                                data-hashtags="{{podcast.categories}}"
+                        >Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                        <!--<a class="ion ion-social-twitter"> </a> |-->
                         <a class="ion ion-social-facebook"> </a>
                     </cite>
                 </blockquote>
