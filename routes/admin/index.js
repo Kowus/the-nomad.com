@@ -10,7 +10,8 @@ var express = require('express'),
     env = require('../../config/env'),
     fs = require('fs'),
     rimraf = require('rimraf'),
-    path = require('path')
+    path = require('path'),
+    sitemap = require('../../lib/sitemap')
 ;
 
 AWS.config.update({
@@ -58,20 +59,28 @@ router.post('/podcasts/create', function (req, res, next) {
     });
     newPodcast.save(function (err, podcast) {
         if (err) return res.send('An Error Occurred: ' + err);
-        Season.findOneAndUpdate({_id: req.body.season},{
+        Season.findOneAndUpdate({_id: req.body.season}, {
             $push: {
-                podcasts:{
-                    $position:0,
-                    $each:[podcast._id]
+                podcasts: {
+                    $position: 0,
+                    $each: [podcast._id]
                 }
             }
         }, function (err) {
-            if(err) return res.send('An Error Occurred: '+err);
-
-            res.json({
-                success: true,
-                msg: 'Podcast creation success',
-                data: podcast
+            if (err) return res.send('An Error Occurred: ' + err);
+            sitemap.createSitemapXML()
+                .then(response => {
+                    res.json({
+                        success: true,
+                        msg: 'Podcast creation success',
+                        data: podcast
+                    });
+                }).catch(err => {
+                res.json({
+                    success: true,
+                    msg: 'Podcast creation success, but there was an error generating the sitemap',
+                    data: podcast
+                });
             });
         });
     });
