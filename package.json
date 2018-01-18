@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "prestart": "grunt",
+    "postinstall": "grunt",
     "start": "node ./bin/www",
     "predev": "grunt",
     "dev": "grunt watch & nodemon --verbose",
