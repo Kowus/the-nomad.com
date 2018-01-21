@@ -20,7 +20,7 @@ router.get('/', function (req, res, next) {
         res.render('podcasts', {title: "The Nomad Podcasts", podcasts: podcasts});
     });
 });
-router.get('/view/:permalink', function (req, res, next) {
+router.get('/:permalink', function (req, res, next) {
     Podcast.findOneAndUpdate({permalink: req.params['permalink']},{
         $inc:{
             'stats.views':1
