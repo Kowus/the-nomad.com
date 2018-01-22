@@ -10,52 +10,52 @@ const mongoose = require('mongoose'),
 pwd = securePassword();
 
 let userSchema = new Schema({
-    displayName:String,
-    given_name:{
-        type:String,
-        required:true
+    displayName: String,
+    given_name: {
+        type: String,
+        required: true
     },
-    family_name:{
-        type:String,
-        required:true
+    family_name: {
+        type: String,
+        required: true
     },
-    email:{
-        type:String,
-        required:true,
-        unique:true
+    email: {
+        type: String,
+        required: true,
+        unique: true
     },
-    password:{
-      type:Buffer,
-      required:true
+    password: {
+        type: Buffer,
+        required: true
     },
     group: {
-        type:String,
-        default:'user'
+        type: String,
+        default: 'user'
     },
-    social:{
-      twitter:{
-          username:String
-      }
+    social: {
+        twitter: {
+            username: String
+        }
     },
-    likes:[],
-    comments:[{type:Schema.Types.ObjectId,ref:'Comment'}],
-    profile_picture:String,
-    account_stat:{
-        confirmed:{
-            type:Boolean,
-            default:false
-        },
-        confirmation_str:String,
-        subscribed:{
+    likes: [],
+    comments: [{type: Schema.Types.ObjectId, ref: 'Comment'}],
+    profile_picture: String,
+    account_stat: {
+        confirmed: {
             type: Boolean,
-            default:true
+            default: false
+        },
+        confirmation_str: String,
+        subscribed: {
+            type: Boolean,
+            default: true
         }
     }
 });
 userSchema.pre('save', function (next) {
     let user = this;
     this.displayName = `${user.given_name} ${user.family_name}`;
-    if(this.isNew){
+    if (this.isNew) {
         user.account_stat.confirmation_str = gib();
     }
     if (this.isModified('password') || this.isNew) {
@@ -88,7 +88,7 @@ userSchema.pre('save', function (next) {
                     });
                 }
             });
-        })
+        });
     }
     else {
         return next();
@@ -97,8 +97,9 @@ userSchema.pre('save', function (next) {
 
 
 userSchema.methods.comparePassword = function (password, cb) {
-
-    pwd.verify(Buffer.from(password), this.password, function (err, result) {
+    const hashbuf = Buffer.alloc(securePassword.HASH_BYTES);
+    hashbuf.set(this.password);
+    pwd.verify(Buffer.from(password), hashbuf, function (err, result) {
         if (err) return cb(err);
         cb(null, result === securePassword.VALID || result === securePassword.VALID_NEEDS_REHASH);
     });
