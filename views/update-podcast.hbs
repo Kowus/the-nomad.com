@@ -1,0 +1,142 @@
+<script src="https://cloud.tinymce.com/stable/tinymce.min.js?{{tiny_mce}}"></script>
+
+<script>
+    tinymce.init({
+        selector: 'textarea#text-content',
+        height: 500,
+        menubar: false,
+        plugins: [
+            'advlist autolink lists link image charmap print preview anchor textcolor',
+            'searchreplace visualblocks code fullscreen wordcount',
+            'insertdatetime media table contextmenu paste help',
+            'save directionality emoticons codesample hr'
+        ],codesample_languages: [
+            {text: 'HTML/XML', value: 'markup'},
+            {text: 'JavaScript', value: 'javascript'},
+            {text: 'CSS', value: 'css'},
+            {text: 'PHP', value: 'php'},
+            {text: 'Ruby', value: 'ruby'},
+            {text: 'Python', value: 'python'},
+            {text: 'Java', value: 'java'},
+            {text: 'C', value: 'c'},
+            {text: 'C#', value: 'csharp'},
+            {text: 'C++', value: 'cpp'}
+        ],
+        toolbar: 'insert | undo redo | hr  formatselect | bold italic backcolor  | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | code codesample preview | emoticons | help |',
+        content_css: [
+            '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+            '//www.tinymce.com/css/codepen.min.css',
+            '/stylesheets/src/prism.css'
+        ]
+    });
+</script>
+<section id="process">
+
+    <div class="row section-intro">
+        <div class="col-twelve with-bottom-line">
+
+            <h5>Create or Modify</h5>
+            <h1 style="font-size: 2rem">Podcasts</h1>
+            <hr>
+
+            <div>
+                <form id="podacast-form" method="post" action="/@admin/podcasts/update">
+                    <fieldset>
+                        <div class="col-six">
+                            <h4 class="text-left">Audio</h4>
+                            <input type="file" name="audio" accept="audio/*" id="audio_box">
+                            <input id="audio_loc"  name="src" value="{{podcast.content.src}}" style="color: black">
+                            <input type="button" value="Upload Audio" id="upload_audio">
+                        </div>
+                        <div class="col-six">
+                            <h4 class="text-left">Banner Picture</h4>
+                            <input type="file" name="picture" accept="image/*" id="image_box">
+                            <input id="image_loc" name="banner_picture" value="{{podcast.content.banner_picture}}" style="color:black;">
+                            <input type="button" value="Upload Image" id="upload_image">
+                        </div>
+                    </fieldset>
+                    <hr style="width:60%; margin: 0 auto">
+                    <fieldset>
+                        <h4 class="text-left">Episode</h4>
+                        <input type="number" name="episode" value="{{podcast.no}}">
+                    </fieldset>
+                    <!-- <fieldset>
+                         <h4 class="text-left">Season</h4>
+                         <input autocomplete="on" placeholder="Season" id="season-in" list="json-season-list">
+                         <datalist id="json-season-list">
+                             <select id="opts">
+
+                             </select>
+                         </datalist>
+
+                     </fieldset>-->
+                    {{podcast}}
+                    <fieldset>
+                        <h4 class="text-left">Title</h4>
+                        <input placeholder="Title" name="title" title="Title"
+                               style="height: 50px; text-transform: capitalize;" value="{{{podcast.title}}}">
+                    </fieldset>
+                    <fieldset>
+                        <h4 class="text-left">Description</h4>
+                        <textarea placeholder="Description" name="subtitle" title="Description"
+                                  style="height: 100px;min-height: 100px;width: 100%;resize: none;"></textarea>
+                    </fieldset>
+                    <hr style="width:60%; margin: 0 auto">
+                    <fieldset style="margin-top: 50px;">
+                        <textarea name="text" style="width: 100%; resize: none" placeholder="Content Text Here" id="text-content"></textarea>
+                    </fieldset>
+                    <hr>
+                    <fieldset>
+                        <h4 class="text-left">Categories <i class="ion ion-plus"
+                                                            style="background-color: #f15d65; padding: 10px; border-radius: 3px; color: white; float: right;"
+                                                            id="categories"></i></h4>
+                        <div id="cat-zone"></div>
+
+                    </fieldset>
+                    <fieldset>
+                        <h4 class="text-left">Takeaways</h4>
+                        <div class="col-four">
+                            <textarea
+                                    style="height: 50px;min-height: 100px;width: 100%; border: none; border-bottom: 1px solid #f9a700; resize: none;"
+                                    placeholder="Lesson 1" name="take_aways"></textarea>
+                        </div>
+                        <div class="col-four">
+                            <textarea
+                                    style="height: 50px;min-height: 100px;width: 100%; border: none; border-bottom: 1px solid #f9a700; resize: none;"
+                                    placeholder="Lesson 2" name="take_aways"></textarea>
+                        </div>
+                        <div class="col-four">
+                            <textarea
+                                    style="height: 50px;min-height: 100px;width: 100%; border: none; border-bottom: 1px solid #f9a700; resize: none;"
+                                    placeholder="Lesson 3" name="take_aways"></textarea>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <h5>About Guest</h5>
+                        <hr>
+                        <input placeholder="Name" name="guest_name">
+                        <div class="col-six">
+                            <input placeholder="Company" name="guest_company">
+                        </div>
+                        <div class="col-six">
+                            <input placeholder="Position" name="guest_position">
+                        </div>
+                        <div class="col-twelve">
+                        <textarea
+                                placeholder="Name" style="resize: none;width: 100%" name="guest_about">Urchin ho! taste to be drinked. Sunny punishments lead to the life.</textarea>
+                        </div>
+                    </fieldset>
+                    <hr>
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+            <hr>
+            <p class="lead" style="color: #353F49;">
+                <span style="color: #3F3F3F; font-weight: 700;">{{user.displayName}}</span>
+            </p>
+        </div>
+
+    </div>
+
+</section> <!-- /process-->

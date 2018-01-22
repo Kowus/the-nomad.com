@@ -27,15 +27,23 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/podcasts', function (req, res, next) {
-    Podcast.find({}, function (err, podcasts) {
-        if (err) return res.send("An error occurred: " + err);
-        res.json(podcasts);
+    Podcast.find({}, {_id: 0, title: 1, permalink: 1}).exec(function (err, podcasts) {
+        if (err) return res.send('An Error Occured: ' + err);
+        res.render('update-dash', {podcasts: podcasts});
     });
 });
 
 router.get('/podcasts/create', function (req, res, next) {
     res.render('create-podcast', {title: 'Create a Podcast'});
 });
+
+router.get('/podcasts/:permalink', function (req, res, next) {
+    Podcast.find({permalink: req.params.permalink}).exec(function (err, podcast) {
+        if (err) return res.send('An Error Occured: ' + err);
+        res.render('update-podcast', {podcast: podcast});
+    });
+});
+
 router.post('/podcasts/create', function (req, res, next) {
     let newPodcast = new Podcast({
         title: req.body.title,
@@ -59,32 +67,23 @@ router.post('/podcasts/create', function (req, res, next) {
     });
     newPodcast.save(function (err, podcast) {
         if (err) return res.send('An Error Occurred: ' + err);
-        Season.findOneAndUpdate({_id: req.body.season}, {
-            $push: {
-                podcasts: {
-                    $position: 0,
-                    $each: [podcast._id]
-                }
-            }
-        }, function (err) {
-            if (err) return res.send('An Error Occurred: ' + err);
-            sitemap.createSitemapXML()
-                .then(response => {
-                    res.json({
-                        success: true,
-                        msg: 'Podcast creation success',
-                        data: podcast
-                    });
-                }).catch(err => {
+        sitemap.createSitemapXML()
+            .then(response => {
                 res.json({
                     success: true,
-                    msg: 'Podcast creation success, but there was an error generating the sitemap',
+                    msg: 'Podcast creation success',
                     data: podcast
                 });
+            }).catch(err => {
+            res.json({
+                success: true,
+                msg: 'Podcast creation success, but there was an error generating the sitemap',
+                data: podcast
             });
         });
     });
 });
+
 router.get('/blog/create', function (req, res, next) {
     res.render('new-blog', {title: 'Create a Blog', tiny_mce: env.tiny_mce.key});
 });
