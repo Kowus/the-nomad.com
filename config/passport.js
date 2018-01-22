@@ -90,7 +90,7 @@ module.exports = function (passport) {
                 if (!user) return done(null, false, req.flash('loginMessage', 'No user found'));
 
                 //	If user found but password is wrong
-                user.comparePassword(req.body.password, function (err, isMatch) {
+                user.comparePassword(Buffer.from(req.body.password), function (err, isMatch) {
                     if (isMatch && !err) {
                         return done(null, user);
                     }
