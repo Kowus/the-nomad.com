@@ -20,6 +20,7 @@ let PodcastSchema = new Schema({
     no: {
         type: Number
     },
+    episode:Number,
     take_aways: {
         type: Array
     },
