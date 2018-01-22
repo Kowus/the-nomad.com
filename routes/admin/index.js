@@ -53,8 +53,8 @@ router.post('/podcasts/create', function (req, res, next) {
             position: req.body.guest_position,
             about: req.body.guest_about
         },
-        no: Number(req.body.episode),
-        episode: Number(req.body.episode),
+        /*no: Number(req.body.episode),
+        episode: Number(req.body.episode),*/
         season: req.body.season
     });
     newPodcast.save(function (err, podcast) {
