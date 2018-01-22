@@ -5,7 +5,8 @@
 */
 
 var mongoose = require('mongoose'),
-    config = require('./env')
+    config = require('./env'),
+    sitemap = require('../lib/sitemap')
 ;
 mongoose.Promise = require('bluebird');
 mongoose.connect(config.database.url, {
@@ -15,6 +16,15 @@ mongoose.connect(config.database.url, {
     reconnectInterval: 500
 });
 
+mongoose.connection.once('connected', function () {
+    sitemap.createSitemapXML()
+        .then(response => {
+            console.log(response);
+        })
+        .catch(err => {
+            console.error(err);
+        });
+});
 
 mongoose.connection.on('connected', function () {
     console.log('Mongoose default connection connected');
