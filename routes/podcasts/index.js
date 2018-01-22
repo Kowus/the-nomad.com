@@ -60,7 +60,7 @@ router.get('/:permalink', function (req, res, next) {
                 res.status(404);
                 res.render('error', {hide_footer: true});
             } else {
-                console.log(podcast);
+                // console.log(podcast);
                 podcast.stats.views+=1;
                 res.render('single', {title: podcast.title, description:podcast.subtitle, keywords:podcast.categories, podcast: podcast});
             }
