@@ -71,13 +71,13 @@ router.get('/unsubscribe', function (req, res, next) {
 });
 
 router.get('/verify', passport.authenticate('verify', {session: false}), (req, res) => {
-    res.render('error',{
-        error:{
-            status:'Verified',
-            stack:'Your verification is complete',
-            message:'Account Verified'
+    res.render('error', {
+        error: {
+            status: 'Verified',
+            stack: 'Your verification is complete',
+            message: 'Account Verified'
         }
-    })
+    });
 });
 
 router.get('/nominate', (req, res, next) => {
@@ -98,14 +98,14 @@ router.post('/subscribe', (req, res, next) => {
         .then(response => {
             res.json(response);
         })
-        .catch(err =>{
+        .catch(err => {
             res.json(err);
-        })
+        });
 });
 
 
 router.use('/@admin', needsGroup('admin'), require('./admin/index'));
-router.use('/api',needsGroup('admin'), require('./api'));
+router.use('/api', needsGroup('admin'), require('./api'));
 
 router.use('/podcasts', require('./podcasts/index'));
 

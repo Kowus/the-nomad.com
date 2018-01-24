@@ -20,7 +20,7 @@ let PodcastSchema = new Schema({
     no: {
         type: Number
     },
-    episode:Number,
+    episode: Number,
     take_aways: {
         type: Array
     },
@@ -34,12 +34,16 @@ let PodcastSchema = new Schema({
         company: String,
         position: String,
         about: String,
-        twitter:String
+        twitter: String
     },
     createdAt: {
         type: Date,
         default: Date.now
-    }, comments: [{type: Schema.Types.ObjectId, ref: 'Comment'}],
+    }, updatedOn: {
+        type: Date,
+        default: Date.now
+    },
+    comments: [{type: Schema.Types.ObjectId, ref: 'Comment'}],
     stats: {
         views: {
             type: Number,

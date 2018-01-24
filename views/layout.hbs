@@ -10,13 +10,14 @@
     <meta charset="utf-8">
     <title>{{{title}}}</title>
     <meta name="description"
-          content="{{#if description}}{{description}} {{else}}Audible memoirs of a traveling developer{{/if}}.">
+          content="The Nomad Podcast. {{#each podcasts}}{{subtitle}}{{/each}}{{#if description}}{{description}} {{else}}Audible memoirs of a traveling developer{{/if}}.">
     <meta name="author" content="Barnabas Nomo">
 
     <!-- mobile specific metas
     ================================================== -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="keywords" content="nomad,{{keywords}},the nomad,barnabas nomo,barnabas,nomo">
+    <meta name="keywords"
+          content="{{#each podcasts}}{{categories}}{{/each}},gnomad,the-gnomad,nomad,{{keywords}},the nomad,barnabas nomo,barnabas,nomo,audible memoirs of a travelling developer">
 
     <!-- CSS
   ================================================== -->
@@ -34,12 +35,15 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112906095-1"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
         gtag('js', new Date());
 
         gtag('config', 'UA-112906095-1');
     </script>
-
 
 
 </head>
@@ -114,7 +118,8 @@
                     <p>
                         No. 1 Mango Street<br>
                         East Legon, Accra 00233 Ghana<br>
-                        <a href="mailto:barnabas@the-gnomad.com">barnabas@the-gnomad.com</a> &nbsp; <a href="tel:+233540657017">+233-540-657-017</a>
+                        <a href="mailto:barnabas@the-gnomad.com">barnabas@the-gnomad.com</a> &nbsp; <a
+                            href="tel:+233540657017">+233-540-657-017</a>
                     </p>
 
                 </div> <!-- /footer-info -->
