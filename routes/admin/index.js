@@ -27,7 +27,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/podcasts', function (req, res, next) {
-    Podcast.find({}, {_id: 0, title: 1, permalink: 1}).exec(function (err, podcasts) {
+    Podcast.find({}, {_id: 0, title: 1, permalink: 1, 'content.banner_picture':1}).sort({createdAt:-1}).exec(function (err, podcasts) {
         if (err) return res.send('An Error Occured: ' + err);
         res.render('update-dash', {podcasts: podcasts});
     });

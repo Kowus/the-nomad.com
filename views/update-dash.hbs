@@ -1,7 +1,39 @@
-<div>
-    {{#each podcasts}}
-        <ul>
-            <li><a href="{{permalink}}">{{title}}</a></li>
-        </ul>
-    {{/each}}
-</div>
+<section id="intro-podcasts">
+    <div class="shadow-overlay"></div>
+    <div class="intro-content">
+        <div class="row">
+            <div class="col-twelve">
+                <h1 style="color: white;">Podcasts</h1>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<section id="process">
+
+    <div class="row section-intro">
+        <div class="col-twelve with-bottom-line">
+
+            <h5>Nomad Gists</h5>
+            <h1>All Episodes...</h1>
+        </div>
+    </div>
+    <div>
+        <div class="row process-content">
+            <div id="all-episodes" class="block-1-2 block-mob-full block-s-full block-tab-full">
+                {{#each podcasts as |podcast|}}
+                    <div class="bgrid">
+                        <div style="width: 100%; height: 300px; border: 1px solid black; margin: 20px auto; display: table;text-align: center; background-image: url('{{podcast.content.banner_picture}}'); background-size: cover;">
+                            <div style="display: table-cell;vertical-align: middle; height: 100%; background-color: rgba(0,0,0,.2)">
+
+                                <h2><a href="/@admin/podcasts/{{podcast.permalink}}">{{title}}</a></h2>
+                            </div>
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</section>
