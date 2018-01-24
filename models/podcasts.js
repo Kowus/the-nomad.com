@@ -14,9 +14,9 @@ let PodcastSchema = new Schema({
         text: String,
         banner_picture: String
     },
-    season: {
+    /*season: {
         type: Number
-    },
+    },*/
     no: {
         type: Number
     },
@@ -70,7 +70,6 @@ PodcastSchema.pre('save', function (next) {
     if (this.isModified('title') || this.isNew) {
         podcast.permalink = podcast.title.trim().toLowerCase().split(/[\s,.-]+/).join('_');
     }
-
     return next();
 });
 

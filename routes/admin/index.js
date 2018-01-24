@@ -38,7 +38,7 @@ router.get('/podcasts/create', function (req, res, next) {
 });
 
 router.get('/podcasts/:permalink', function (req, res, next) {
-    Podcast.find({permalink: req.params.permalink}).exec(function (err, podcast) {
+    Podcast.findOne({permalink: req.params.permalink}).exec(function (err, podcast) {
         if (err) return res.send('An Error Occured: ' + err);
         res.render('update-podcast', {podcast: podcast});
     });
@@ -80,6 +80,45 @@ router.post('/podcasts/create', function (req, res, next) {
                 msg: 'Podcast creation success, but there was an error generating the sitemap',
                 data: podcast
             });
+        });
+    });
+});
+
+router.post('/podcasts/update', function (req, res, next) {
+    Podcast.findOneAndUpdate({_id: req.body._id}, {
+        $set: {
+            title: req.body.title,
+            subtitle: req.body.subtitle,
+            content: {
+                src: req.body.src,
+                text: req.body.text,
+                banner_picture: req.body.banner_picture
+            },
+            categories: req.body.categories,
+            take_aways: req.body.take_aways,
+            guest: {
+                name: req.body.guest_name,
+                company: req.body.guest_company,
+                position: req.body.guest_position,
+                about: req.body.guest_about
+            },
+            no: Number(req.body.episode),
+            episode: Number(req.body.episode),
+            season: req.body.season,
+            updatedOn: new Date().toISOString()
+        }
+    }, (err, podcast) => {
+        if (err) return res.send('An Error Occurred: ' + err);
+        sitemap.createSitemapXML().then(response => {
+            res.render('error', {
+                message: 'Success',
+                error: {
+                    status: 200,
+                    stack: `Successfully updated podcast: ${podcast.title}`
+                }
+            });
+        }).catch(err => {
+            res.send('Error.');
         });
     });
 });

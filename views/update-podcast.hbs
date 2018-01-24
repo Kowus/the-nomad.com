@@ -42,6 +42,10 @@
             <div>
                 <form id="podacast-form" method="post" action="/@admin/podcasts/update">
                     <fieldset>
+                        <h4 class="text-left">ID</h4>
+                        <input readonly name="_id" value="{{podcast._id}}">
+                    </fieldset>
+                    <fieldset>
                         <div class="col-six">
                             <h4 class="text-left">Audio</h4>
                             <input type="file" name="audio" accept="audio/*" id="audio_box">
@@ -70,7 +74,6 @@
                          </datalist>
 
                      </fieldset>-->
-                    {{podcast}}
                     <fieldset>
                         <h4 class="text-left">Title</h4>
                         <input placeholder="Title" name="title" title="Title"
@@ -79,52 +82,51 @@
                     <fieldset>
                         <h4 class="text-left">Description</h4>
                         <textarea placeholder="Description" name="subtitle" title="Description"
-                                  style="height: 100px;min-height: 100px;width: 100%;resize: none;"></textarea>
+                                  style="height: 100px;min-height: 100px;width: 100%;resize: none;">{{podcast.subtitle}}</textarea>
                     </fieldset>
                     <hr style="width:60%; margin: 0 auto">
                     <fieldset style="margin-top: 50px;">
-                        <textarea name="text" style="width: 100%; resize: none" placeholder="Content Text Here" id="text-content"></textarea>
+                        <textarea name="text" style="width: 100%; resize: none" placeholder="Content Text Here" id="text-content">{{podcast.content.text}}</textarea>
                     </fieldset>
                     <hr>
                     <fieldset>
                         <h4 class="text-left">Categories <i class="ion ion-plus"
                                                             style="background-color: #f15d65; padding: 10px; border-radius: 3px; color: white; float: right;"
                                                             id="categories"></i></h4>
-                        <div id="cat-zone"></div>
+                        <div id="cat-zone">
+                        {{#each podcast.categories as |cat|}}
+                            <div class="col-three">
+                                <div>
+                                    <input style="border: none; border-bottom: 1px solid #2a6495; width:80%" name="categories" placeholder="category" value="{{cat}}"><span class="dismiss-category" style="font-size: x-large" onclick="$(this).parents()[1].remove()">&times;</span></div></div>
+                        {{/each}}
+                        </div>
 
                     </fieldset>
                     <fieldset>
                         <h4 class="text-left">Takeaways</h4>
+                        {{#each podcast.take_aways as |lesson|}}
+
                         <div class="col-four">
                             <textarea
                                     style="height: 50px;min-height: 100px;width: 100%; border: none; border-bottom: 1px solid #f9a700; resize: none;"
-                                    placeholder="Lesson 1" name="take_aways"></textarea>
+                                    placeholder="Lesson" name="take_aways">{{lesson}}</textarea>
                         </div>
-                        <div class="col-four">
-                            <textarea
-                                    style="height: 50px;min-height: 100px;width: 100%; border: none; border-bottom: 1px solid #f9a700; resize: none;"
-                                    placeholder="Lesson 2" name="take_aways"></textarea>
-                        </div>
-                        <div class="col-four">
-                            <textarea
-                                    style="height: 50px;min-height: 100px;width: 100%; border: none; border-bottom: 1px solid #f9a700; resize: none;"
-                                    placeholder="Lesson 3" name="take_aways"></textarea>
-                        </div>
+                        {{/each}}
                     </fieldset>
 
                     <fieldset>
                         <h5>About Guest</h5>
                         <hr>
-                        <input placeholder="Name" name="guest_name">
+                        <input placeholder="Name" name="guest_name" value="{{podcast.guest.name}}">
                         <div class="col-six">
-                            <input placeholder="Company" name="guest_company">
+                            <input placeholder="Company" name="guest_company" value="{{podcast.guest.company}}">
                         </div>
                         <div class="col-six">
-                            <input placeholder="Position" name="guest_position">
+                            <input placeholder="Position" name="guest_position" value="{{podcast.guest.position}}">
                         </div>
                         <div class="col-twelve">
                         <textarea
-                                placeholder="Name" style="resize: none;width: 100%" name="guest_about">Urchin ho! taste to be drinked. Sunny punishments lead to the life.</textarea>
+                                placeholder="Name" style="resize: none;width: 100%" name="guest_about">{{podcast.guest.about}}</textarea>
                         </div>
                     </fieldset>
                     <hr>
