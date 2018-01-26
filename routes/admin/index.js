@@ -89,6 +89,7 @@ router.post('/podcasts/update', function (req, res, next) {
         $set: {
             title: req.body.title,
             subtitle: req.body.subtitle,
+            permalink:req.body.title.trim().toLowerCase().split(/[\s,.-]+/).join('_'),
             content: {
                 src: req.body.src,
                 text: req.body.text,
