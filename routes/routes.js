@@ -14,7 +14,7 @@ router.get('/', function (req, res, next) {
             {$limit: 3}
         ], function (err, podcasts) {
             if (err) return res.send("An error occurred: " + err);
-            res.render('index', {title: "The Nomad", podcasts: podcasts, user: req.user || null});
+            res.render('index', {title: "The Nomad", podcasts: podcasts, user: req.user || null, keywords:'the nomad,barnabas nomo,barnabas,nomo,nomad,the-gnomad'});
         });
 });
 

@@ -1,13 +1,13 @@
 {{#each podcasts as |podcast|}}
     <div class="bgrid feature podcast-pill" data-identifier="{{podcast._id}}">
         <div style="margin-top: 5px;">
-            <p style="margin-bottom: 0;"><a href="/podcasts/{{podcast.permalink}}"><img src="{{podcast.content.banner_picture}}" class="img-responsive" style="width: 100%; height: 300px; object-fit: cover; border-top-left-radius: 20px;border-top-right-radius: 20px; background: black;"></a></p>
+            <p style="margin-bottom: 0;"><a href="/podcasts/{{podcast.permalink}}" hreflang="en"><img src="{{podcast.content.banner_picture}}" class="img-responsive" style="width: 100%; height: 300px; object-fit: cover; border-top-left-radius: 20px;border-top-right-radius: 20px; background: black;"></a></p>
         </div>
         <div class="service-content">
             <input class="audio-src" style="display: none;" value="{{podcast.content.src}}">
             <input class="played-position" style="display: none;" value="0">
             <input class="played-before" style="display: none;" value="true">
-            <a href="/podcasts/{{podcast.permalink}}">
+            <a href="/podcasts/{{podcast.permalink}}" hreflang="en">
                 <h1 class="podcast-title">
                     <span class="episode_no">episode #{{podcast.no}}:</span>
                     {{{podcast.title}}}
