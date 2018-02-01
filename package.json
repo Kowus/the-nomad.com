@@ -24,6 +24,7 @@
     "email-templates": "^3.1.8",
     "express": "~4.15.5",
     "express-session": "^1.15.6",
+    "feed": "^1.1.1",
     "grunt": "^1.0.1",
     "grunt-autoprefixer": "^3.0.4",
     "grunt-cli": "^1.2.0",
