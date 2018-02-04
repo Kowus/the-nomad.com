@@ -70,13 +70,7 @@ scratch/
 /.gtm/
 public/javascripts/dist/bundle.min.js
 public/stylesheets/dist/bundle.min.css
-public/images/dist/460.jpg
-public/images/dist/barnabasnomo-square.jpg
-public/images/dist/drop.png
-public/images/dist/joey.jpeg
-public/images/dist/justice.png
-public/images/dist/mic.png
-public/images/dist/water-gaze.jpg
-public/images/dist/waterfall.jpg
+public/images/dist/
 public/sitemap.xml
-public/images/dist/features-bg.jpg
+public/feed/
+public/audio
