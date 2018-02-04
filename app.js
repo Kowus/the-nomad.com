@@ -15,6 +15,7 @@ var express = require('express'),
     RedisStore = require('connect-redis')(session),
     helmet = require('helmet')
 ;
+
 require('./config/mongoose-defaults');
 
 

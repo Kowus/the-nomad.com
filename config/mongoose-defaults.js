@@ -4,9 +4,10 @@
  * @soundtrack Ibiza - Omar Sterling
 */
 
-var mongoose = require('mongoose'),
+const mongoose = require('mongoose'),
     config = require('./env'),
-    sitemap = require('../lib/sitemap')
+    sitemap = require('../lib/sitemap'),
+    rss =require('../lib/rss')
 ;
 mongoose.Promise = require('bluebird');
 mongoose.connect(config.database.url, {
@@ -24,6 +25,13 @@ mongoose.connection.once('connected', function () {
         .catch(err => {
             console.error(err);
         });
+    rss.createFeed()
+        .then(feed=>{
+            console.log(feed);
+        }).catch(err=>{
+            console.log(err);
+    })
+
 });
 
 mongoose.connection.on('connected', function () {
