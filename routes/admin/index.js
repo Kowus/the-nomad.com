@@ -11,7 +11,8 @@ var express = require('express'),
     fs = require('fs'),
     rimraf = require('rimraf'),
     path = require('path'),
-    sitemap = require('../../lib/sitemap')
+    sitemap = require('../../lib/sitemap'),
+    rss = require('../../lib/rss')
 ;
 
 AWS.config.update({
@@ -110,6 +111,12 @@ router.post('/podcasts/update', function (req, res, next) {
         }
     }, (err, podcast) => {
         if (err) return res.send('An Error Occurred: ' + err);
+        rss.createFeed()
+            .then(feed=>{
+                console.log(feed);
+            }).catch(err=>{
+            console.log(err);
+        });
         sitemap.createSitemapXML().then(response => {
             res.render('error', {
                 message: 'Success',
