@@ -17,6 +17,10 @@ module.exports = {
     tiny_mce: {
         key: process.env.TINY_MCE_API_KEY
     },
+    mail_chimp:{
+        key:process.env.MAIL_CHIMP_KEY,
+        nomad:process.env.MAIL_CHIMP_SUBSCRIBERS_NOMAD
+    },
     node_mailer: {
         user: process.env.NODE_MAILER_AUTH_EMAIL,
         pass: process.env.NODE_MAILER_AUTH_PASSWORD
