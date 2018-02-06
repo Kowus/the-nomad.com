@@ -159,7 +159,9 @@
             email = $form.find('#mc-email').val(),
             url = $form.attr('action'),
             posting = $.post(url, {
-                email: email
+                email: email,
+                lname: $form.find('#mc-lname').val(),
+                fname: $form.find('#mc-fname').val()
             })
         ;
 
@@ -172,6 +174,7 @@
                     stat_message.html('<i class="ion ion-android-warning"></i>' + data.message);
                     break;
             }
+            console.log(data)
         }).fail(function (err) {
             stat_message.html('<i class="ion ion-heart-broken" style="color: #f15d65"></i>' + err.message);
         });
@@ -366,62 +369,62 @@
         $(this).text(' ' + moment(new Date($(this).attr('data-createdAt')).toUTCString()).fromNow());
     });
 
-        $('#season-in').on('keypress', function (e) {
-            var dList = $('#json-season-list'),
-                season = $(this)
-            ;
-            $.ajax({
-                url: '/api/seasons?q=title:' + season.val(),
-                type: 'GET',
-                success: function (data, status, req) {
-                    //    Get Data elements
-                    for (var i = 0; i < data.length; i++) {
-                        if (!dList.find('option[value="' + data[i]._id + '"]').val()) {
-                            dList.find('#opts').append('<option value=' + data[i]._id + '>' + data[i].title + '</option>');
-                        }
+    $('#season-in').on('keypress', function (e) {
+        var dList = $('#json-season-list'),
+            season = $(this)
+        ;
+        $.ajax({
+            url: '/api/seasons?q=title:' + season.val(),
+            type: 'GET',
+            success: function (data, status, req) {
+                //    Get Data elements
+                for (var i = 0; i < data.length; i++) {
+                    if (!dList.find('option[value="' + data[i]._id + '"]').val()) {
+                        dList.find('#opts').append('<option value=' + data[i]._id + '>' + data[i].title + '</option>');
                     }
-                },error: function (req, status, error) {
-                    console.log(error)
                 }
-
-            });
-        });
-
-/*
-    $("#season-in").autocomplete({
-        // source: "/api/seasons?q=title:",
-        source: function (request, response) {
-            $.ajax({
-                url: "/api/seasons/",
-                type: "GET",
-                data: request,  // request is the value of search input
-                success: function (data) {
-                    // Map response values to fiedl label and value
-                    response($.map(data, function (el) {
-                        return {
-                            label: el.name,
-                            value: el._id,
-                            tags: el.tags
-                        };
-                    }));
-                }
-            });
-        },
-        minLength: 2,
-        select: function (event, ui) {
-            var url = ui.item.id;
-            if (url != '#') {
-                location.href = '/blog/' + url;
+            }, error: function (req, status, error) {
+                console.log(error);
             }
-        },
 
-        html: true, // optional (jquery.ui.autocomplete.html.js required)
-
-        // optional (if other layers overlap autocomplete list)
-        open: function (event, ui) {
-            $(".ui-autocomplete").css("z-index", 1000);
-        }
+        });
     });
-*/
+
+    /*
+        $("#season-in").autocomplete({
+            // source: "/api/seasons?q=title:",
+            source: function (request, response) {
+                $.ajax({
+                    url: "/api/seasons/",
+                    type: "GET",
+                    data: request,  // request is the value of search input
+                    success: function (data) {
+                        // Map response values to fiedl label and value
+                        response($.map(data, function (el) {
+                            return {
+                                label: el.name,
+                                value: el._id,
+                                tags: el.tags
+                            };
+                        }));
+                    }
+                });
+            },
+            minLength: 2,
+            select: function (event, ui) {
+                var url = ui.item.id;
+                if (url != '#') {
+                    location.href = '/blog/' + url;
+                }
+            },
+
+            html: true, // optional (jquery.ui.autocomplete.html.js required)
+
+            // optional (if other layers overlap autocomplete list)
+            open: function (event, ui) {
+                $(".ui-autocomplete").css("z-index", 1000);
+            }
+        });
+    */
 
 })(jQuery);

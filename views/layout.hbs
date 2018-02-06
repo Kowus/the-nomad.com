@@ -163,12 +163,17 @@
 
                         <form id="mc-form" class="group" method="post" action="/subscribe">
 
+                            <input name="fname" class="email"
+                                   placeholder="First Name" required id="mc-fname" style="color: #fff">
+                            <input name="lname" class="email"
+                                   placeholder="Last Name" required id="mc-lname" style="color: #fff;">
                             <input type="email" name="dEmail" class="email" id="mc-email"
                                    placeholder="type email &amp; hit enter" required>
+                            <label for="mc-email" class="subscribe-message"></label>
 
                             <input type="submit" name="subscribe">
+                            <button type="submit">Subscribe</button>
 
-                            <label for="mc-email" class="subscribe-message"></label>
 
                         </form>
 

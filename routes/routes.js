@@ -94,7 +94,7 @@ router.post('/subscribe', (req, res, next) => {
     *
     *
     */
-    Subscriber.subscribe(req.body.email)
+    Subscriber.subscribe(req.body.fname, req.body.lname, req.body.email)
         .then(response => {
             res.json(response);
         })
