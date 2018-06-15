@@ -1,0 +1,1003 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+ <channel>
+  <title><![CDATA[The Nomad Podcast]]></title>
+  <description><![CDATA[Audible memoirs of a travelling developer]]></description>
+  <link>https://the-gnomad.com</link>
+  <image>
+   <url>https://www.the-gnomad.com/images/dist/water-gaze.jpg</url>
+   <title>The Nomad Podcast</title>
+   <link>https://the-gnomad.com</link>
+  </image>
+  <generator>Podcast for Node</generator>
+  <lastBuildDate>Fri, 15 Jun 2018 02:30:33 GMT</lastBuildDate>
+  <author><![CDATA[Barnabas Nomo]]></author>
+  <copyright><![CDATA[2018 Barnabas Nomo]]></copyright>
+  <language><![CDATA[en]]></language>
+  <managingEditor><![CDATA[Barnabas Nomo]]></managingEditor>
+  <webMaster><![CDATA[Barnabas Nomo]]></webMaster>
+  <ttl>1440</ttl>
+  <itunes:author>Barnabas Nomo</itunes:author>
+  <itunes:subtitle>Audible memoirs of a travelling developer</itunes:subtitle>
+  <itunes:summary>My friends started calling me The Nomad because I would travel all over Ghana from makerspace to makerspace just to talk to developers to gather ideas and perspectives. I figured the Tech Atmosphere in Ghana is greatly advancing. And at the heart of this advancement is the magical, intimate revelations of the youth. But this driving force is greatly sabotaged by Self Doubt, Little Support, Fewer Known Mentors, and the Lack of an Active Tech Community. So I started this podcast to provide connectivity, advice, a chance to learn, and a platform for others to showcase what they know</itunes:summary>
+  <itunes:owner>
+   <itunes:name>Barnabas Nomo</itunes:name>
+   <itunes:email>barnabas@the-gnomad.com</itunes:email>
+  </itunes:owner>
+  <itunes:explicit>No</itunes:explicit>
+  <itunes:image href="https://www.the-gnomad.com/images/dist/water-gaze.jpg"/>
+  <item>
+   <title><![CDATA[Audio Record.js]]></title>
+   <description><![CDATA[<h1>audioRecord.js</h1>
+<p>A simplified audio Recorder for HTML5, which uses the WebAudio API to export microphone input to wav, mp3 or ogg files. Based on <a href="https://github.com/mattdiamond/Recorderjs">https://github.com/mattdiamond/Recorderjs</a>, <a href="https://github.com/nusofthq/Recordmp3js">https://github.com/nusofthq/Recordmp3js</a> and <a href="https://github.com/bjornm/libvorbis-js">https://github.com/bjornm/libvorbis-js</a></p>
+<h3><a id="user-content-quick-and-dirty-usage" class="anchor" href="https://github.com/Kowus/audioRecord.js#quick-and-dirty-usage" aria-hidden="true"></a>Quick and dirty Usage</h3>
+<pre><code></code></pre>
+<pre class="language-javascript"><code> audioRecorder.requestDevice(function(recorder){
+  // Create a recorder object (this will ask browser for microphone access)
+
+	recorder.start();         // Start recording
+
+	setTimeout(function(){     // Stop recording after 5 seconds
+      
+		 recorder.stop();
+
+		 recorder.exportMP3(function(mp3Blob){ // Export the recording as a Blob
+			  
+			   
+			console.log("Here is your blob: " + URL.createObjectURL(mp3Blob));
+			//Do something with your blob
+		       
+		 
+		 });
+		  
+	}, 5000);       
+
+        
+ });</code></pre>
+<pre><code></code></pre>
+<h3><a id="user-content-syntax" class="anchor" href="https://github.com/Kowus/audioRecord.js#syntax" aria-hidden="true"></a>Syntax</h3>
+<h4><a id="user-content-constructor" class="anchor" href="https://github.com/Kowus/audioRecord.js#constructor" aria-hidden="true"></a>Constructor</h4>
+<p><strong>Basic / Async Construction</strong> The recorder object is instatiated asynchronously as shown below. Calling the recorder function will ask the client for access to the device's microphone. Once the client agrees, the callback is called, providing the recorder object</p>
+<pre><code></code></pre>
+<pre class="language-javascript"><code>audioRecorder.requestDevice(function(recorder){
+      // Create a recorder object (this will ask browser for microphone access)
+
+     } [,config]);</code></pre>
+<pre><code></code></pre>
+<p><strong>From Media Source / Sync Construction</strong> The recorder object can be instatiated synchronously if you want to specify the media source manually.</p>
+<pre class="language-javascript"><code>var recorder = audioRecorder.fromSource(source [,config]);</code></pre>
+<p>Example:</p>
+<pre><code></code></pre>
+<pre class="language-javascript"><code>  window.AudioContext = window.AudioContext || window.webkitAudioContext;
+	  navigator.getUserMedia = ( navigator.getUserMedia ||
+	  navigator.webkitGetUserMedia ||
+	  navigator.mozGetUserMedia ||
+	  navigator.msGetUserMedia);
+	  window.URL = window.URL || window.webkitURL;
+
+	  audio_context = new AudioContext;
+
+
+	  navigator.getUserMedia({audio: true}, function(stream){
+
+	          var source = audio_context.createMediaStreamSource(stream);
+
+		  var recorder  = audioRecorder.fromSource(source);
+
+	  }, function(e) {
+
+	       //Error handling
+		
+	  });</code></pre>
+<pre><code></code></pre>
+<ul>
+<li><strong>config</strong> - (<em>optional</em>) A configuration object (see <strong>config</strong> section below)</li>
+</ul>
+<hr />
+<h4><a id="user-content-config" class="anchor" href="https://github.com/Kowus/audioRecord.js#config" aria-hidden="true"></a>Config</h4>
+<ul>
+<li><strong>workerPath</strong> - Path to recorder.js worker script. Defaults to 'js/recorderjs/recorderWorker.js'</li>
+<li><strong>mp3LibPath</strong> - Name of the mp3 conversion library, relative to the location of "workerPath". Defaults to 'libmp3lame.min.js'</li>
+<li><strong>vorbisLibPath</strong> - Name of the vorbis conversion library, relative to the location of "workerPath". Defaults to 'libvorbis.module.min.js'. If you specify a non-default path, be sure to include 'libvorbis.module.min.jis.mem' in the same path</li>
+<li><strong>bufferLen</strong> - The length of the buffer that the internal JavaScriptNode uses to capture the audio. Can be tweaked if experiencing performance issues. Defaults to 4096.</li>
+<li><strong>callback</strong> - A default callback to be used with <code>exportWAV</code>.</li>
+<li><strong>type</strong> - The type of the Blob generated by <code>exportWAV</code>. Defaults to 'audio/wav'.</li>
+<li><strong>recordAsMP3</strong> - Binary: if true - will continuously encode the stream into mp3 format, making MP3 exports much faster, especially for recordings of over 10 seconds. Defaults to false</li>
+</ul>
+<p><strong>TODO</strong> continuously encoding OGG provides a codec error, figure out why</p>
+<hr />
+<h4><a id="user-content-instance-methods" class="anchor" href="https://github.com/Kowus/audioRecord.js#instance-methods" aria-hidden="true"></a>Instance Methods</h4>
+<pre><code></code></pre>
+<pre class="language-javascript"><code>rec.record()
+rec.stop()</code></pre>
+<pre><code></code></pre>
+<p>Pretty self-explanatory... <strong>record</strong> will begin capturing audio and <strong>stop</strong> will cease capturing audio. Subsequent calls to <strong>record</strong> will add to the current recording.</p>
+<pre class="language-javascript"><code>rec.clear()</code></pre>
+<p>This will clear the recording.</p>
+<pre><code></code></pre>
+<pre class="language-javascript"><code>rec.exportWAV([callback][, type])</code></pre>
+<pre><code></code></pre>
+<p>This will generate a Blob object containing the recording in WAV format. The callback will be called with the Blob as its sole argument. If a callback is not specified, the default callback (as defined in the config) will be used. If no default has been set, an error will be thrown.</p>
+<pre><code></code></pre>
+<pre class="language-javascript"><code>rec.exportMP3([callback])</code></pre>
+<pre><code></code></pre>
+<p>This will generate a Blob object containing the recording in MP3 format. The callback will be called with the Blob as its sole argument. If a callback is not specified, the default callback (as defined in the config) will be used. If no default has been set, an error will be thrown.</p>
+<pre><code></code></pre>
+<pre class="language-javascript"><code>rec.exportOGG([callback])</code></pre>
+<pre><code></code></pre>
+<p>This will generate a Blob object containing the recording in OGG format. The callback will be called with the Blob as its sole argument. If a callback is not specified, the default callback (as defined in the config) will be used. If no default has been set, an error will be thrown.</p>
+<p>In addition, you may specify the type of Blob to be returned (defaults to 'audio/wav').</p>
+<pre><code></code></pre>
+<pre class="language-javascript"><code>rec.getBuffer([callback])</code></pre>
+<pre><code></code></pre>
+<p>This will pass the recorded stereo buffer (as an array of two Float32Arrays, for the separate left and right channels) to the callback. It can be played back by creating a new source buffer and setting these buffers as the separate channel data:</p>
+<pre><code></code></pre>
+<pre class="language-javascript"><code>function getBufferCallback( buffers ) {
+	var newSource = audioContext.createBufferSource();
+	var newBuffer = audioContext.createBuffer( 2, buffers[0].length, audioContext.sampleRate );
+	newBuffer.getChannelData(0).set(buffers[0]);
+	newBuffer.getChannelData(1).set(buffers[1]);
+	newSource.buffer = newBuffer;
+
+	newSource.connect( audioContext.destination );
+	newSource.start(0);
+}</code></pre>
+<pre><code></code></pre>
+<p>This sample code will play back the stereo buffer.</p>
+<pre><code></code></pre>
+<pre class="language-javascript"><code>rec.configure(config)</code></pre>
+<pre><code></code></pre>
+<p>This will set the configuration for Recorder by passing in a config object.</p>
+<h4><a id="user-content-utility-methods-static" class="anchor" href="https://github.com/Kowus/audioRecord.js#utility-methods-static" aria-hidden="true"></a>Utility Methods (static)</h4>
+<pre class="language-javascript"><code>Recorder.forceDownload(blob[, filename])</code></pre>
+<p>This method will force a download using the new anchor link <em>download</em> attribute. Filename defaults to 'output.wav'.</p>]]></description>
+   <link>http://www.the-gnomad.com/podcasts/audio_record_js</link>
+   <guid isPermaLink="true">http://www.the-gnomad.com/podcasts/audio_record_js</guid>
+   <category><![CDATA[audio]]></category>
+   <category><![CDATA[recorder]]></category>
+   <category><![CDATA[javascript audio recorder]]></category>
+   <category><![CDATA[sam Bhattacharyya]]></category>
+   <dc:creator><![CDATA[Samrat Bhattacharyya]]></dc:creator>
+   <pubDate>Mon, 27 Nov 2017 19:31:39 GMT</pubDate>
+   <enclosure url="https://the-nomad.s3.amazonaws.com/audio/13+We+Could+Be+Free+%28Ft.+Ty+Dolla+Sign%29.mp3" length="0" type="audio/mpeg"/>
+   <itunes:author>Samrat Bhattacharyya</itunes:author>
+   <itunes:summary>Easily record audio in the browser, export as WAV, MP3 or OGG</itunes:summary>
+   <itunes:explicit>No</itunes:explicit>
+   <itunes:image href="https://the-nomad.s3.amazonaws.com/image/banner.jpg"/>
+  </item>
+  <item>
+   <title><![CDATA[Twitter Controlled Robot]]></title>
+   <description><![CDATA[<h3>Application Cases</h3>
+<ol>
+<li>type #kofecode to enable trigger watch on current tweet</li>
+<li>:1 :2 :3 :4 :5 to specify dotion in different directions (forward, right, backward, left, and stop respectively)</li>
+<li>Takes an option and converts it to an integer to determine how long to execute a specific command.</li>
+</ol>
+<blockquote>
+<pre><code>       Eg. #kofecode :1-2000 :2-450 :4-450 :3-2000 :1-6000 
+       will cause the robot to move forward for 2 seconds, 
+       turn right for 450ms, turn left for 450ms, 
+       move backwards for 2 seconds and move forward for 6 seconds;
+</code></pre>
+<blockquote>
+<pre><code>     In case an option is not stated with any of the : 
+     commands,  :1 or :2 will have a delay of 2000, 
+     :2 and :4 will have a delay of 450
+</code></pre>
+</blockquote>
+</blockquote>
+<h1><a id="user-content-hardware" class="anchor" href="https://github.com/Kowus/twitterControl#hardware" aria-hidden="true"></a>Hardware</h1>
+<ol>
+<li>Arduino Uno</li>
+<li>One SHEELD Multipurpose Shield</li>
+<li>RGB LED</li>
+<li>Assembled Robot kit</li>
+</ol>
+<blockquote>
+<h1><a id="user-content-note" class="anchor" href="https://github.com/Kowus/twitterControl#note" aria-hidden="true"></a><strong>Note:</strong></h1>
+<pre><code>      This Tutorial will not cover assembling the robot kit. 
+      It will only cover how to use ONE SHEELD's twitter 
+      interface to queue commands to control your robot
+</code></pre>
+</blockquote>
+<h3><a id="user-content-download-the-onesheeld-library-and-app" class="anchor" href="https://github.com/Kowus/twitterControl#download-the-onesheeld-library-and-app" aria-hidden="true"></a><a href="http://1sheeld.com/downloads/" rel="nofollow">Download the OneSheeld library and App</a></h3>
+<h1><a id="user-content-using-the-stock-twitter-example" class="anchor" href="https://github.com/Kowus/twitterControl#using-the-stock-twitter-example" aria-hidden="true"></a>Using The Stock Twitter Example</h1>
+<div class="highlight highlight-source-c++">
+<pre class="language-c"><code>/*
+
+Twitter Shield Example
+
+This example shows an application on 1Sheeld's Twitter shield.
+
+By using this example, you can flash a LED once a certain keyword
+is mentioned on Twitter.
+
+OPTIONAL:
+To reduce the library compiled size and limit its memory usage, you
+can specify which shields you want to include in your sketch by
+defining CUSTOM_SETTINGS and the shields respective INCLUDE_ define. 
+
+*/
+
+#define CUSTOM_SETTINGS
+#define INCLUDE_TWITTER_SHIELD
+
+/* Include 1Sheeld library. */
+#include &lt;OneSheeld.h&gt;
+
+/* A name for led on pin 13. */
+int ledPin = 13;
+/* A variable to track number of tracked tweets returned. */
+int trackingCounter = 0;
+
+void setup() {
+  /* Start communication. */
+  OneSheeld.begin();
+  /* Set the LED pin as output. */
+  pinMode(ledPin,OUTPUT);
+  /* Subscribe to setOnSelected event for the Twitter shield. */
+  Twitter.setOnSelected(&amp;shieldSelection);
+  /* Subscribe to onNewTweet event. */
+  Twitter.setOnNewTweet(&amp;myTweet);
+}
+
+void loop() 
+{
+  /* Leave the loop empty. */
+}
+
+void shieldSelection()
+{
+  /* Track keyword 1Sheeld on Twitter. */
+  Twitter.trackKeyword("1Sheeld");
+}
+
+void myTweet(char * userName , char * userTweet)
+{
+    /* Check if the tweet has 1Sheeld keyword. */
+    if(strstr(userTweet,":1")!=0)
+    {
+      /* Turn on the LED. */
+      digitalWrite(ledPin,HIGH);
+      /* Use OneSheeld delay for better performance. */
+      OneSheeld.delay(1000);
+      /* Increment the counter. */
+      trackingCounter++;
+      /* Turn off the LED. */
+      digitalWrite(ledPin,LOW);
+    }
+    /* Check if the counter reached three times. */
+    if(trackingCounter == 3)
+    {
+      /* Stop tracking the word 1Sheeld. */
+      Twitter.untrackKeyword("1Sheeld");
+      /* Reset the counter. */
+      trackingCounter = 0;
+    }
+}</code></pre>
+</div>
+<p>This simple example allows you to Track a specific (<strong>in this case <em>:1</em></strong>) keyword in your posts, and if it contains a specific keyword, the led turns on.</p>
+<div role="main">
+<div id="js-repo-pjax-container" data-pjax-container="">
+<div class="container new-discussion-timeline experiment-repo-nav">
+<div class="repository-content">
+<div id="readme" class="readme boxed-group clearfix announce instapaper_body md">
+<article class="markdown-body entry-content">
+<h1>What if we wanted to check for multiple keywords?</h1>
+<blockquote>
+<p>The above example will not work because <code>strstr()</code> will only check if <strong>:1</strong> exists in the string, and depending on how you structure your if statements, the code will do every instance once even if you had each keyword multiple entered multiple times.</p>
+<blockquote>
+<h2><a id="user-content-example" class="anchor" href="https://github.com/Kowus/twitterControl#example" aria-hidden="true"></a>Example:</h2>
+<pre><code>         OneSheeld :1 :2 :3 :4 :5 :1 :1 :3 :4
+ Using strstr() will only check for :1 once.
+</code></pre>
+</blockquote>
+</blockquote>
+<h1><a id="user-content-solution" class="anchor" href="https://github.com/Kowus/twitterControl#solution" aria-hidden="true"></a>Solution</h1>
+<h3><a id="user-content-use-string-tokens" class="anchor" href="https://github.com/Kowus/twitterControl#use-string-tokens" aria-hidden="true"></a>Use string tokens</h3>
+<p><code>strtok()</code> doesn't work on AVR platforms so we'll use <code>strtok_r()</code></p>
+<p>you can check the <code>man</code> page on linux. Both commands are similar. (attached, see strtok.txt)</p>
+<blockquote>
+<p>I will brush through the code quickly the code is heavily commented to explain what is happening at what point.</p>
+</blockquote>
+<div class="highlight highlight-source-c++">
+<pre class="language-c"><code>/*
+   Twitter Remote Control Robot
+   by Barnabas Nomo &lt;https://github.com/Kowus/twitterControl.git&gt;
+  To reduce the library compiled size and limit its memory usage, you
+  can specify which shields you want to include in your sketch by
+  defining CUSTOM_SETTINGS and the shields respective INCLUDE_ define.
+*/
+
+#define CUSTOM_SETTINGS
+#define INCLUDE_TWITTER_SHIELD
+#define INCLUDE_TERMINAL_SHIELD
+
+/* Include 1Sheeld library. */
+#include &lt;OneSheeld.h&gt;
+
+
+char *str1, *token, *subToken, *saveptr1, *saveptr2;
+int j, it = 0, dsw = 0, i = 0, subtokens[30];
+
+
+char *buf[80][1];
+
+
+// Motor A pins (enableA = enable motor, pinA1 = forward, pinA2 = backward)
+int enableA = 11;
+int pinA1 = 6;
+int pinA2 = 5;
+
+//Motor B pins (enabledB = enable motor, pinB2 = forward, pinB2 = backward)
+int enableB = 10;
+int pinB1 = 4;
+int pinB2 = 3;</code></pre>
+</div>
+<p>set the motor pins to OUTPUT, begin OneSheeld instance and write to phone terminal: waitiing for tweet...</p>
+<div class="highlight highlight-source-c++">
+<pre class="language-c"><code>void setup() {
+  //  Set Motor Pin Behaviours
+  pinMode(enableA, OUTPUT);
+  pinMode(pinA1, OUTPUT);
+  pinMode(pinA2, OUTPUT);
+
+  pinMode(enableB, OUTPUT);
+  pinMode(pinB1, OUTPUT);
+  pinMode(pinB2, OUTPUT);
+  /* Start communication. */
+  OneSheeld.begin();
+  Terminal.println("Waiting for tweet...");
+  /* Subscribe to setOnSelected event for the Twitter shield. */
+  Twitter.setOnSelected(&amp;shieldSelection);
+  /* Subscribe to onNewTweet event. */
+  Twitter.setOnNewTweet(&amp;myTweet);
+
+}</code></pre>
+</div>
+<p>Leave the void loop blank</p>
+<div class="highlight highlight-source-c++">
+<pre class="language-c"><code>void loop()
+{
+  /* Leave the loop empty. */
+}</code></pre>
+</div>
+<p>create shieldSelection function to track keyword</p>
+<pre class="language-c"><code>void shieldSelection()
+{
+  /* Track hashtag #kofecode on Twitter. */
+  Twitter.trackKeyword("#kofecode");
+}
+void myTweet(char * userName , char * userTweet)
+{
+  for (j = 0, str1 = userTweet; ; j++, str1 = NULL) {
+    token = strtok_r(str1, ":", &amp;saveptr1);
+    if (token == NULL) {
+      dsw = 1;
+      break;
+    }
+    buf[j][0] = token;
+    for (i = 0; ; i++, token = NULL) {
+      subToken = strtok_r(token, "-", &amp;saveptr2);
+      if (subToken == NULL)break;
+      buf[j][i] = subToken;
+      Terminal.println("Token "+String(j) + " = " + String(buf[j][0]) + \tSubtoken = " + String(buf[j][1]));
+      subtokens[j] = String(buf[j][1]).toInt();
+      OneSheeld.delay(100);
+    }
+  }
+  int tempToken = 0;
+  Terminal.println("\n\n       Blank       \n\n");
+
+  while (dsw) {
+    enableMotors();
+    tempToken = String(buf[it][0]).toInt();
+    switch (tempToken) {
+      case 1:
+        Terminal.println("case " + String(tempToken));
+        if (subtokens[it] != NULL) {
+          Terminal.println(String(subtokens[it]) + " is Not Null\n");
+          forward(subtokens[it]);
+        } else {
+          Terminal.println(String(subtokens[it]) + " is Null\n");
+          forward(3000);
+        }
+
+        break;
+      case 2:
+        Terminal.print("case " + String(buf[it][0]) + ":\t");
+        if (subtokens[it] != NULL) {
+          Terminal.println(String(subtokens[it]) + " is Not Null\n");
+          turnRight(subtokens[it]);
+        } else {
+          Terminal.println(String(subtokens[it]) + " is Null\n");
+          turnRight(2700);
+        }
+        break;
+      case 3:
+        Terminal.print("case " + String(buf[it][0]) + ":\t");
+        digitalWrite(blue, LOW);
+        digitalWrite(green, HIGH);
+        digitalWrite(red, LOW);
+        if (subtokens[it] != NULL) {
+          Terminal.println(String(subtokens[it]) + " is Not Null\n");
+          backward(subtokens[it]);
+        } else {
+          Terminal.println(String(subtokens[it]) + " is Null\n");
+          backward(3000);
+        }
+        break;
+      case 4:
+        Terminal.print("case " + String(buf[it][0]) + ":\t");
+        if (subtokens[it] != NULL) {
+          Terminal.println(String(subtokens[it]) + " is Not Null\n");
+          turnLeft(subtokens[it]);
+        } else {
+          Terminal.println(String(subtokens[it]) + " is Null\n");
+          turnLeft(2700);
+        }
+        break;
+      case 5:
+
+        Terminal.print("case " + String(buf[it][0]) + ":\t");
+        if (subtokens[it] != NULL) {
+          Terminal.println(String(subtokens[it]) + " is Not Null\n");
+          brake(subtokens[it]);
+        } else {
+          Terminal.println(String(subtokens[it]) + " is Null\n");
+          brake(1000);
+        }
+        break;
+      default:
+        Terminal.print("defaulted: " + String(buf[it][0]) + ": ");
+        if (it &gt;= j) {
+          Terminal.println("Overflow\texiting...");
+          brake(100);
+          dsw = 0;
+
+          disableMotors();
+          continue;
+        }
+        else {
+          if (subtokens[it] != NULL) {
+            Terminal.println(String(subtokens[it]) + " is Not Null\n");
+            forward(subtokens[it]);
+          } else {
+            Terminal.println(String(subtokens[it]) + " is Null\n");
+            forward(1000);
+          }
+          break;
+        }
+
+        break;
+    }
+    it++;
+  }
+  it=0;
+  Terminal.println("Exited");
+}</code></pre>
+<div class="highlight highlight-source-c++">
+<pre>&nbsp;</pre>
+</div>
+<h3><a id="user-content-motor-functions" class="anchor" href="https://github.com/Kowus/twitterControl#motor-functions" aria-hidden="true"></a>Motor Functions</h3>
+<div class="highlight highlight-source-c++">
+<pre class="language-c"><code>void enableMotors()
+{
+  motorAOn();
+  motorBOn();
+}
+
+void disableMotors()
+{
+  motorAOff();
+  motorBOff();
+}
+
+void forward(int time)
+{
+  brake(50);
+  motorAForward();
+  motorBForward();
+  OneSheeld.delay(time);
+}
+
+void backward(int time)
+{
+  brake(50);
+  motorABackward();
+  motorBBackward();
+  OneSheeld.delay(time);
+}
+
+void turnLeft(int time)
+{
+  brake(50);
+  motorABackward();
+  motorBForward();
+  OneSheeld.delay(time);
+}
+
+void turnRight(int time)
+{
+  brake(50);
+  motorAForward();
+  motorBBackward();
+  OneSheeld.delay(time);
+}
+
+
+void brake(int time)
+{
+  motorABrake();
+  motorBBrake();
+  OneSheeld.delay(time);
+}
+//Define low-level H-bridge commands
+
+//enable motors
+void motorAOn()
+{
+  digitalWrite(enableA, HIGH);
+}
+
+void motorBOn()
+{
+  digitalWrite(enableB, HIGH);
+}
+
+//disable motors
+void motorAOff()
+{
+  digitalWrite(enableB, LOW);
+}
+
+void motorBOff()
+{
+  digitalWrite(enableA, LOW);
+}
+
+//motor A controls
+void motorAForward()
+{
+  digitalWrite(pinA1, HIGH);
+  digitalWrite(pinA2, LOW);
+}
+
+void motorABackward()
+{
+  digitalWrite(pinA1, LOW);
+  digitalWrite(pinA2, HIGH);
+}
+
+//motor B controls
+void motorBForward()
+{
+  digitalWrite(pinB1, HIGH);
+  digitalWrite(pinB2, LOW);
+}
+
+void motorBBackward()
+{
+  digitalWrite(pinB1, LOW);
+  digitalWrite(pinB2, HIGH);
+}
+
+
+void motorABrake()
+{
+  digitalWrite(pinA1, HIGH);
+  digitalWrite(pinA2, HIGH);
+}
+void motorBBrake()
+{
+  digitalWrite(pinB1, HIGH);
+  digitalWrite(pinB2, HIGH);
+}</code></pre>
+</div>
+<h1><a id="user-content-altogether-now" class="anchor" href="https://github.com/Kowus/twitterControl#altogether-now" aria-hidden="true"></a>Altogether now</h1>
+<div class="highlight highlight-source-c++">
+<pre><span class="pl-c">&nbsp;</span></pre>
+<pre class="language-c"><code>/*
+   Twitter Remote Control Robot
+   by Barnabas Nomo &lt;https://github.com/Kowus/twitterControl.git&gt;
+  To reduce the library compiled size and limit its memory usage, you
+  can specify which shields you want to include in your sketch by
+  defining CUSTOM_SETTINGS and the shields respective INCLUDE_ define.
+*/
+
+#define CUSTOM_SETTINGS
+#define INCLUDE_TWITTER_SHIELD
+#define INCLUDE_TERMINAL_SHIELD
+
+/* Include 1Sheeld library. */
+#include &lt;OneSheeld.h&gt;
+
+/* A variable to track number of tracked tweets returned. */
+//int trackingCounter = 0;
+char *str1, *token, *subToken, *saveptr1, *saveptr2;
+int j, it = 0, dsw = 0, i = 0, subtokens[30];
+
+char *buf[80][1];
+
+
+// Motor A pins (enableA = enable motor, pinA1 = forward, pinA2 = backward)
+int enableA = 11;
+int pinA1 = 6;
+int pinA2 = 5;
+
+//Motor B pins (enabledB = enable motor, pinB2 = forward, pinB2 = backward)
+int enableB = 10;
+int pinB1 = 4;
+int pinB2 = 3;
+
+
+void setup() {
+  //  Set Motor Pin Behaviours
+  pinMode(enableA, OUTPUT);
+  pinMode(pinA1, OUTPUT);
+  pinMode(pinA2, OUTPUT);
+
+  pinMode(enableB, OUTPUT);
+  pinMode(pinB1, OUTPUT);
+  pinMode(pinB2, OUTPUT);
+  /* Start communication. */
+  OneSheeld.begin();
+  Terminal.println("Waiting for tweet...");
+  /* Subscribe to setOnSelected event for the Twitter shield. */
+  Twitter.setOnSelected(&amp;shieldSelection);
+  /* Subscribe to onNewTweet event. */
+  Twitter.setOnNewTweet(&amp;myTweet);
+
+}
+
+void loop()
+{
+  /* Leave the loop empty. */
+}
+
+void shieldSelection()
+{
+  /* Track hashtag #kofecode on Twitter. */
+  Twitter.trackKeyword("#kofecode");
+}
+
+void myTweet(char * userName , char * userTweet)
+{
+  for (j = 0, str1 = userTweet; ; j++, str1 = NULL) {
+    token = strtok_r(str1, ":", &amp;saveptr1);
+    if (token == NULL) {
+      dsw = 1;
+      break;
+    }
+    buf[j][0] = token;
+    for (i = 0; ; i++, token = NULL) {
+      subToken = strtok_r(token, "-", &amp;saveptr2);
+      if (subToken == NULL)break;
+      buf[j][i] = subToken;
+      Terminal.println("Token " + String(j) + " = " + String(buf[j][0]) + "\tSubtoken = ") + String(buf[j][1]));
+      subtokens[j] = String(buf[j][1]).toInt();
+      OneSheeld.delay(100);
+    }
+  }
+  int tempToken = 0;
+  Terminal.println("\n\n       Blank       \n\n");
+
+  while (dsw) {
+    enableMotors();
+    tempToken = String(buf[it][0]).toInt();
+    switch (tempToken) {
+      case 1:
+        Terminal.println("case " + String(tempToken));
+        
+        if (subtokens[it] != NULL) {
+          Terminal.println(String(subtokens[it]) + " is Not Null\n");
+          forward(subtokens[it]);
+        } else {
+          Terminal.println(String(subtokens[it]) + " is Null\n");
+          forward(3000);
+        }
+
+        break;
+      case 2:
+        Terminal.print("case " + String(buf[it][0]) + ":\t");
+        if (subtokens[it] != NULL) {
+          Terminal.println(String(subtokens[it]) + " is Not Null\n");
+          turnRight(subtokens[it]);
+        } else {
+          Terminal.println(String(subtokens[it]) + " is Null\n");
+          turnRight(2700);
+        }
+        break;
+      case 3:
+        Terminal.print("case " + String(buf[it][0]) + ":\t");
+        if (subtokens[it] != NULL) {
+          Terminal.println(String(subtokens[it]) + " is Not Null\n");
+          backward(subtokens[it]);
+        } else {
+          Terminal.println(String(subtokens[it]) + " is Null\n");
+          backward(3000);
+        }
+        break;
+      case 4:
+        Terminal.print("case " + String(buf[it][0]) + ":\t");
+        if (subtokens[it] != NULL) {
+          Terminal.println(String(subtokens[it]) + " is Not Null\n");
+          turnLeft(subtokens[it]);
+        } else {
+          Terminal.println(String(subtokens[it]) + " is Null\n");
+          turnLeft(2700);
+        }
+        break;
+      case 5:
+
+        Terminal.print("case " + String(buf[it][0]) + ":\t");
+        if (subtokens[it] != NULL) {
+          Terminal.println(String(subtokens[it]) + " is Not Null\n");
+          brake(subtokens[it]);
+        } else {
+          Terminal.println(String(subtokens[it]) + " is Null\n");
+          brake(1000);
+        }
+        break;
+      default:
+        Terminal.print("defaulted: " + String(buf[it][0]) + ": ");
+        if (it &gt;= j) {
+          Terminal.println("Overflow\texiting...");
+          brake(100);
+          dsw = 0;
+
+          disableMotors();
+          continue;
+        }
+        else {
+          if (subtokens[it] != NULL) {
+            Terminal.println(String(subtokens[it]) + " is Not Null\n");
+            forward(subtokens[it]);
+          } else {
+            Terminal.println(String(subtokens[it]) + " is Null\n");
+            forward(1000);
+          }
+          break;
+        }
+
+        break;
+    }
+    it++;
+  }
+  it=0;
+  Terminal.println("Exited");
+}
+
+
+
+
+
+
+
+void enableMotors()
+{
+  motorAOn();
+  motorBOn();
+}
+
+void disableMotors()
+{
+  motorAOff();
+  motorBOff();
+}
+
+void forward(int time)
+{
+  brake(50);
+  motorAForward();
+  motorBForward();
+  OneSheeld.delay(time);
+}
+
+void backward(int time)
+{
+  brake(50);
+  motorABackward();
+  motorBBackward();
+  OneSheeld.delay(time);
+}
+
+void turnLeft(int time)
+{
+  brake(50);
+  motorABackward();
+  motorBForward();
+  OneSheeld.delay(time);
+}
+
+void turnRight(int time)
+{
+  brake(50);
+  motorAForward();
+  motorBBackward();
+  OneSheeld.delay(time);
+}
+
+
+void brake(int time)
+{
+  motorABrake();
+  motorBBrake();
+  OneSheeld.delay(time);
+}
+//Define low-level H-bridge commands
+
+//enable motors
+void motorAOn()
+{
+  digitalWrite(enableA, HIGH);
+}
+
+void motorBOn()
+{
+  digitalWrite(enableB, HIGH);
+}
+
+//disable motors
+void motorAOff()
+{
+  digitalWrite(enableB, LOW);
+}
+
+void motorBOff()
+{
+  digitalWrite(enableA, LOW);
+}
+
+//motor A controls
+void motorAForward()
+{
+  digitalWrite(pinA1, HIGH);
+  digitalWrite(pinA2, LOW);
+}
+
+void motorABackward()
+{
+  digitalWrite(pinA1, LOW);
+  digitalWrite(pinA2, HIGH);
+}
+
+//motor B controls
+void motorBForward()
+{
+  digitalWrite(pinB1, HIGH);
+  digitalWrite(pinB2, LOW);
+}
+
+void motorBBackward()
+{
+  digitalWrite(pinB1, LOW);
+  digitalWrite(pinB2, HIGH);
+}
+
+
+void motorABrake()
+{
+  digitalWrite(pinA1, HIGH);
+  digitalWrite(pinA2, HIGH);
+}
+void motorBBrake()
+{
+  digitalWrite(pinB1, HIGH);
+  digitalWrite(pinB2, HIGH);
+}
+</code></pre>
+<pre>&nbsp;</pre>
+</div>
+</article>
+</div>
+</div>
+</div>
+</div>
+</div>]]></description>
+   <link>http://www.the-gnomad.com/podcasts/twitter_controlled_robot</link>
+   <guid isPermaLink="true">http://www.the-gnomad.com/podcasts/twitter_controlled_robot</guid>
+   <category><![CDATA[twitter]]></category>
+   <category><![CDATA[robot-control]]></category>
+   <category><![CDATA[arduino]]></category>
+   <category><![CDATA[ghana]]></category>
+   <category><![CDATA[string-tokens]]></category>
+   <dc:creator><![CDATA[Barnabas Nomo]]></dc:creator>
+   <pubDate>Mon, 27 Nov 2017 05:01:49 GMT</pubDate>
+   <enclosure url="/audio/premier-gaou.mp3" length="0" type="audio/mpeg"/>
+   <itunes:author>Barnabas Nomo</itunes:author>
+   <itunes:summary>Example on how to control a robot from Twitter by typing #kofecode and issuing a couple of commands.</itunes:summary>
+   <itunes:explicit>No</itunes:explicit>
+   <itunes:image href="/images/avatars/barnabasnomo.jpg"/>
+   <itunes:episode>3</itunes:episode>
+  </item>
+  <item>
+   <title><![CDATA[Cerberus]]></title>
+   <description><![CDATA[<h1 style="text-align:center">Cerberus Responsive Email Patterns</h1>
+<hr>
+<p><a href="http://tedgoas.github.io/Cerberus/"><img src="http://tedgoas.github.io/Cerberus/assets/logo.png" alt="Cerberus logo" width="75" height="64" align="left" hspace="10" vspace="6"></a></p>
+
+<p>Coding regular emails is hard enough by itself. Making them responsive shouldn't add to the headache. A few simple, but solid patterns are all that's needed to optimize emails for small screens.</p>
+
+<p><strong>That's what Cerberus is.</strong></p>
+
+<p>It's just a few responsive email patterns that go a long way. The code blocks are compartmentalized so that they may be used, combined, and nested to build an email.</p>
+
+<p>Each template is annotated and has good support among popular email clients.</p>
+
+<h2 id="learnmoreandseeexampleshttptedgoasgithubiocerberus"><strong><a href="http://tedgoas.github.io/Cerberus/">Learn More and See Examples</a></strong></h2>
+
+<h2 id="contents">Contents</h2>
+
+<p><strong><code>cerberus-fluid.html</code></strong> - Good for simple layouts such as transactional and single column emails.</p>
+
+<p><strong><code>cerberus-responsive.html</code></strong> - Good for more complicated, shape-shifting email layouts that work on <em>some</em> mobile clients.</p>
+
+<p><strong><code>cerberus-hybrid.html</code></strong> - This template uses a hybrid approach to reconfigure the layout for different screen sizes for email clients regardless of media query support.</p>
+
+<p><a href="http://forthebadge.com"><img src="http://forthebadge.com/images/badges/validated-html2.svg" alt="forthebadge" /></a> <a href="http://forthebadge.com"><img src="http://forthebadge.com/images/badges/no-ragrets.svg" alt="forthebadge" /></a></p>
+
+<h2 id="author">Author</h2>
+
+<p>Hi there, I’m Ted Goas, the core author and maintainer. I'm a designer &amp; front-end developer working on websites, web apps, and HTML emails. And I enjoy <a href="https://twitter.com/TedGoas">talking shop on Twitter</a>.</p>
+
+<h2 id="license">License</h2>
+
+<p>Let's go with something simple and permissive, shall we?</p>
+
+<p><a href="http://choosealicense.com/licenses/mit/">The MIT License (MIT)</a>.</p>
+
+<p>Copyright (c) 2017 Ted Goas</p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>]]></description>
+   <link>http://www.the-gnomad.com/podcasts/cerberus</link>
+   <guid isPermaLink="true">http://www.the-gnomad.com/podcasts/cerberus</guid>
+   <category><![CDATA[heml]]></category>
+   <category><![CDATA[responsive-email]]></category>
+   <category><![CDATA[templates]]></category>
+   <category><![CDATA[tech]]></category>
+   <dc:creator><![CDATA[Ted Goas]]></dc:creator>
+   <pubDate>Sun, 26 Nov 2017 02:47:38 GMT</pubDate>
+   <enclosure url="/audio/shutdown.mp3" length="0" type="audio/mpeg"/>
+   <itunes:author>Ted Goas</itunes:author>
+   <itunes:summary>A few simple, but solid patterns for responsive HTML email templates and newsletters. Even in Outlook and Gmail.</itunes:summary>
+   <itunes:explicit>No</itunes:explicit>
+   <itunes:image href="/images/post-thumb-1.jpg"/>
+  </item>
+  <item>
+   <title><![CDATA[Rapunzel]]></title>
+   <description><![CDATA[<h1 style="text-align:center">High-res 2d barcodes for transmission over an air gap: part 1</h1>
+<hr>
+<p>I’ve got a theory that an animated high-resolution barcode is a a workable mode of communication for sending data across an air gap. The host machine displays barcodes, say once a second, and client software on a phone or laptop off the air-gap reads and decodes the barcodes. In this manner, a large amount of compressed data can be transmitted over the air with significant error-correction.</p>
+<p>A version 40 QR code with low error-correction can transmit 4296 alphanumeric characters, dropping to 1852 characters with high error-correction enabled. Either of those is an excellent rate for data transmission.</p>
+<p>Clearly this isn’t suitable for high-security envionments as it assumes the user has access to a device with a camera and (as we’ll see) bootstrapping requires the host machine itself to have a webcam. Otherwise it’s a fairly interesting problem to solve.</p>
+<p>One issue is that coming by a fully-fitted QR code generating library on an air gapped network might be troublesome. The minimised version of qrcode.js weighs in at just under 20kb, which is a bit too much to type out by hand.</p>
+<p>However, I think the process can be trivially bootstrapped using a small, simple javascript application running on the host machine which uses the machine’s webcam to receive  burst of data in the form of colours, representing binary data. The data can then be translated back into ascii text.</p>
+<p>Currently, using a simple client only 2kb in size, I can receive data at the rate of about 1 ascii character per second. I expect that with some simple compression I can improve this figure, but my priority is currently the simplicity of the bootstrap code, which must be typed manually.</p>
+<p>The initial encoding is to transmit binary data representing the QR code generation application using the colours red, green and blue, shown full-screen on another device. Red and green represent binary zero and one, whilst blue acts as a buffer to prevent double-counting. This means the client can poll at a faster rate than the sender is refreshing, which allows for fewer transmission errors.</p>
+
+<p>This also allows the data being transmitted to be stored as a video and played full-screen on the transmitting device, in case there’s no internet access on site.</p>
+
+<p>My proof of concept is available on github. The two files bootstrap.html and bootstrap-capture.html show the transmission of the text “Hello, world!”. Browse to bootstrap.html on github pages on your phone, and bootstrap-capture.html on your laptop.</p>
+
+<p>Hold your phone up to your laptop’s camera so the blue field fills the video box on the screen. Click the page on your laptop until “on” appears in the javascript console, then click the blue field on the screen of your phone. Ensure the colour fills the video box as the colours cycle. Once the transmission ends click the page on your laptop again. The words “off” and “Hello, World!” should appear.</p>]]></description>
+   <link>http://www.the-gnomad.com/podcasts/rapunzel</link>
+   <guid isPermaLink="true">http://www.the-gnomad.com/podcasts/rapunzel</guid>
+   <category><![CDATA[animation]]></category>
+   <category><![CDATA[communication]]></category>
+   <category><![CDATA[barcodes]]></category>
+   <category><![CDATA[tech]]></category>
+   <dc:creator><![CDATA[Sam Moorhouse]]></dc:creator>
+   <pubDate>Sun, 26 Nov 2017 02:47:23 GMT</pubDate>
+   <enclosure url="/audio/tomorrow.mp3" length="0" type="audio/mpeg"/>
+   <itunes:author>Sam Moorhouse</itunes:author>
+   <itunes:summary>Animated high-resolution barcodes as a workable mode of communication for sending data across an air gap</itunes:summary>
+   <itunes:explicit>No</itunes:explicit>
+   <itunes:image href="/images/post-thumb-1.jpg"/>
+   <itunes:episode>1</itunes:episode>
+  </item>
+ </channel>
+</rss>

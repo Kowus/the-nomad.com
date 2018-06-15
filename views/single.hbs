@@ -29,8 +29,7 @@
 }
 </script>
 <link rel="stylesheet" href="/stylesheets/src/prism.css">
-<section id="intro"
-         style="background:url({{podcast.content.banner_picture}}); -webkit-background-size: cover;background-size: cover;background-position: center;">
+<section id="intro" style="background:url({{podcast.content.banner_picture}}); -webkit-background-size: cover;background-size: cover;background-position: center;">
 
     <div class="shadow-overlay"></div>
 
@@ -39,21 +38,23 @@
 
             <div class="col-twelve">
 
-                <h1 style="color: white;text-shadow: 1px 1px 2px black;"><span
-                        style="font-size: .6em">episode #{{podcast.no}}: </span>{{{podcast.title}}}</h1>
-                <h5 style="color: white;text-transform: none;text-shadow: 1px 1px 2px black;"> | <i
-                        class="icon icon-user"></i> <span>{{podcast.guest.name}}</span> | <i
-                        class="icon icon-calendar"></i> <span class="podcast-date" data-date="{{podcast.createdAt}}"
-                                                              style="color: white;"></span> | <i
-                        class="icon icon-play"></i> <span id="played"
-                                                          data-identifier="{{podcast._id}}">{{podcast.stats.played}}</span> | <i class="ion ion-eye"></i> <span id="views">{{podcast.stats.views}}</span>
+                <h1 style="color: white;text-shadow: 1px 1px 2px black;">
+                    <span style="font-size: .6em">episode #{{podcast.no}}: </span>{{{podcast.title}}}</h1>
+                <h5 style="color: white;text-transform: none;text-shadow: 1px 1px 2px black;"> |
+                    <i class="icon icon-user"></i>
+                    <span>{{podcast.guest.name}}</span> |
+                    <i class="icon icon-calendar"></i>
+                    <span class="podcast-date" data-date="{{podcast.createdAt}}" style="color: white;"></span> |
+                    <i class="icon icon-play"></i>
+                    <span id="played" data-identifier="{{podcast._id}}">{{podcast.stats.played}}</span> |
+                    <i class="ion ion-eye"></i>
+                    <span id="views">{{podcast.stats.views}}</span>
                 </h5>
                 <input value="{{podcast.content.src}}" hidden id="dompe">
 
                 <input type="range" min="0" step=".01" value="0" id="stat_bar">
-                <button class="button stroke ion ion-play" id="play_stat" title=""
-                        style="text-shadow: 1px 1px 2px black;font-size: 2em; border-radius: 80px;"
-                        data-ser="{{podcast._id}}"></button>
+                <button class="button stroke ion ion-play" id="play_stat" title="" style="text-shadow: 1px 1px 2px black;font-size: 2em; border-radius: 80px;"
+                    data-ser="{{podcast._id}}"></button>
 
                 <div style="position: absolute; bottom: 10px;">
 
@@ -76,9 +77,11 @@
         <div class="col-twelve with-bottom-line">
 
             <h5>{{{podcast.subtitle}}}</h5>
-            <h1 style="font-size: 2rem">● {{#each podcast.categories as |category|}}
-                <a href="#" id="cats">{{category}}</a> ●
-            {{/each}}</h1>
+            <h1 style="font-size: 2rem">●
+                {{#each podcast.categories as |category|}}
+                    <a href="#" id="cats">{{category}}</a> ●
+                {{/each}}
+            </h1>
             <hr>
 
             <div style="text-align: left;">
@@ -88,16 +91,9 @@
                 <blockquote class="text-left">
                     {{lesson}}
                     <cite class="text-right" style="font-size: 1.3em">
-                        <a
-                                href="https://twitter.com/share?ref_src=twsrc%5Etfw"
-                                class="twitter-share-button lesson"
-                                data-text="{{lesson}} by {{podcast.guest.twitter}}"
-                                data-via="barnabasnomo"
-                                data-related="{{podcast.guest.twitter}}"
-                                data-lang="en"
-                                data-show-count="true"
-                                data-hashtags="{{podcast.categories}}"
-                        >Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                        <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button lesson" data-text="{{lesson}} by {{../guest.twitter}}"
+                            data-via="barnabasnomo" data-lang="en" data-show-count="true" data-hashtags="{{podcast.categories}}">Tweet</a>
+                        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                         <!--<a class="ion ion-social-twitter"> </a> |-->
                         <a class="ion ion-social-facebook"> </a>
                     </cite>
@@ -117,7 +113,8 @@
                 <div class="text-left comment">
                     <div class="pull-left">
                         <img src="" class="comment-logo">
-                        <span class="comm-user">{{comment.user.displayName}}</span></div>
+                        <span class="comm-user">{{comment.user.displayName}}</span>
+                    </div>
                     <div class="pull-right">Controls</div>
                     <hr style="width: 80%;">
                     <div class="comment-content">
@@ -145,8 +142,8 @@
                             {{#if ../user}}
                                 <input placeholder="Post a reply" class="reply-box" data-comment_id="{{comment._id}}">
                             {{else}}
-                                <em style="margin-left: 5%; letter-spacing: 2px;">Please <a
-                                        href="/login?next=/podcasts/view/{{../podcast.permalink}}">login</a>
+                                <em style="margin-left: 5%; letter-spacing: 2px;">Please
+                                    <a href="/login?next=/podcasts/view/{{../podcast.permalink}}">login</a>
                                     to reply.</em>
                             {{/if}}
                         </div>
@@ -158,17 +155,18 @@
             {{#if user}}
 
                 <form action="/podcasts/comment" id="comment-form" data-podcast="{{podcast._id}}">
-                    <textarea placeholder="Leave a Comment" required style="width: 100%; resize: none;"
-                              name="comment"></textarea>
+                    <textarea placeholder="Leave a Comment" required style="width: 100%; resize: none;" name="comment"></textarea>
                     <input type="submit">
                 </form>
             {{else}}
                 <div style="border: 1px solid #ccc;">
-                    <h3 style="margin: 50px auto;">Please <a href="/login?next=/podcasts/view/{{podcast.permalink}}">Login</a>
+                    <h3 style="margin: 50px auto;">Please
+                        <a href="/login?next=/podcasts/view/{{podcast.permalink}}">Login</a>
                         to comment</h3>
                 </div>
             {{/if}}
         </div>
     </div>
 
-</section> <!-- /process-->
+</section>
+<!-- /process-->
