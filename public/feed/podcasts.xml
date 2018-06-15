@@ -4,12 +4,12 @@
   <description><![CDATA[Audible memoirs of a travelling developer]]></description>
   <link>https://the-gnomad.com</link>
   <image>
-   <url>https://www.the-gnomad.com/images/dist/water-gaze.jpg</url>
+   <url>http://www.the-gnomad.com/images/dist/water-gaze.jpg</url>
    <title>The Nomad Podcast</title>
    <link>https://the-gnomad.com</link>
   </image>
   <generator>Podcast for Node</generator>
-  <lastBuildDate>Fri, 15 Jun 2018 02:30:33 GMT</lastBuildDate>
+  <lastBuildDate>Fri, 15 Jun 2018 03:07:19 GMT</lastBuildDate>
   <author><![CDATA[Barnabas Nomo]]></author>
   <copyright><![CDATA[2018 Barnabas Nomo]]></copyright>
   <language><![CDATA[en]]></language>
