@@ -73,8 +73,6 @@ public/stylesheets/dist/bundle.min.css
 public/images/dist/
 public/sitemap.xml
 public/audio
-public/feed/podcasts-atom.rss
-public/feed/podcasts.json
-public/feed/podcasts.rss
+public/feed/
 
 packagessssss*
